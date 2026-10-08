@@ -228,7 +228,8 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 .dmeta svg.i{width:16px;height:16px;stroke-width:1.6}
 .dvals{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .dvals .fl{font-size:13px}
-.dvals .fv{font-size:21px}
+.dvals .fv{font-size:21px;white-space:normal;overflow-wrap:anywhere}
+.dvals>div{min-width:0}
 .dvals .dl{display:flex;gap:10px;align-items:flex-start}
 .dvals .dl svg.i{width:22px;height:22px;color:var(--ink-2);margin-top:3px;flex:none}
 .dvals .dl .fv{font-size:17px}
@@ -249,6 +250,15 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 .dlinks a svg.i{width:13px;height:13px}
 .dact{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:10px}
 .dact .btn{padding:10px 14px}
+.dec{margin-top:12px;border:1px solid var(--border);border-radius:9px;padding:10px 12px;display:grid;gap:8px;min-width:0}
+.dec h4{display:flex;align-items:center;gap:8px;margin:0;font-size:14px}
+.dec-st{display:flex;flex-wrap:wrap;gap:6px}
+.dec-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-width:0}
+.dec-row input{flex:1 1 120px;min-width:0;border:1px solid var(--border-2);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 9px;font:inherit;font-size:13px}
+.dec-row input[type=time]{flex:0 1 96px}
+.dec-row input:focus{outline:none;border-color:var(--accent)}
+.dec button:disabled{opacity:.55;cursor:progress}
+.dec-ist{display:grid;gap:3px;font-size:12.5px;color:var(--ink-2)} .dec-ist .di{overflow-wrap:anywhere}
 .dact .btn.primary{min-width:118px}
 .dclose{display:none}
 .dempty{color:var(--muted);text-align:center;padding:26px 8px}
@@ -443,7 +453,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.0.4 (08.10.2026)';
+const DASH_V = 'v3.1 (08.10.2026)';
 const EXEC = 'https://script.google.com/macros/s/AKfycbz6U3PzVk9hIE6KxO6oVBP9ELCqQ4Ip_iVV85hvahdUnxJYzRV0RkF_pmjzGGJEpV0z/exec';
 const KPIN = 'tegLicPin', KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -620,12 +630,27 @@ function jsonp(u){
     s.src = u + '&callback=' + cb; document.head.appendChild(s);
   });
 }
+/* v3.1: datele vin prin POST — PIN-ul stă în corpul cererii, nu în URL (fără antet Content-Type → cerere simplă, fără preflight). */
+async function cerePost(corp){
+  const r = await fetch(EXEC, { method:'POST', body: JSON.stringify(Object.assign({ cl:'3', pin }, corp)), redirect:'follow' });
+  return r.json();
+}
 async function incarca(fresh){
-  const u = EXEC + '?pin=' + encodeURIComponent(pin) + (fresh ? '&fresh=1' : '') + '&cl=3&t=' + Date.now();   // v3.0.4: cl=3 = pagina de pe GitHub Pages (Google rezervă „c” și „sid” — cu c=3 cererea nu ajungea la script)
-  let d;
-  try { const r = await fetch(u, { redirect:'follow' }); d = await r.json(); }
-  catch (e) { d = await jsonp(u); }
-  return d;
+  try { return await cerePost({ fresh: !!fresh }); }
+  catch (e0) {                                                     // rezervă (ca în v3.0.4): GET; cl=3 — Google rezervă „c” și „sid”
+    console.warn('POST eșuat, încerc GET:', e0 && e0.message);
+    const u = EXEC + '?pin=' + encodeURIComponent(pin) + (fresh ? '&fresh=1' : '') + '&cl=3&t=' + Date.now();
+    try { const r = await fetch(u, { redirect:'follow' }); return await r.json(); }
+    catch (e) { return await jsonp(u); }
+  }
+}
+/* v3.1: deciziile (status, termen, notă, dublură) → Apps Script; dacă răspunsul nu se poate citi, se trimite „orb” și se verifică la reîncărcare. */
+async function trimiteDecizii(dec){
+  try { return await cerePost({ act:'decizii', decizii: dec }); }
+  catch (e) {
+    await fetch(EXEC, { method:'POST', mode:'no-cors', body: JSON.stringify({ cl:'3', pin, act:'decizii', decizii: dec }) });
+    return { ok:true, orb:true };
+  }
 }
 async function porneste(fresh){
   $('#btnRefresh').disabled = true;
@@ -1382,7 +1407,39 @@ function detaliuFin(o){
     </div>
     <div class="dact"><button class="btn" id="aAsc">${ic(ASC[o.k] ? 'refresh' : 'ban')} ${ASC[o.k] ? 'Readu în listă' : 'Nu mă interesează'}</button>
       ${o.link ? `<a class="btn ghost" href="${url(o.link)}" target="_blank" rel="noopener">Deschide sursa ${ic('ext')}</a>` : '<span></span>'}</div>
-    <p class="hint" style="margin-top:8px">Decizia (Aplicăm / Urmărim / Ignorat) se dă în sheetul Finanțări sau răspunzând la email cu „F1 aplicăm”.</p>`;
+    ${panouDecizieFin(o)}`;
+}
+/* v3.1: decizia se dă de aici (sau din chat / email) — se scrie în sheet de Apps Script, cu jurnal în foaia DECIZII. */
+const FST_BTN = ['Nou', 'De analizat', 'Aplicăm', 'Urmărim', 'Ignorat'];
+function istoricFin(id){ return ((D.finantari && D.finantari.decizii) || []).filter(x => x.id === id); }
+function panouDecizieFin(o){
+  const ist = istoricFin(o.id), ora = o.t ? oraFin(o.t) : '';
+  return `<div class="dec" id="decFin" data-id="${esc(o.id)}">
+    <h4>${ic('checkc')} Decizia</h4>
+    <div class="dec-st">${FST_BTN.map(s => `<button class="btn sm ${o.st === s || (!o.st && s === 'Nou') ? 'on' : ''}" data-st="${esc(s)}">${esc(s)}</button>`).join('')}</div>
+    <div class="dec-row"><label class="lbl" for="decTd">Termen</label><input type="date" id="decTd" value="${o.t ? ymd(o.t) : ''}"><input type="time" id="decTo" value="${esc(ora)}" aria-label="Ora (opțional)"><button class="btn sm ghost" id="decT">Salvează termenul</button></div>
+    <div class="dec-row"><input type="text" id="decN" maxlength="500" placeholder="Notă: de ce, ce urmează" aria-label="Notă"><button class="btn sm ghost" id="decNb">Adaugă nota</button></div>
+    <div class="dec-row"><input type="text" id="decDub" maxlength="7" placeholder="Dublură a… (ex. O-00063)" aria-label="ID-ul oportunității păstrate"><button class="btn sm ghost" id="decDb">Marchează dublură</button></div>
+    <p class="hint" id="decMsg" role="status">Se scrie în sheetul Finanțări, cu jurnal (foaia DECIZII). Ora e opțională.</p>
+    ${ist.length ? `<div class="dec-ist"><div class="fl">Istoric (${ist.length})</div>${ist.slice(0, 8).map(x => `<div class="di"><span class="num">${ziOra(x.d)}</span> · ${esc(x.sursa)} · ${esc(x.camp)}${x.camp !== '—' ? ': ' + (x.vechi ? esc(x.vechi) + ' → ' : '') + esc(x.nou) : ' ' + esc(x.rez)}</div>`).join('')}</div>` : ''}
+  </div>`;
+}
+async function decideFin(dec, eticheta){
+  const m = $('#decMsg'), id = dec[0].id;
+  document.querySelectorAll('#decFin button').forEach(b => b.disabled = true);
+  if (m) m.textContent = 'Se salvează ' + eticheta + '…';
+  try {
+    const r = await trimiteDecizii(dec);
+    if (!r || r.ok !== true) { if (r && r.pin === false) { iesire(r.eroare || 'PIN greșit.'); return; } throw new Error((r && r.eroare) || 'răspuns invalid'); }
+    const rau = (r.rezultate || []).filter(x => !x.ok);
+    await porneste(true);
+    stateF.sel = 'F:' + id; selecteazaFin(stateF.sel, false);
+    const m2 = $('#decMsg');
+    if (m2) m2.textContent = r.orb ? 'Trimis. Verifică istoricul de mai jos (răspunsul serverului nu s-a putut citi).' : rau.length ? 'Nu s-a salvat: ' + rau.map(x => x.mesaj).join('; ') : 'Salvat: ' + (r.rezultate || []).map(x => x.mesaj).join('; ') + '.';
+  } catch (e) {
+    const m2 = $('#decMsg'); if (m2) m2.textContent = 'Eroare: ' + e.message + ' — nimic schimbat pe ecran; reîncearcă.';
+    document.querySelectorAll('#decFin button').forEach(b => b.disabled = false);
+  }
 }
 function vFinOpp(scope){
   if (!XF.ok) return finIndisponibil();
@@ -1488,6 +1545,8 @@ function vFinSis(){
     ['Sheet', F.sheet ? `<a href="${url(F.sheet)}" target="_blank" rel="noopener">TEG - Finanțări</a>` : '—']
   ].map(r => `<tr><td class="l">${r[0]}</td><td>${r[1]}</td></tr>`))}</div>
   <div class="card"><h3>Setări (foaia SETARI din Finanțări)</h3>${table([{h:'Setare',l:1},{h:'Valoare'}], Object.entries(se).map(([k, v]) => `<tr><td class="l">${esc(k)}</td><td>${esc(v)}</td></tr>`))}</div></div>`;
+  const DEC = F.decizii || [];
+  h += `<div class="card" style="margin-top:12px"><h3>Deciziile (foaia DECIZII, ultimele ${Math.min(50, DEC.length)} din ${DEC.length})</h3>${DEC.length ? table([{h:'Data'},{h:'Sursa'},{h:'ID'},{h:'Câmp'},{h:'Vechi',l:1},{h:'Nou',l:1},{h:'Rezultat',l:1}], DEC.slice(0, 50).map(x => `<tr><td class="num">${ziOra(x.d)}</td><td>${esc(x.sursa)}</td><td>${esc(x.id)}</td><td>${esc(x.camp)}</td><td class="l">${esc(x.vechi)}</td><td class="l">${esc(x.nou)}</td><td class="l">${esc(x.rez)}</td></tr>`)) : '<p class="hint">Încă nicio decizie înregistrată.</p>'}<p class="hint">Deciziile vin din dashboard, din chat (fișierul de comenzi din Drive) sau din răspunsul la email; Apps Script le scrie în sheet și le trece aici.</p></div>`;
   h += `<div class="card" style="margin-top:12px"><h3>Jurnalul scraperului (ultimele ${(F.jurnal || []).length})</h3>${table([{h:'Data'},{h:'Mod'},{h:'Sec.'},{h:'Surse'},{h:'Erori'},{h:'Itemi noi'},{h:'În listă'},{h:'Claude'},{h:'Observații',l:1}], (F.jurnal || []).map(j => `<tr><td class="num">${ziOra(j.d)}</td><td>${esc(j.mod)}</td><td class="num">${esc(j.sec)}</td><td class="num">${esc(j.surse)}</td><td class="num">${esc(j.erori)}</td><td class="num">${esc(j.noi)}</td><td class="num">${esc(j.adaugati)}</td><td class="num">${esc(j.claude)}</td><td class="l">${esc(j.obs)}</td></tr>`))}<p class="hint">Coloana Claude din jurnal rămâne 0: analiza se face din proiectul Licitații (care are cheia), nu din scraperul Finanțări.</p></div>`;
   return h;
 }
@@ -1504,6 +1563,12 @@ function legaDetaliuFin(){
   const on = (id, fn) => { const e = document.getElementById(id); if (e) e.addEventListener('click', fn); };
   on('dClose', () => document.body.classList.remove('det-open'));
   on('aAsc', () => { const k = stateF.sel; comuta(ASC, KASC, k); randeaza(); });
+  const p = document.getElementById('decFin'); if (!p) return;
+  const id = p.dataset.id;
+  p.querySelectorAll('[data-st]').forEach(b => b.addEventListener('click', () => { if (!b.classList.contains('on')) decideFin([{ id, status: b.dataset.st }], 'statusul „' + b.dataset.st + '”'); }));
+  on('decT', () => { const d = $('#decTd').value, h = $('#decTo').value; if (!d) { $('#decMsg').textContent = 'Alege data.'; return; } decideFin([{ id, termen: d + (h ? ' ' + h : '') }], 'termenul'); });
+  on('decNb', () => { const n = $('#decN').value.trim(); if (!n) { $('#decMsg').textContent = 'Scrie nota.'; return; } decideFin([{ id, nota: n }], 'nota'); });
+  on('decDb', () => { const x = $('#decDub').value.trim().toUpperCase(); if (!/^O-\d{5}$/.test(x)) { $('#decMsg').textContent = 'ID-ul are forma O-00063.'; return; } decideFin([{ id, dublura: x }], 'dublura'); });
 }
 function leagaFin(){
   const on = (id, ev, fn) => { const e = document.getElementById(id); if (e) e.addEventListener(ev, fn); };
