@@ -443,7 +443,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.0 (07.10.2026)';
+const DASH_V = 'v3.0.1 (08.10.2026)';
 const EXEC = 'https://script.google.com/macros/s/AKfycbz6U3PzVk9hIE6KxO6oVBP9ELCqQ4Ip_iVV85hvahdUnxJYzRV0RkF_pmjzGGJEpV0z/exec';
 const KPIN = 'tegLicPin', KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -1293,6 +1293,25 @@ function relFin(o, S){
   if ((o.scor || 0) >= pC) return ['neanalizata', 'Scor pe cuvinte-cheie ' + o.scor + ' — în coada de analiză Claude.'];
   return ['scazuta', 'Scor pe cuvinte-cheie ' + (o.scor == null ? '—' : o.scor) + ', sub pragul de analiză (' + pC + ').'];
 }
+/* v3.0.1: termenele de finanțări — ora doar dacă există (00:00 și 12:00:00 = doar data; Apps Script scrie o oră reală de 12:00 ca 12:00:01).
+   Fără oră, termenul se închide la sfârșitul zilei; cu oră, la ora respectivă. */
+function oraFin(d){ const s = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23', timeZone:TZ }); return s === '00:00:00' || s === '12:00:00' ? '' : s.slice(0, 5); }
+function inchisFin(d){ return oraFin(d) ? d <= ACUM() : zileCal(d) < 0; }
+function termFin(d){ return d ? ziScurt(d) + (oraFin(d) ? ', ora ' + oraFin(d) : '') : '—'; }
+function ramasFin(d){
+  if (!d) return '';
+  const h = oraFin(d);
+  if (h) { const ms = d - ACUM(); if (ms <= 0) return 'expirat'; if (ms < 48 * 36e5) { const m = Math.round(ms / 6e4); return 'peste ' + Math.floor(m / 60) + ' h ' + (m % 60) + ' min'; } }
+  const z = zileCal(d), f = h ? '' : ' (ora nu apare în sheet)';
+  return z < 0 ? 'expirat' : z === 0 ? 'azi' + f : z === 1 ? 'mâine' + f : 'în ' + z + ' zile';
+}
+function badgeTermenFin(d){
+  if (!d) return '';
+  if (inchisFin(d)) return '<span class="badge b-off">închis</span>';
+  const z = zileCal(d);
+  if (z <= 3) return `<span class="badge b-urg">${z === 0 ? 'azi' : z === 1 ? 'mâine' : z + ' zile'}</span>`;
+  return `<span class="badge">${z} zile</span>`;
+}
 function ilFin(t){ return /\b(interreg|erasmus|europa creativ|eacea|horizon|ue|eu|european\w*|eea|norveg|elvet)\b/.test(t) ? 'conferinta' : /\b(cultur\w*|festival\w*|art\w*|muzic\w*|afcn)\b/.test(t) ? 'artisti' : /\b(tineret|sport|comunitat\w*|ong)\b/.test(t) ? 'festival' : 'oras'; }
 function prelucreazaFin(){
   const F = D.finantari; XF = { opo:[], byK:{}, dos:[], ok: !!(F && F.ok) };
@@ -1301,7 +1320,7 @@ function prelucreazaFin(){
   XF.opo = (F.opo || []).map(o => {
     const r = relFin(o, S), t = dt(o.term), g = dt(o.gasit), p = dt(o.pub);
     const tz = t ? Date.parse(ymd(t)) : null;
-    const open = t ? tz >= azi0 : (!!g && now - g < 45 * ZI) || (!!p && now - p < 45 * ZI);
+    const open = t ? !inchisFin(t) : (!!g && now - g < 45 * ZI) || (!!p && now - p < 45 * ZI);
     const txt = normT([o.titlu, o.sursa, o.fin, o.rez, o.desc, o.ent, o.tip, o.id].join(' '));
     return Object.assign({}, o, { k: 'F:' + o.id, rcls: r[0], relDe: r[1], t, g, p, open, nou: !!g && now - g < 7 * ZI, txt, il: ilFin(txt) });
   });
@@ -1327,13 +1346,13 @@ const SORTF = {
 };
 function badgeStFin(st){ return st && st !== 'Nou' ? `<span class="badge ${st === 'Aplicăm' ? 'b-new' : st === 'Ignorat' ? 'b-off' : ''}">${esc(st)}</span>` : ''; }
 function cardFin(o){
-  const b = [o.nou ? '<span class="badge b-new">nou</span>' : '', badgeStFin(o.st), o.t ? badgeTermen(o.term) : ''].join('');
+  const b = [o.nou ? '<span class="badge b-new">nou</span>' : '', badgeStFin(o.st), o.t ? badgeTermenFin(o.t) : ''].join('');
   return `<article class="oc fc ${o.k === stateF.sel ? 'cur' : ''} ${ASC[o.k] ? 'dim' : ''}" data-fk="${esc(o.k)}" tabindex="0" aria-label="${esc(o.titlu)}">
     <div class="thumb">${ill(o.il)}</div>
     <div class="oc-main">${b ? `<div class="oc-b">${b}</div>` : ''}<h4 class="oc-t">${esc(o.titlu)}</h4>
       <div class="oc-m"><span title="${esc(o.sursa)}">${ic('bank')}<span class="tx">${esc(o.fin || o.sursa)}</span></span>${o.ent ? `<span>${ic('users')}<span class="tx">${esc(o.ent)}</span></span>` : ''}</div></div>
-    <div class="oc-facts"><div><div class="fl">Buget</div><div class="fv${o.buget ? '' : ' m'}">${esc(o.buget || (o.rel != null ? 'nu apare' : '—'))}</div></div>
-      <div class="fd" title="Termen de depunere">${ic('calg')}<span>${o.t ? esc(ziScurt(o.term)) : (o.term ? esc(String(o.term).slice(0, 18)) : '—')}</span></div></div>
+    <div class="oc-facts"><div style="min-width:0;max-width:100%"><div class="fl">Buget</div><div class="fv${o.buget ? '' : ' m'}" style="overflow:hidden;text-overflow:ellipsis" title="${esc(o.buget || '')}">${esc(o.buget || (o.rel != null ? 'nu apare' : '—'))}</div></div>
+      <div class="fd" title="Termen de depunere">${ic('calg')}<span>${o.t ? esc(termFin(o.t)) : (o.term ? esc(String(o.term).slice(0, 18)) : '—')}</span></div></div>
     <div class="oc-rel">${pill(o.rcls)}</div><div class="oc-go">${ic('chevR')}</div>
   </article>`;
 }
@@ -1345,7 +1364,7 @@ function detaliuFin(o){
       <h3 class="dt" title="${esc(o.titlu)}">${esc(o.titlu)}</h3>
       <div class="dmeta"><span>${ic('bank')} ${esc(o.fin || '—')}</span><span class="muted">${esc(o.id)} · ${esc(o.sursa)}</span></div>
       <div class="dvals"><div><div class="fl">Buget</div><div class="fv${o.buget ? '' : ' m'}">${esc(o.buget || 'nu apare')}</div></div>
-        <div class="dl">${ic('calg')}<div><div class="fl">Termen de depunere</div><div class="fv${o.term ? '' : ' m'}">${o.t ? esc(ziScurt(o.term)) : esc(o.term || 'nu apare')}</div><div class="hint">${z == null ? '' : z < 0 ? 'expirat' : z === 0 ? 'azi' : z === 1 ? 'mâine' : 'în ' + z + ' zile'}</div></div></div></div>
+        <div class="dl">${ic('calg')}<div><div class="fl">Termen de depunere</div><div class="fv${o.term ? '' : ' m'}">${o.t ? esc(termFin(o.t)) : esc(o.term || 'nu apare')}</div><div class="hint">${o.t ? esc(ramasFin(o.t)) : ''}</div></div></div></div>
     </div></div>
     <div class="dgrid">
       <div class="dbox">${ic('cube')}<h4>Ce e</h4><div class="bx"><p>${esc(o.rez || o.desc || 'Fără rezumat — Claude n-a analizat încă pagina.')}</p></div></div>
@@ -1401,7 +1420,7 @@ function vFinCal(){
   const T = (D.finantari.tipar || {}).calendar || [];
   let h = `<h2>Termenele care vin și ritmul anual al finanțatorilor.</h2>`;
   h += `<div class="card" style="margin-bottom:12px"><h3>Termene (${ev.length})</h3>${table([{h:'Data'},{h:'Zile'},{h:'Tip'},{h:'ID'},{h:'Ce',l:1},{h:'Finanțator',l:1},{h:'Status'}], ev.map(e => { const z = zileCal(e.d);
-    return `<tr><td class="num">${zi(e.d)}</td><td class="num">${z < 0 ? '<span class="badge b-off">' + z + '</span>' : z <= 7 ? '<span class="badge b-urg">' + z + '</span>' : z}</td><td>${esc(e.tip)}</td><td>${esc(e.id)}</td><td class="l">${e.link ? `<a href="${url(e.link)}" target="_blank" rel="noopener">${esc(e.ce)}</a>` : esc(e.ce)}</td><td class="l">${esc(e.cine)}</td><td>${esc(e.st)}</td></tr>`; }), { empty: 'Niciun termen viitor în oportunități sau dosare.' })}
+    return `<tr><td class="num">${zi(e.d)}${e.d instanceof Date && oraFin(e.d) ? ' ' + oraFin(e.d) : ''}</td><td class="num">${z < 0 ? '<span class="badge b-off">' + z + '</span>' : z <= 7 ? '<span class="badge b-urg">' + z + '</span>' : z}</td><td>${esc(e.tip)}</td><td>${esc(e.id)}</td><td class="l">${e.link ? `<a href="${url(e.link)}" target="_blank" rel="noopener">${esc(e.ce)}</a>` : esc(e.ce)}</td><td class="l">${esc(e.cine)}</td><td>${esc(e.st)}</td></tr>`; }), { empty: 'Niciun termen viitor în oportunități sau dosare.' })}
     <p class="hint">Oportunitățile apar aici doar cu termen citit de Claude sau completat în sheet; dosarele, după coloana „Următorul termen”.</p></div>`;
   if (T.length) h += `<div class="card"><h3>Când depunem de obicei (din dosarele 2017–2026)</h3>${table([{h:'Finanțator / program',l:1},{h:'Luna depunerii',l:1},{h:'Rezultatul',l:1},{h:'Cerut (lei)',l:1},{h:'Aprobat (lei)',l:1}], T.map(c => `<tr><td class="l">${esc(c.fin)}</td><td class="l">${esc(c.depunere)}</td><td class="l">${esc(c.rezultat)}</td><td class="l">${esc(c.cerut)}</td><td class="l">${esc(c.aprobat)}</td></tr>`))}
     <p class="hint">Sursa: ${esc((D.finantari.tipar || {}).sursa || '')} (${esc((D.finantari.tipar || {}).actualizat || '')}). „nec.” = necunoscut în documentele citite.</p></div>`;
