@@ -443,7 +443,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.0.3 (08.10.2026)';
+const DASH_V = 'v3.0.4 (08.10.2026)';
 const EXEC = 'https://script.google.com/macros/s/AKfycbz6U3PzVk9hIE6KxO6oVBP9ELCqQ4Ip_iVV85hvahdUnxJYzRV0RkF_pmjzGGJEpV0z/exec';
 const KPIN = 'tegLicPin', KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -621,7 +621,7 @@ function jsonp(u){
   });
 }
 async function incarca(fresh){
-  const u = EXEC + '?pin=' + encodeURIComponent(pin) + (fresh ? '&fresh=1' : '') + '&c=3&t=' + Date.now();   // v3.0.3: c=3 = pagina de pe GitHub Pages (pagina veche de pe Netlify nu mai primește date)
+  const u = EXEC + '?pin=' + encodeURIComponent(pin) + (fresh ? '&fresh=1' : '') + '&cl=3&t=' + Date.now();   // v3.0.4: cl=3 = pagina de pe GitHub Pages (Google rezervă „c” și „sid” — cu c=3 cererea nu ajungea la script)
   let d;
   try { const r = await fetch(u, { redirect:'follow' }); d = await r.json(); }
   catch (e) { d = await jsonp(u); }
