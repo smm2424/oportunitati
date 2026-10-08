@@ -443,7 +443,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.0.2 (08.10.2026)';
+const DASH_V = 'v3.0.3 (08.10.2026)';
 const EXEC = 'https://script.google.com/macros/s/AKfycbz6U3PzVk9hIE6KxO6oVBP9ELCqQ4Ip_iVV85hvahdUnxJYzRV0RkF_pmjzGGJEpV0z/exec';
 const KPIN = 'tegLicPin', KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -544,6 +544,8 @@ const locRo = s => LOC_RO[normT(s).replace(/ /g,'')] || s;
 const RE_EVENIMENT = /\b(eveniment\w*|festival\w*|concert\w*|spectacol\w*|scen[aei]|scenotehn\w*|sonoriz\w*|lumini|artist\w*|zilele|ziua|ruga|rugi|rugii|sarbator\w*|serbar\w*|targ|targul|targuri|targului|revelion\w*|craciun\w*|colind\w*|artificii|pirotehn\w*|cort|corturi|show|fanfar\w*|animat\w*|conferint\w*|seminar\w*|workshop\w*|simpozion\w*|gala|carnaval\w*|parada|festivitat\w*|7995[2346]\d{3}|923\d{5})\b/;
 const RE_EXCLUS = /\b(post|posturi|concurs\w*|angajare|ocupare|recrutare|examen\w*|muzeograf\w*|nerambursabil\w*)\b/;
 const RE_ACHIZITIE = /\b(achizit\w*|ofert\w*|invitati\w*|participare|procedur\w*|caiet\w*|anunt\w*|solicitare\w*|licitati\w*|atribuir\w*|documentati\w*)\b/;
+/* v3.0.3: anunțuri de pe site-uri care NU sunt achiziții (instituția nu cumpără nimic): angajări, urbanism și mediu, acte ale consiliului, comunicări, vânzări / închirieri / concesiuni de terenuri și spații */
+const RE_NONACH = /\b(recrutare|selecti\w* (de )?personal|concurs\w*|post(ul|uri)? (vacant\w*|de \w+)|ocupare\w*|angajare\w*|examen\w*|promovare in grad\w*|muzeograf\w*|puz|pud|plan\w* urbanistic\w*|urbanism\w*|consultar\w* public\w*|dezbater\w* public\w*|impact\w* asupra mediului|evaluare\w* (a )?impact\w*|decizi\w* (etapei )?de incadrare|proiect\w* de hotarare|hotarar\w* (de consiliu|a consiliului)|sedint\w*|dispozit\w*|anunt\w* colectiv\w*|comunicare prin publicitate|citati\w*|somati\w*|instiintar\w*|preluare cereri|locuint\w*|incetare\w* acord\w*|acord\w* de functionare|comercianti acceptati|vanzar\w*|vand\w*|inchiriere\w* (teren|spati|pajist|imobil|bun)\w*|concesion\w* (teren|spati|pajist|imobil|bun)\w*|concesiune teren\w*|teren\w* intravilan|pajist\w*|licitati\w* (publica )?(de|pentru) (vanzare|inchiriere|concesionare))\b/;
 const RE_ALT = /\b(lucrar\w*|reparat\w*|curatenie|deseur\w*|dezinsec\w*|deratiz\w*|proiectare|executie|carburant\w*|combustibil\w*|asfalt\w*|canaliz\w*|iluminat public|mobilier|calculat\w*|software|audit|paza|catering|cazare|concesion\w*|teren\w*|vanzare|cosit|statie|statii|drum\w*|trotuar\w*|pod|capela|credit|medicament\w*|alimente|uniforme|autoturism\w*|microbuz\w*)\b/;
 /* tipul de serviciu: după cuvintele din titlu (+ CPV); dacă titlul nu spune nimic, după descriere */
 const CAT = [
@@ -589,7 +591,7 @@ const NUMEV = { pentru:'Pentru TEG', toate:'Oportunități', piata:'Piață', su
 const VECHI = { acum:'toate', lic:'toate', site:'surse', salvate:'pentru' };
 const TOATE_K = new Set(['pentru','toate','fpentru','ftoate'].concat(MODURI.lic.alt.map(a => a[0]), MODURI.fin.alt.map(a => a[0])));
 let tab = ls.get(KTAB) || 'pentru'; if (VECHI[tab]) tab = VECHI[tab]; if (!TOATE_K.has(tab)) tab = 'pentru';
-const F0 = () => ({ q:'', reg:'', jud:'', cat:'', sort:'rel', src:'', toate:false, valMin:0, relMin:'', ascunse:false, noi:false, modif:false, termen:false });
+const F0 = () => ({ q:'', reg:'', jud:'', cat:'', sort:'rel', src:'', toate:false, valMin:0, relMin:'', ascunse:false, noi:false, modif:false, termen:false, nonAch:false });
 const state = { f: F0(), sel: null, lim: 30, more: false, lista: [], mapReg: 'Vest', dir: 1, compact: false,
   piata:{ q:'', per:'12', tm:false, gr:false, lim:150 }, site:{ q:'', src:'' }, tmPer:'12', calLuna:'' };
 const getObj = k => { try { return JSON.parse(ls.get(k) || '{}') || {}; } catch (e) { return {}; } };
@@ -619,7 +621,7 @@ function jsonp(u){
   });
 }
 async function incarca(fresh){
-  const u = EXEC + '?pin=' + encodeURIComponent(pin) + (fresh ? '&fresh=1' : '') + '&t=' + Date.now();
+  const u = EXEC + '?pin=' + encodeURIComponent(pin) + (fresh ? '&fresh=1' : '') + '&c=3&t=' + Date.now();   // v3.0.3: c=3 = pagina de pe GitHub Pages (pagina veche de pe Netlify nu mai primește date)
   let d;
   try { const r = await fetch(u, { redirect:'follow' }); d = await r.json(); }
   catch (e) { d = await jsonp(u); }
@@ -762,10 +764,12 @@ function oppSite(s, so, locCui, i){
   const gen = String(s.titlu || '').length < 35 || /^(anunt\w*|invitati\w*|solicitare\w*|cerere\w*)( \w+){0,4}$/.test(normT(s.titlu));
   const obOk = !!s.obiect && !/^(nu apare|neclar|necunoscut|n\/?a|-|—)$/i.test(String(s.obiect).trim());   // v3.0.2: „nu apare” de la Claude nu înlocuiește titlul
   const titlu = obOk && gen ? s.obiect : s.titlu;
+  const tNA = normT([titlu, s.titlu, s.obiect].join(' ')), anN = normT(s.analiza);
+  const nonAch = rel === 'scazuta' && !/concurs de solutii/.test(tNA) && (RE_NONACH.test(tNA) || (/^nu e anunt de achizitie/.test(anN) && !/incredere mica/.test(anN)));   // v3.0.3
   return { k: 'W:' + (s.cheie || s.link || i), kind: 'site', id: s.cheie || '', titlu, titluSite: s.titlu, aut: so ? so.nume : s.sursa, sursa: s.sursa,
     scurt: so ? (so.scurt || so.nume) : s.sursa, pagina: so ? so.pagina : '', cui: cuiL, loc, jk: 'timis', val, valTxt: '',
     term: s.term || null, t: tt, pub: s.pub, p: s._p, det: s._det, open: actual, actual, nou: !s._init && !!s._det && now - s._det < 7 * ZI,
-    modif: !!s._mod && now - s._mod < 7 * ZI, rel, relDe, cat: catDe(normT([titlu, s.detalii].join(' '))), link: s.link, s, A, citit: !!s.verdict, timis: true,
+    modif: !!s._mod && now - s._mod < 7 * ZI, rel, relDe, nonAch, cat: catDe(normT([titlu, s.detalii].join(' '))), link: s.link, s, A, citit: !!s.verdict, timis: true,
     text: normT([titlu, s.titlu, s.detalii, s.obiect, A.rezumat, s.sursa, loc].join(' ')) };
 }
 
@@ -774,6 +778,7 @@ function filtreaza(scope, faraLoc){
   const f = state.f, q = normT(f.q), qs = q ? q.split(' ') : [], now = ACUM();
   return X.opp.filter(o => {
     if (ASC[o.k] && !f.ascunse) return false;
+    if (o.nonAch && !f.nonAch) return false;                          // v3.0.3: anunțurile care nu sunt achiziții, doar la cerere
     if (scope === 'pentru' && !(o.rel === 'ridicata' || o.rel === 'posibila')) return false;
     if (!f.toate && !o.actual) return false;
     if (qs.length && !qs.every(w => o.text.includes(w))) return false;
@@ -1067,8 +1072,8 @@ function vOpp(scope){
   const lista = baza.filter(locOk).sort((a, b) => state.dir * sortF(a, b));
   state.lista = lista.map(o => o.k);
   if (!state.sel || !lista.some(o => o.k === state.sel)) state.sel = lista.length ? lista[0].k : null;
-  const SUB = { pentru:'Ce se potrivește cu TEG: relevanță Ridicată sau Posibilă, doar actuale (SEAP + site-urile instituțiilor).', toate:'Tot ce e actual: SEAP filtrat pe evenimente + toate anunțurile de pe site-urile instituțiilor din Timiș (și cele care nu sunt evenimente — relevanța e pe fiecare card).' };
-  const nAv = ['src','valMin','relMin','toate','ascunse','noi','modif','termen'].filter(k => f[k]).length;
+  const SUB = { pentru:'Ce se potrivește cu TEG: relevanță Ridicată sau Posibilă, doar actuale (SEAP + site-urile instituțiilor).', toate:'Achizițiile actuale: SEAP filtrat pe evenimente + achizițiile de pe site-urile instituțiilor din Timiș (și cele care nu sunt de evenimente). Concursurile de angajare, urbanismul, terenurile și actele consiliului apar doar cu bifa din „Mai multe filtre”.' };
+  const nAv = ['src','valMin','relMin','toate','ascunse','noi','modif','termen','nonAch'].filter(k => f[k]).length;
   let h = `<div class="topbar">${titlu(scope, esc(SUB[scope]))}
     <label class="search">${ic('search')}<input type="search" id="q" placeholder="Caută după titlu, autoritate, cuvinte cheie..." value="${esc(f.q)}" aria-label="Caută"></label>
     ${selw('fReg', 'pin', optReg(f.reg, 'Toate regiunile'), 'Regiunea autorității (filtrează lista)')}
@@ -1085,6 +1090,7 @@ function vOpp(scope){
       <label><input type="checkbox" id="cMod" ${f.modif ? 'checked' : ''}> doar cu documente noi (7 zile)</label>
       <label><input type="checkbox" id="cTerm" ${f.termen ? 'checked' : ''}> termen în ≤ 7 zile</label>
       <label><input type="checkbox" id="cAsc" ${f.ascunse ? 'checked' : ''}> arată și ce am marcat „Nu mă interesează”</label>
+      <label><input type="checkbox" id="cNonAch" ${f.nonAch ? 'checked' : ''}> arată și anunțurile care nu sunt achiziții (${X.opp.filter(o => o.nonAch && (f.toate || o.actual)).length})</label>
     </div>
     <p class="hint" style="grid-column:1/-1;margin:0">Fără filtre: SEAP = anunțurile cu termen viitor; site-uri = anunțurile publicate sau găsite în ultimele 60 de zile (termenul lor nu e citit automat). Valoarea minimă ascunde anunțurile fără valoare publicată.</p>
   </div>`;
@@ -1095,7 +1101,7 @@ function vOpp(scope){
   if (f.noi) act.push(['noi', 'Noi (7 zile)']); if (f.modif) act.push(['modif', 'Documente noi']); if (f.termen) act.push(['termen', 'Termen ≤ 7 zile']);
   if (f.relMin) act.push(['relMin', { r:'Ridicată', rp:'Ridicată + Posibilă', ns:'fără Scăzută' }[f.relMin]]);
   if (f.src) act.push(['src', f.src === 'seap' ? 'Doar SEAP' : 'Doar site-uri']); if (f.valMin) act.push(['valMin', '≥ ' + lei(f.valMin) + ' lei']);
-  if (f.toate) act.push(['toate', 'Include închise']); if (f.ascunse) act.push(['ascunse', 'Include ascunse']);
+  if (f.toate) act.push(['toate', 'Include închise']); if (f.ascunse) act.push(['ascunse', 'Include ascunse']); if (f.nonAch) act.push(['nonAch', 'Include non-achiziții']);
   h += `<div class="opp"><section>
     <div class="lhead"><h2>${lista.length} ${lista.length === 1 ? 'oportunitate' : 'oportunități'}</h2><div class="spacer"></div>
       <span class="lbl">Sortează după:</span><select class="sel" id="fSort" aria-label="Sortează după">${Object.entries(SORTN).map(([v, t]) => `<option value="${v}" ${f.sort === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
@@ -1287,6 +1293,7 @@ function relFin(o, S){
   if (o.st === 'Ignorat') return ['scazuta', 'Marcat „Ignorat” în sheet.'];
   if (FST_ACT.includes(o.st)) return ['ridicata', 'Status în sheet: ' + o.st + '.'];
   if (o.rel != null && /rezultat|stire|știre|informare|irelevant/i.test(o.tip || '')) return ['scazuta', 'Claude: „' + o.tip + '” — nu e un apel la care se poate aplica (relevanță ' + o.rel + '/100).'];
+  if (o.rel != null && /^niciuna$/i.test(String(o.ent || '').trim())) return ['scazuta', 'Claude: nicio entitate a grupului nu e eligibilă (entitate „niciuna”) — relevanță ' + o.rel + '/100.'];   // v3.0.3
   if (o.rel != null) return [o.rel >= 60 ? 'ridicata' : o.rel >= 40 ? 'posibila' : 'scazuta', 'Claude: relevanță ' + o.rel + '/100' + (o.tip ? ' · ' + o.tip : '') + '.'];
   const pC = Number(S.PRAG_CLAUDE) || 6;
   if (o.relTxt === '—') return ['scazuta', 'Publicat de peste ' + (S.ZILE_ISTORIC_CLAUDE || 45) + ' de zile — neanalizat.'];
@@ -1558,7 +1565,7 @@ function leaga(){
   on('fSrc', 'change', e => set('src', e.target.value));
   on('fVal', 'change', e => set('valMin', Number(e.target.value) || 0));
   on('fRel', 'change', e => set('relMin', e.target.value));
-  [['cToate','toate'],['cNoi','noi'],['cMod','modif'],['cTerm','termen'],['cAsc','ascunse']].forEach(([id, k]) => on(id, 'change', e => set(k, e.target.checked)));
+  [['cToate','toate'],['cNoi','noi'],['cMod','modif'],['cTerm','termen'],['cAsc','ascunse'],['cNonAch','nonAch']].forEach(([id, k]) => on(id, 'change', e => set(k, e.target.checked)));
   on('fLmore', 'click', () => { state.lim += 30; randeaza(); });
   document.querySelectorAll('[data-rm]').forEach(b => b.addEventListener('click', () => {
     const k = b.dataset.rm;
