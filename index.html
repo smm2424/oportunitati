@@ -443,7 +443,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.0.1 (08.10.2026)';
+const DASH_V = 'v3.0.2 (08.10.2026)';
 const EXEC = 'https://script.google.com/macros/s/AKfycbz6U3PzVk9hIE6KxO6oVBP9ELCqQ4Ip_iVV85hvahdUnxJYzRV0RkF_pmjzGGJEpV0z/exec';
 const KPIN = 'tegLicPin', KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -760,7 +760,8 @@ function oppSite(s, so, locCui, i){
   const tt = s.term ? dt(s.term) : null, val = typeof s.val === 'number' && s.val > 0 ? s.val : null;
   const actual = tt ? tt > now : (recent(s._p) || (!s._init && recent(s._det)) || recent(s._mod));
   const gen = String(s.titlu || '').length < 35 || /^(anunt\w*|invitati\w*|solicitare\w*|cerere\w*)( \w+){0,4}$/.test(normT(s.titlu));
-  const titlu = s.obiect && gen ? s.obiect : s.titlu;
+  const obOk = !!s.obiect && !/^(nu apare|neclar|necunoscut|n\/?a|-|—)$/i.test(String(s.obiect).trim());   // v3.0.2: „nu apare” de la Claude nu înlocuiește titlul
+  const titlu = obOk && gen ? s.obiect : s.titlu;
   return { k: 'W:' + (s.cheie || s.link || i), kind: 'site', id: s.cheie || '', titlu, titluSite: s.titlu, aut: so ? so.nume : s.sursa, sursa: s.sursa,
     scurt: so ? (so.scurt || so.nume) : s.sursa, pagina: so ? so.pagina : '', cui: cuiL, loc, jk: 'timis', val, valTxt: '',
     term: s.term || null, t: tt, pub: s.pub, p: s._p, det: s._det, open: actual, actual, nou: !s._init && !!s._det && now - s._det < 7 * ZI,
@@ -1066,7 +1067,7 @@ function vOpp(scope){
   const lista = baza.filter(locOk).sort((a, b) => state.dir * sortF(a, b));
   state.lista = lista.map(o => o.k);
   if (!state.sel || !lista.some(o => o.k === state.sel)) state.sel = lista.length ? lista[0].k : null;
-  const SUB = { pentru:'Ce se potrivește cu TEG: relevanță Ridicată sau Posibilă, doar actuale (SEAP + site-urile instituțiilor).', toate:'Toate achizițiile actuale din domeniul evenimente: SEAP + site-urile instituțiilor din Timiș.' };
+  const SUB = { pentru:'Ce se potrivește cu TEG: relevanță Ridicată sau Posibilă, doar actuale (SEAP + site-urile instituțiilor).', toate:'Tot ce e actual: SEAP filtrat pe evenimente + toate anunțurile de pe site-urile instituțiilor din Timiș (și cele care nu sunt evenimente — relevanța e pe fiecare card).' };
   const nAv = ['src','valMin','relMin','toate','ascunse','noi','modif','termen'].filter(k => f[k]).length;
   let h = `<div class="topbar">${titlu(scope, esc(SUB[scope]))}
     <label class="search">${ic('search')}<input type="search" id="q" placeholder="Caută după titlu, autoritate, cuvinte cheie..." value="${esc(f.q)}" aria-label="Caută"></label>
@@ -1382,7 +1383,7 @@ function vFinOpp(scope){
   if (!stateF.sel || !lista.some(o => o.k === stateF.sel)) stateF.sel = lista.length ? lista[0].k : null;
   const now = ACUM(), toate = XF.opo.filter(o => !ASC[o.k]);
   const kp = [
-    ['noi', 'noi relevante', 'Ridicată + Posibilă, găsite în ultimele 7 zile', toate.filter(o => o.nou && (o.rcls === 'ridicata' || o.rcls === 'posibila')).length, 'doc', 'k-noi'],
+    ['noi', 'noi relevante', 'Ridicată + Posibilă, găsite în ultimele 7 zile, încă deschise', toate.filter(o => o.nou && o.open && (o.rcls === 'ridicata' || o.rcls === 'posibila')).length, 'doc', 'k-noi'],
     ['term', 'termene ≤ 14 zile', 'Termen de depunere în următoarele 14 zile, fără cele cu relevanță Scăzută', toate.filter(o => o.t && o.open && zileCal(o.t) <= 14 && o.rcls !== 'scazuta').length, 'calg', 'k-term'],
     ['apl', 'aplicăm / urmărim', 'Statusul din sheet: Aplicăm, Urmărim sau De analizat', toate.filter(o => FST_ACT.includes(o.st)).length, 'checkc', 'k-mod'],
     ['dos', 'dosare active', 'Registrul DOSARE: în pregătire, depuse, contestații, contractare, implementare, decont', XF.dos.filter(d => FDOS_ACT.includes(d.st)).length, 'folder', 'k-sav']
