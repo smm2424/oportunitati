@@ -449,7 +449,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.2 (08.10.2026)';
+const DASH_V = 'v3.3 (09.10.2026)';
 const URL_INTRARE = 'https://smm2424.github.io/oportunitati/';   // v3.2: redirecționează spre web app-ul Apps Script (login Google)
 const KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -588,12 +588,12 @@ let D = null, timer = null, X = {};
 const MODURI = { lic: { t:'Licitații', ic:'bank', nav:[{ k:'pentru', t:'Pentru TEG', ic:'home' }, { k:'toate', t:'Toate oportunitățile', ic:'search' }, { k:'altele', t:'Altele', ic:'grid' }],
     alt:[['grup','Grupul TEG','users'], ['piata','Piață','chart'], ['dosar','Dosar','folder'], ['tm','Timiș 5 ani','map'], ['surse','Surse','db'], ['cc','City Celebration','star'], ['sis','Sistem','gear']] },
   fin: { t:'Finanțări', ic:'coins', nav:[{ k:'fpentru', t:'Pentru TEG', ic:'home' }, { k:'ftoate', t:'Toate oportunitățile', ic:'search' }, { k:'faltele', t:'Altele', ic:'grid' }],
-    alt:[['fcal','Calendar','calg'], ['fdos','Dosare','folder'], ['ftip','Tipar','chart'], ['fsur','Surse','db'], ['fsis','Sistem','gear']] } };
+    alt:[['fcal','Calendar','calg'], ['fist','Istoric','clock'], ['fdos','Dosare','folder'], ['ftip','Tipar','chart'], ['fsur','Surse','db'], ['fsis','Sistem','gear']] } };
 const modDe = k => (/^f/.test(k) && k !== 'fake') ? 'fin' : 'lic';
 const altDe = k => { const m = MODURI[modDe(k)]; return m.alt.some(a => a[0] === k); };
 let NAV = MODURI.lic.nav;
 const NUMEV = { pentru:'Pentru TEG', toate:'Oportunități', piata:'Piață', surse:'Surse', tm:'Timiș 5 ani', grup:'Grupul TEG', cc:'City Celebration', dosar:'Dosar & termene', sis:'Sistem',
-  fpentru:'Finanțări · Pentru TEG', ftoate:'Finanțări', fcal:'Calendar finanțări', fdos:'Dosare depuse', ftip:'Tiparul dosarelor', fsur:'Surse finanțări', fsis:'Sistem finanțări' };
+  fpentru:'Finanțări · Pentru TEG', ftoate:'Finanțări', fcal:'Calendar finanțări', fdos:'Dosare depuse', fist:'Istoric apeluri', ftip:'Tiparul dosarelor', fsur:'Surse finanțări', fsis:'Sistem finanțări' };
 const VECHI = { acum:'toate', lic:'toate', site:'surse', salvate:'pentru' };
 const TOATE_K = new Set(['pentru','toate','fpentru','ftoate'].concat(MODURI.lic.alt.map(a => a[0]), MODURI.fin.alt.map(a => a[0])));
 let tab = ls.get(KTAB) || 'pentru'; if (VECHI[tab]) tab = VECHI[tab]; if (!TOATE_K.has(tab)) tab = 'pentru';
@@ -1031,7 +1031,7 @@ function randeaza(){
   $('#stareTop').title = `Date generate ${ziOra(D.generat)} · scanare SEAP ${st.ultimaZiScanata ? zi(st.ultimaZiScanata) : '—'} · site-uri ${ziOra(st.ultimaVerificareSiteuri)} · script ${D.versiune || ''} · dashboard ${DASH_V}${D.utilizator ? ' · cont ' + D.utilizator : ''}`;
   randeazaTaburi();
   const VED = { pentru: () => vOpp('pentru'), toate: () => vOpp('toate'),
-    fpentru: () => vFinOpp('fpentru'), ftoate: () => vFinOpp('ftoate'), fcal: () => inv('fcal', vFinCal()), fdos: () => inv('fdos', vFinDos()), ftip: () => inv('ftip', vFinTip()),
+    fpentru: () => vFinOpp('fpentru'), ftoate: () => vFinOpp('ftoate'), fcal: () => inv('fcal', vFinCal()), fdos: () => inv('fdos', vFinDos()), fist: () => inv('fist', vFinIst()), ftip: () => inv('ftip', vFinTip()),
     fsur: () => inv('fsur', vFinSur()), fsis: () => inv('fsis', vFinSis()),
     piata: () => inv('piata', vPiata()), surse: () => inv('surse', vSite()), tm: () => inv('tm', vTm(), 'Cine cumpără evenimente în Timiș, unde anunță, ce cumpără recurent și cine câștigă.'),
     grup: () => inv('grup', vGrup()), cc: () => inv('cc', vCC()), dosar: () => inv('dosar', vDosar()), sis: () => inv('sis', vSis()) };
@@ -1274,7 +1274,7 @@ const FST_ACT = ['De analizat', 'Aplicăm', 'Urmărim'];
 const FDOS_ACT = ['În pregătire', 'Depus — în evaluare', 'Contestație', 'Aprobat — contractare', 'În implementare', 'Decont / raportare'];
 const FDOS_CASTIG = ['Închis — finanțat', 'Decont / raportare', 'Aprobat — contractare'];
 const FDOS_DECIS = FDOS_CASTIG.concat(['Respins']);
-const stateF = { q:'', ent:'', st:'', toate:false, ascunse:false, sort:'rel', sel:null, lim:30, dosQ:'', dosSt:'', dosFin:'' };
+const stateF = { q:'', ent:'', st:'', toate:false, ascunse:false, sort:'rel', sel:null, lim:30, dosQ:'', dosSt:'', dosFin:'', istQ:'', istAn:'', istNoi:'' };
 let XF = { opo:[], byK:{}, dos:[], ok:false };
 
 function relFin(o, S){
@@ -1476,6 +1476,42 @@ function vFinDos(){
     ${table([{h:'ID'},{h:'An'},{h:'Finanțator · program',l:1},{h:'Proiect',l:1},{h:'Entitate',l:1},{h:'Cerut (lei)'},{h:'Aprobat (lei)'},{h:'Status'},{h:'Rezultat / ce urmează',l:1}], L.map(d => `<tr><td>${esc(d.id)}</td><td class="num">${esc(d.an)}</td><td class="l">${esc(d.fin)}${d.prog ? '<br><span class="hint">' + esc(d.prog) + '</span>' : ''}</td><td class="l">${esc(d.proiect)}</td><td class="l">${esc(d.ent)}${d.grup ? '<br><span class="hint">' + esc(d.grup) + '</span>' : ''}</td><td class="num">${d.cerut != null ? lei(d.cerut) : esc(d.cerutTxt || '—')}</td><td class="num">${d.aprobat != null ? lei(d.aprobat) : '—'}</td><td>${esc(d.st)}</td><td class="l">${esc(d.rezultat || '')}${d.ceUrm ? '<br><span class="hint">' + esc(d.ceUrm) + (d._u ? ' · ' + zi(d.urm) : '') + '</span>' : ''}</td></tr>`), { empty: 'Niciun dosar pe filtrele astea.' })}</div>`;
   return h;
 }
+/* v3.3: istoricul apelurilor încheiate (foaia ISTORIC): concurența reală — depuse, solicitat, finanțate, alocat, medie, punctaj minim, % finanțat */
+const ISTNOI = [['aplicat', 'Am aplicat', /^Am aplicat/], ['partener', 'Partener extern', /^Partener extern/], ['potrivit', 'Potrivit, neaplicat', /^Potrivit/], ['confirmat', 'De confirmat', /^(De confirmat|În registru)/], ['analizat', 'Analizat, nu aplicăm', /^Analizat/]];
+const istCat = t => { const x = ISTNOI.find(c => c[2].test(String(t || ''))); return x ? x[0] : 'altul'; };
+const istNum = v => typeof v === 'number' && isFinite(v);
+function istSuma(v, mon){ return istNum(v) ? lei2(v) + (mon && mon !== 'lei' ? ' ' + esc(mon) : '') : `<span class="hint">${esc(v || 'nepublicat')}</span>`; }
+function istVal(v, f){ return istNum(v) ? f(v) : `<span class="hint">${esc(v || 'nepublicat')}</span>`; }
+function istTermen(v){ const d = typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v) ? dt(v) : null; return d ? zi(d) + (oraFin(d) ? ', ' + oraFin(d) : '') : esc(v || '—'); }
+function istTabel(cols, rows, opts){
+  if (!rows.length) return `<div class="empty">${esc((opts || {}).empty || 'Nimic de arătat.')}</div>`;
+  return `<style>.ist td,.ist th{white-space:normal;overflow-wrap:break-word;word-break:normal;hyphens:none}</style><div class="tbl-wrap"><table class="ist" style="table-layout:fixed;min-width:${cols.reduce((s, c) => s + (c.w || 100), 0)}px"><colgroup>${cols.map(c => `<col style="width:${c.w || 100}px">`).join('')}</colgroup><thead><tr>${cols.map(c => `<th class="${c.l ? 'l' : ''}">${esc(c.h)}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+}
+function vFinIst(){
+  if (!XF.ok) return finIndisponibil();
+  const I = (D.finantari && D.finantari.istoric) || [];
+  if (!I.length) return `<h2>Istoricul apelurilor încheiate.</h2><div class="card"><p class="note">Foaia ISTORIC din „TEG - Finanțări” nu a ajuns în dashboard (script mai vechi de v1.14 sau foaie goală).</p></div>`;
+  const f = stateF, qs = normT(f.istQ).split(' ').filter(Boolean);
+  const L = I.filter(r => (!f.istAn || String(r['An']) === f.istAn) && (!f.istNoi || istCat(r['Noi']) === f.istNoi) &&
+    (!qs.length || qs.every(w => normT([r['Finanțator'], r['Apel / sesiune'], r['Noi'], r['Rezultatul nostru'], r['Note']].join(' ')).includes(w))));
+  const ani = [...new Set(I.map(r => String(r['An'])).filter(Boolean))].sort().reverse();
+  const nCat = k => I.filter(r => istCat(r['Noi']) === k).length, castig = I.filter(r => /(^|[^A-ZĂÂÎȘȚ])FINANȚAT/.test(String(r['Rezultatul nostru'] || ''))).length;
+  let h = `<h2>Apelurile încheiate în 2025–2026: câte proiecte s-au depus, cât s-a cerut, cât s-a dat și cu ce punctaj.</h2>`;
+  h += `<div class="grid g5" style="margin-bottom:12px">${tile('Apeluri în istoric', I.length, ani.join(' · '))}${tile('La care am aplicat', nCat('aplicat'), castig + ' apeluri cu finanțare obținută (noi sau partenerii)')}${tile('Potrivite, neaplicate', nCat('potrivit'), 'de urmărit la ediția următoare')}${tile('Prin parteneri externi', nCat('partener'), 'CDPP, Inima Îți Vorbește')}</div>`;
+  h += `<div class="card"><div class="topbar" style="margin-bottom:10px"><label class="search">${ic('search')}<input type="search" id="iq" placeholder="Caută finanțator, apel, rezultat..." value="${esc(f.istQ)}"></label>
+    ${selw('iAn', 'calg', '<option value="">Toți anii</option>' + ani.map(a => `<option ${f.istAn === a ? 'selected' : ''}>${esc(a)}</option>`).join(''), 'Anul')}
+    ${selw('iNoi', 'checkc', '<option value="">Toate</option>' + ISTNOI.map(c => `<option value="${c[0]}" ${f.istNoi === c[0] ? 'selected' : ''}>${esc(c[1])}</option>`).join(''), 'Noi')}</div>
+    ${istTabel([{h:'An',w:58},{h:'Finanțator · apel',l:1,w:250},{h:'Termen',w:115},{h:'Depuse',w:80},{h:'Suma solicitată',w:112},{h:'Finanțate',w:84},{h:'Suma alocată',w:112},{h:'Media / proiect finanțat',w:100},{h:'Punctaj minim finanțat',w:76},{h:'% finanțat din solicitat',w:76},{h:'Noi · rezultatul nostru',l:1,w:196}],
+      L.map(r => { const cat = istCat(r['Noi']), mon = r['Monedă'] || 'lei';
+        return `<tr><td class="num">${esc(r['An'])}</td><td class="l"><b>${esc(r['Finanțator'])}</b><br>${esc(r['Apel / sesiune'])}${r['Note'] || r['Surse'] ? `<details><summary class="hint">detalii și sursa</summary>${r['Note'] ? '<span class="hint">' + esc(r['Note']) + '</span><br>' : ''}${r['Surse'] ? '<span class="hint">Sursa: ' + esc(r['Surse']) + '</span>' : ''}</details>` : ''}</td>
+          <td class="num">${istTermen(r['Termen depunere'])}</td><td class="num">${istVal(r['Proiecte depuse'], v => esc(v))}</td><td class="num">${istSuma(r['Suma solicitată totală'], mon)}</td>
+          <td class="num">${istVal(r['Proiecte finanțate'], v => esc(v))}</td><td class="num">${istSuma(r['Suma alocată totală'], mon)}</td><td class="num">${istSuma(r['Media / proiect finanțat'], mon)}</td>
+          <td class="num">${istVal(r['Punctaj minim finanțat'], v => NF2.format(v))}</td><td class="num">${istVal(r['% alocat din solicitat'], v => NF2.format(v * 100) + '%')}</td>
+          <td class="l"><span class="badge ${cat === 'aplicat' ? 'b-new' : cat === 'potrivit' ? '' : cat === 'confirmat' ? 'b-urg' : 'b-off'}">${esc(String(r['Noi'] || '').split(' — ')[0])}</span><br>${esc(String(r['Noi'] || '').split(' — ').slice(1).join(' — '))}${r['Rezultatul nostru'] && r['Rezultatul nostru'] !== '—' ? '<br><b>' + esc(r['Rezultatul nostru']) + '</b>' : ''}</td></tr>`; }),
+      { empty: 'Niciun apel pe filtrele astea.' })}
+    <p class="hint">„nepublicat” = finanțatorul nu publică cifra (nu e estimată). „≥ N” la AFCN = rânduri numărate în listele finale; numărul oficial de cereri nu e publicat. Media = suma alocată / proiectele finanțate. Datele: foaia ISTORIC din „TEG - Finanțări”, verificate pe listele oficiale (coloana Verificat).</p></div>`;
+  return h;
+}
 /* tiparul: ce am depus de-a lungul anilor și ce a mers */
 function vFinTip(){
   if (!XF.ok) return finIndisponibil();
@@ -1547,6 +1583,9 @@ function leagaFin(){
   on('dq', 'input', deb(e => { stateF.dosQ = e.target.value; randeazaPastrandFocus('dq'); }));
   on('dSt', 'change', e => { stateF.dosSt = e.target.value; randeaza(); });
   on('dFin', 'change', e => { stateF.dosFin = e.target.value; randeaza(); });
+  on('iq', 'input', deb(e => { stateF.istQ = e.target.value; randeazaPastrandFocus('iq'); }));
+  on('iAn', 'change', e => { stateF.istAn = e.target.value; randeaza(); });
+  on('iNoi', 'change', e => { stateF.istNoi = e.target.value; randeaza(); });
   document.querySelectorAll('.oc[data-fk]').forEach(el => {
     el.addEventListener('click', () => selecteazaFin(el.dataset.fk, true));
     el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selecteazaFin(el.dataset.fk, true); } });
