@@ -449,7 +449,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.3 (09.10.2026)';
+const DASH_V = 'v3.4 (09.10.2026)';
 const URL_INTRARE = 'https://smm2424.github.io/oportunitati/';   // v3.2: redirecționează spre web app-ul Apps Script (login Google)
 const KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -585,19 +585,19 @@ const RELR = { ridicata:3, posibila:2, neanalizata:1, scazuta:0 };
 /* ---------- stare ---------- */
 let D = null, timer = null, X = {};
 /* v3.0: două zone mari (Licitații | Finanțări), fiecare cu Pentru TEG / Toate oportunitățile / Altele (butoane) */
-const MODURI = { lic: { t:'Licitații', ic:'bank', nav:[{ k:'pentru', t:'Pentru TEG', ic:'home' }, { k:'toate', t:'Toate oportunitățile', ic:'search' }, { k:'altele', t:'Altele', ic:'grid' }],
-    alt:[['grup','Grupul TEG','users'], ['piata','Piață','chart'], ['dosar','Dosar','folder'], ['tm','Timiș 5 ani','map'], ['surse','Surse','db'], ['cc','City Celebration','star'], ['sis','Sistem','gear']] },
-  fin: { t:'Finanțări', ic:'coins', nav:[{ k:'fpentru', t:'Pentru TEG', ic:'home' }, { k:'ftoate', t:'Toate oportunitățile', ic:'search' }, { k:'faltele', t:'Altele', ic:'grid' }],
-    alt:[['fcal','Calendar','calg'], ['fist','Istoric','clock'], ['fdos','Dosare','folder'], ['ftip','Tipar','chart'], ['fsur','Surse','db'], ['fsis','Sistem','gear']] } };
+const MODURI = { lic: { t:'Licitații', ic:'bank', nav:[{ k:'short', t:'Shortlist', ic:'star' }, { k:'pentru', t:'Pentru TEG', ic:'home' }, { k:'toate', t:'Toate oportunitățile', ic:'search' }, { k:'altele', t:'Altele', ic:'grid' }],
+    alt:[['grup','Grupul TEG','users'], ['piata','Piață','chart'], ['ratat','Nimic ratat','alert'], ['dosar','Dosar','folder'], ['tm','Timiș 5 ani','map'], ['surse','Surse','db'], ['cc','City Celebration','star'], ['sis','Sistem','gear']] },
+  fin: { t:'Finanțări', ic:'coins', nav:[{ k:'fshort', t:'Shortlist', ic:'star' }, { k:'fpentru', t:'Pentru TEG', ic:'home' }, { k:'ftoate', t:'Toate oportunitățile', ic:'search' }, { k:'faltele', t:'Altele', ic:'grid' }],
+    alt:[['finv','Investiții','chart'], ['fcred','Creditare','bank'], ['fcal','Calendar','calg'], ['fist','Istoric','clock'], ['fdos','Dosare','folder'], ['ftip','Tipar','chart'], ['fsur','Surse','db'], ['fsis','Sistem','gear']] } };
 const modDe = k => (/^f/.test(k) && k !== 'fake') ? 'fin' : 'lic';
 const altDe = k => { const m = MODURI[modDe(k)]; return m.alt.some(a => a[0] === k); };
 let NAV = MODURI.lic.nav;
-const NUMEV = { pentru:'Pentru TEG', toate:'Oportunități', piata:'Piață', surse:'Surse', tm:'Timiș 5 ani', grup:'Grupul TEG', cc:'City Celebration', dosar:'Dosar & termene', sis:'Sistem',
+const NUMEV = { short:'Shortlist', fshort:'Shortlist', ratat:'Nimic ratat', finv:'Investiții (capital)', fcred:'Creditare (cashflow)', pentru:'Pentru TEG', toate:'Oportunități', piata:'Piață', surse:'Surse', tm:'Timiș 5 ani', grup:'Grupul TEG', cc:'City Celebration', dosar:'Dosar & termene', sis:'Sistem',
   fpentru:'Finanțări · Pentru TEG', ftoate:'Finanțări', fcal:'Calendar finanțări', fdos:'Dosare depuse', fist:'Istoric apeluri', ftip:'Tiparul dosarelor', fsur:'Surse finanțări', fsis:'Sistem finanțări' };
 const VECHI = { acum:'toate', lic:'toate', site:'surse', salvate:'pentru' };
-const TOATE_K = new Set(['pentru','toate','fpentru','ftoate'].concat(MODURI.lic.alt.map(a => a[0]), MODURI.fin.alt.map(a => a[0])));
+const TOATE_K = new Set(['short','fshort','pentru','toate','fpentru','ftoate'].concat(MODURI.lic.alt.map(a => a[0]), MODURI.fin.alt.map(a => a[0])));
 let tab = ls.get(KTAB) || 'pentru'; if (VECHI[tab]) tab = VECHI[tab]; if (!TOATE_K.has(tab)) tab = 'pentru';
-const F0 = () => ({ q:'', reg:'', jud:'', cat:'', sort:'rel', src:'', toate:false, valMin:0, relMin:'', ascunse:false, noi:false, modif:false, termen:false, nonAch:false });
+const F0 = () => ({ q:'', reg:'', jud:'', cat:'', sort:'rel', src:'', toate:false, valMin:0, relMin:'', ascunse:false, noi:false, modif:false, termen:false, nonAch:false, subPrag:false });
 const state = { f: F0(), sel: null, lim: 30, more: false, lista: [], mapReg: 'Vest', dir: 1, compact: false,
   piata:{ q:'', per:'12', tm:false, gr:false, lim:150 }, site:{ q:'', src:'' }, tmPer:'12', calLuna:'' };
 const getObj = k => { try { return JSON.parse(ls.get(k) || '{}') || {}; } catch (e) { return {}; } };
@@ -665,6 +665,7 @@ function prelucreaza(){
   (T5.top || []).concat(T5.cal || []).forEach(a => { if (a.loc && !locCui[String(a.cui)]) locCui[String(a.cui)] = a.loc; });
   const surse = {}; (D.surse || []).forEach(s => { surse[s.nume] = s; });
   const opp = lic.map(oppSeap).concat(site.map((s, i) => oppSite(s, surse[s.sursa], locCui, i)));
+  opp.forEach(o => { o.prag = pragLic(o); });                       // v3.4: peste prag / ușoară / client / sub
   const byK = {}; opp.forEach(o => { byK[o.k] = o; });
   X = { lic, piata, site, grup, grupCui, autTm, opp, byK };
   try { prelucreazaFin(); } catch (e) { XF = { opo:[], byK:{}, dos:[], ok:false }; D.finantari = { ok:false, eroare:'dashboard: ' + e.message }; }
@@ -761,6 +762,28 @@ function oppSite(s, so, locCui, i){
     text: normT([titlu, s.titlu, s.detalii, s.obiect, A.rezumat, s.sursa, loc].join(' ')) };
 }
 
+/* ---------- v3.4: pragul (A→P-005) — 200.000 lei în zonă, 250.000 în rest; Timiș sub prag doar „ușoare” (marjă ≥ 40%); autoritățile-client fără prag ---------- */
+const ZONA_K = () => String((D.setari || {}).JUDETE_ZONA || 'Timiș, Arad, Caraș-Severin, Hunedoara, Dolj').split(/[,;]/).map(judKey).filter(Boolean);
+function esteClient(aut){
+  const t = ' ' + normT(aut).replace(/[^a-z0-9]+/g, ' ') + ' ';
+  return String((D.setari || {}).AUTORITATI_CLIENT || D.clienti || '').split(';').some(f => { const w = normT(f).replace(/[^a-z0-9]+/g, ' ').split(' ').filter(x => x && !['gal','municipiul','oras','orasul','comuna','primaria','judetul'].includes(x)); return w.length && w.every(x => t.includes(' ' + x + ' ')); });
+}
+function marjaOpp(o){
+  if (o.kind === 'seap') return typeof o.x.marja === 'number' ? o.x.marja : null;
+  const m = String((o.s && o.s.analiza) || '').match(/Cost estimat TEG:\s*([\d.]+)\s*[–-]\s*([\d.]+)/);
+  if (!m || !o.val) return null; const c = (Number(m[1].replace(/\./g, '')) + Number(m[2].replace(/\./g, ''))) / 2; return (o.val - c) / o.val;
+}
+function pragLic(o){
+  const S = D.setari || {}, pz = Number(S.PRAG_ZONA) || 200000, pr = Number(S.PRAG_RESTUL_TARII) || 250000, mu = Number(S.MARJA_USOARE) || 0.4;
+  o.marja = marjaOpp(o);
+  if (esteClient(o.aut)) return 'client';
+  if (o.val == null) return 'necunoscut';
+  const inZona = ZONA_K().includes(o.jk) || (o.kind === 'site');
+  if (o.val >= (inZona ? pz : pr)) return 'peste';
+  if ((o.jk === 'timis' || o.kind === 'site') && o.marja != null && o.marja >= mu) return 'usoara';
+  return 'sub';
+}
+
 /* ---------- filtre ---------- */
 function filtreaza(scope, faraLoc){
   const f = state.f, q = normT(f.q), qs = q ? q.split(' ') : [], now = ACUM();
@@ -768,6 +791,7 @@ function filtreaza(scope, faraLoc){
     if (ASC[o.k] && !f.ascunse) return false;
     if (o.nonAch && !f.nonAch) return false;                          // v3.0.3: anunțurile care nu sunt achiziții, doar la cerere
     if (scope === 'pentru' && !(o.rel === 'ridicata' || o.rel === 'posibila')) return false;
+    if (scope === 'pentru' && o.prag === 'sub' && !f.subPrag) return false;          // v3.4: sub prag doar la cerere
     if (!f.toate && !o.actual) return false;
     if (qs.length && !qs.every(w => o.text.includes(w))) return false;
     if (f.cat && o.cat !== f.cat) return false;
@@ -842,6 +866,9 @@ function badges(o, scurt){
   const b = [];
   if (o.nou) b.push('<span class="badge b-new">Nou</span>');
   if (o.modif) b.push('<span class="badge b-mod">Documente noi</span>');
+  if (o.prag === 'usoara') b.push(`<span class="badge b-new" title="Timiș sub prag, dar cu marjă estimată mare">ușoară · marjă ${Math.round(o.marja * 100)}%</span>`);
+  else if (o.prag === 'client') b.push('<span class="badge b-new" title="Autoritate-client: intră fără prag">client</span>');
+  else if (o.prag === 'sub') b.push('<span class="badge b-off" title="Sub pragul de 200.000 lei (zona) / 250.000 lei (restul țării), fără marjă mare">sub prag</span>');
   if (o.kind === 'seap' && o.t) { if (o.t <= ACUM()) b.push('<span class="badge b-off">Închis</span>'); else if (zileCal(o.t) <= 3) b.push(`<span class="badge b-urg">${termenText(o.t)}</span>`); }
   if (ASC[o.k]) b.push('<span class="badge b-off">Nu mă interesează</span>');
   return b.join('');
@@ -1030,13 +1057,14 @@ function randeaza(){
   $('#stareTop').innerHTML = `${ziOra(D.generat)}<br>script ${esc(String(D.versiune || '').split(' ')[0])} · v${esc(DASH_V.split(' ')[0].replace(/^v/, ''))}`;
   $('#stareTop').title = `Date generate ${ziOra(D.generat)} · scanare SEAP ${st.ultimaZiScanata ? zi(st.ultimaZiScanata) : '—'} · site-uri ${ziOra(st.ultimaVerificareSiteuri)} · script ${D.versiune || ''} · dashboard ${DASH_V}${D.utilizator ? ' · cont ' + D.utilizator : ''}`;
   randeazaTaburi();
-  const VED = { pentru: () => vOpp('pentru'), toate: () => vOpp('toate'),
+  const VED = { short: () => vShort(), fshort: () => vShort(), ratat: () => inv('ratat', vRatat()), finv: () => inv('finv', vFinCat('investiții')), fcred: () => inv('fcred', vFinCat('creditare')),
+    pentru: () => vOpp('pentru'), toate: () => vOpp('toate'),
     fpentru: () => vFinOpp('fpentru'), ftoate: () => vFinOpp('ftoate'), fcal: () => inv('fcal', vFinCal()), fdos: () => inv('fdos', vFinDos()), fist: () => inv('fist', vFinIst()), ftip: () => inv('ftip', vFinTip()),
     fsur: () => inv('fsur', vFinSur()), fsis: () => inv('fsis', vFinSis()),
     piata: () => inv('piata', vPiata()), surse: () => inv('surse', vSite()), tm: () => inv('tm', vTm(), 'Cine cumpără evenimente în Timiș, unde anunță, ce cumpără recurent și cine câștigă.'),
     grup: () => inv('grup', vGrup()), cc: () => inv('cc', vCC()), dosar: () => inv('dosar', vDosar()), sis: () => inv('sis', vSis()) };
   $('#main').innerHTML = VED[tab]();
-  leaga(); if (modDe(tab) === 'fin') leagaFin();
+  leaga(); if (modDe(tab) === 'fin') leagaFin(); if (tab === 'short' || tab === 'fshort') leagaShort();
 }
 function titlu(k, sub){
   return `<div class="ttl"><div class="crumb"><span class="t">TEG</span><span class="sl">/</span>${esc(NUMEV[k] || '')}</div>${sub ? `<p class="sub">${sub}</p>` : ''}</div>`;
@@ -1060,7 +1088,7 @@ function vOpp(scope){
   const lista = baza.filter(locOk).sort((a, b) => state.dir * sortF(a, b));
   state.lista = lista.map(o => o.k);
   if (!state.sel || !lista.some(o => o.k === state.sel)) state.sel = lista.length ? lista[0].k : null;
-  const SUB = { pentru:'Ce se potrivește cu TEG: relevanță Ridicată sau Posibilă, doar actuale (SEAP + site-urile instituțiilor).', toate:'Achizițiile actuale: SEAP filtrat pe evenimente + achizițiile de pe site-urile instituțiilor din Timiș (și cele care nu sunt de evenimente). Concursurile de angajare, urbanismul, terenurile și actele consiliului apar doar cu bifa din „Mai multe filtre”.' };
+  const SUB = { pentru:'Ce se potrivește cu TEG: relevanță Ridicată sau Posibilă, doar actuale, peste prag (200.000 lei în Timiș, Arad, Caraș-Severin, Hunedoara, Dolj; 250.000 în rest) — în Timiș și cele „ușoare” (marjă ≥ 40%) — plus autoritățile-client.', toate:'Achizițiile actuale: SEAP filtrat pe evenimente + achizițiile de pe site-urile instituțiilor din Timiș (și cele care nu sunt de evenimente). Concursurile de angajare, urbanismul, terenurile și actele consiliului apar doar cu bifa din „Mai multe filtre”.' };
   const nAv = ['src','valMin','relMin','toate','ascunse','noi','modif','termen','nonAch'].filter(k => f[k]).length;
   let h = `<div class="topbar">${titlu(scope, esc(SUB[scope]))}
     <label class="search">${ic('search')}<input type="search" id="q" placeholder="Caută după titlu, autoritate, cuvinte cheie..." value="${esc(f.q)}" aria-label="Caută"></label>
@@ -1079,6 +1107,7 @@ function vOpp(scope){
       <label><input type="checkbox" id="cTerm" ${f.termen ? 'checked' : ''}> termen în ≤ 7 zile</label>
       <label><input type="checkbox" id="cAsc" ${f.ascunse ? 'checked' : ''}> arată și ce am marcat „Nu mă interesează”</label>
       <label><input type="checkbox" id="cNonAch" ${f.nonAch ? 'checked' : ''}> arată și anunțurile care nu sunt achiziții (${X.opp.filter(o => o.nonAch && (f.toate || o.actual)).length})</label>
+      <label><input type="checkbox" id="cSub" ${f.subPrag ? 'checked' : ''}> în „Pentru TEG”, și cele sub prag (${X.opp.filter(o => o.prag === 'sub' && (f.toate || o.actual) && (o.rel === 'ridicata' || o.rel === 'posibila')).length})</label>
     </div>
     <p class="hint" style="grid-column:1/-1;margin:0">Fără filtre: SEAP = anunțurile cu termen viitor; site-uri = anunțurile publicate sau găsite în ultimele 60 de zile (termenul lor nu e citit automat). Valoarea minimă ascunde anunțurile fără valoare publicată.</p>
   </div>`;
@@ -1270,7 +1299,7 @@ function blocRecurente(){
 }
 
 /* ====================== v3.0 — FINANȚĂRI (date: sheetul TEG - Finanțări, prin web app-ul Licitații v1.11) ====================== */
-const FST_ACT = ['De analizat', 'Aplicăm', 'Urmărim'];
+const FST_ACT = ['De analizat', 'Shortlist', 'Aplicăm', 'Urmărim'];   // v3.4: Shortlist
 const FDOS_ACT = ['În pregătire', 'Depus — în evaluare', 'Contestație', 'Aprobat — contractare', 'În implementare', 'Decont / raportare'];
 const FDOS_CASTIG = ['Închis — finanțat', 'Decont / raportare', 'Aprobat — contractare'];
 const FDOS_DECIS = FDOS_CASTIG.concat(['Respins']);
@@ -1338,15 +1367,16 @@ function filtreazaFin(scope){
 const SORTF = {
   rel: (a, b) => RELR[b.rcls] - RELR[a.rcls] || (b.rel || 0) - (a.rel || 0) || ((a.t || 9e15) - (b.t || 9e15)),
   term: (a, b) => (b.open - a.open) || ((a.t || 9e15) - (b.t || 9e15)) || RELR[b.rcls] - RELR[a.rcls],
-  nou: (a, b) => ((b.g || 0) - (a.g || 0)) || RELR[b.rcls] - RELR[a.rcls]
+  nou: (a, b) => ((b.g || 0) - (a.g || 0)) || RELR[b.rcls] - RELR[a.rcls],
+  suma: (a, b) => (sumaLei(b) || 0) - (sumaLei(a) || 0) || RELR[b.rcls] - RELR[a.rcls]   // v3.4: suma accesibilă (A→P-003 Fin 1)
 };
-function badgeStFin(st){ return st && st !== 'Nou' ? `<span class="badge ${st === 'Aplicăm' ? 'b-new' : st === 'Ignorat' ? 'b-off' : ''}">${esc(st)}</span>` : ''; }
+function badgeStFin(st){ return st && st !== 'Nou' ? `<span class="badge ${st === 'Aplicăm' || st === 'Shortlist' ? 'b-new' : st === 'Ignorat' ? 'b-off' : ''}">${st === 'Shortlist' ? '★ ' : ''}${esc(st)}</span>` : ''; }
 function cardFin(o){
   const b = [o.nou ? '<span class="badge b-new">nou</span>' : '', badgeStFin(o.st), o.t ? badgeTermenFin(o.t) : ''].join('');
   return `<article class="oc fc ${o.k === stateF.sel ? 'cur' : ''} ${ASC[o.k] ? 'dim' : ''}" data-fk="${esc(o.k)}" tabindex="0" aria-label="${esc(o.titlu)}">
     <div class="thumb">${ill(o.il)}</div>
     <div class="oc-main">${b ? `<div class="oc-b">${b}</div>` : ''}<h4 class="oc-t">${esc(o.titlu)}</h4>
-      <div class="oc-m"><span title="${esc(o.sursa)}">${ic('bank')}<span class="tx">${esc(o.fin || o.sursa)}</span></span>${o.ent ? `<span>${ic('users')}<span class="tx">${esc(o.ent)}</span></span>` : ''}</div></div>
+      <div class="oc-m"><span title="${esc(o.sursa)}">${ic('bank')}<span class="tx">${esc(o.fin || o.sursa)}</span></span>${o.cine || o.ent ? `<span title="Cine aplică (după Claude)">${ic('users')}<span class="tx">${esc(o.cine || o.ent)}</span></span>` : ''}${o.cat && o.cat !== 'grant' && o.cat !== 'altceva' ? `<span class="badge">${esc(o.cat)}</span>` : ''}</div></div>
     <div class="oc-facts"><div style="min-width:0;max-width:100%"><div class="fl">Buget</div><div class="fv${o.buget ? '' : ' m'}" style="overflow:hidden;text-overflow:ellipsis" title="${esc(o.buget || '')}">${esc(o.buget || (o.rel != null ? 'nu apare' : '—'))}</div></div>
       <div class="fd" title="Termen de depunere">${ic('calg')}<span>${o.t ? esc(termFin(o.t)) : (o.term ? esc(String(o.term).slice(0, 18)) : '—')}</span></div></div>
     <div class="oc-rel">${pill(o.rcls)}</div><div class="oc-go">${ic('chevR')}</div>
@@ -1366,6 +1396,10 @@ function detaliuFin(o){
       <div class="dbox">${ic('cube')}<h4>Ce e</h4><div class="bx"><p>${esc(o.rez || o.desc || 'Fără rezumat — Claude n-a analizat încă pagina.')}</p></div></div>
       <div class="dbox ${o.rcls === 'ridicata' || o.rcls === 'posibila' ? 'ok' : ''}">${ic(o.rcls === 'scazuta' ? 'ban' : 'checkc')}<h4>${o.rcls === 'scazuta' ? 'De ce nu se potrivește' : 'De ce apare aici'}</h4><div class="bx"><p>${esc(o.relDe)}${o.ent ? ' Entitate: ' + esc(o.ent) + '.' : ''}</p></div></div>
       <div class="dbox wr">${ic('alert')}<h4>De verificat</h4><div class="bx"><p>${o.rel == null ? 'Eligibilitatea și termenul: încă neanalizate de Claude — citește sursa.' : 'Eligibilitatea exactă (ONG / SRL, cofinanțare, regiune) și termenul în ghidul solicitantului de la sursă.'}</p></div></div>
+      ${o.cine || o.suma ? `<div class="dbox ok">${ic('users')}<h4>Cine aplică</h4><div class="bx"><p>${esc(o.cine || o.ent || '—')}${o.suma ? ' · suma maximă: ' + esc(o.suma) + (sumaLei(o) ? ' (≈ ' + lei(sumaLei(o)) + ' lei, curs BNR ' + esc((D.finantari.curs || {}).data || '') + ')' : '') : ''}</p></div></div>` : ''}
+      ${o.deSchimbat ? `<div class="dbox wr">${ic('alert')}<h4>De schimbat ca să fim eligibili</h4><div class="bx"><p>${esc(o.deSchimbat)}</p></div></div>` : ''}
+      ${o.st === 'Shortlist' ? `<div class="dbox ok">${ic('star')}<h4>Pe shortlist</h4><div class="bx"><p>Stadiu: <b>${esc(o.stadiu || '—')}</b>${o.resp ? ' · ' + esc(o.resp) : ''}${o.pas ? '<br>Următorul pas: ' + esc(o.pas) + (o.dataPas ? ' — până ' + zi(o.dataPas) : '') : ''}${o.fisa ? '<br>' + linkExt(o.fisa, 'Fișa de lucru') : ''}</p></div></div>` : ''}
+      ${!/rezultat|stire|știre|informare/i.test(o.tip || '') && (o.cat || 'grant') === 'grant' ? `<div class="dbox">${ic('checkc')}<h4>Lista de verificare (dosar)</h4><div class="bx"><p>(a) proiectul conex festivalului își arată activitățile, publicul, calendarul și bugetul proprii · (b) cifra de public are definiție (bilete + invitații + acces liber) și sursă, aceeași în toate dosarele · (c) rolul fiecărui partener e scris explicit · (d) definiția din ghid pentru întreprinderi legate / partenere și, la minimis, „întreprindere unică” · (e) onorariile sunt în grila apelului · (f) indicatorii sunt la nivelul atins în proiectele anterioare.</p></div></div>` : ''}
       <div class="dbox">${ic('docs')}<h4>Cuvinte găsite</h4><div class="bx"><p>${esc(o.cuv || '—')}</p><p class="hint">Scor ${o.scor == null ? '—' : o.scor} · găsit ${o.g ? zi(o.gasit) : '—'}${o.p ? ' · publicat ' + zi(o.pub) : ''}${o.alert && /^\d{4}-/.test(o.alert) ? ' · alertă ' + zi(o.alert) : ''}</p></div></div>
     </div>
     <div class="dact"><button class="btn" id="aAsc">${ic(ASC[o.k] ? 'refresh' : 'ban')} ${ASC[o.k] ? 'Readu în listă' : 'Nu mă interesează'}</button>
@@ -1373,7 +1407,7 @@ function detaliuFin(o){
     ${panouDecizieFin(o)}`;
 }
 /* v3.1: decizia se dă de aici (sau din chat / email) — se scrie în sheet de Apps Script, cu jurnal în foaia DECIZII. */
-const FST_BTN = ['Nou', 'De analizat', 'Aplicăm', 'Urmărim', 'Ignorat'];
+const FST_BTN = ['Nou', 'De analizat', 'Shortlist', 'Aplicăm', 'Urmărim', 'Ignorat'];
 function istoricFin(id){ return ((D.finantari && D.finantari.decizii) || []).filter(x => x.id === id); }
 function panouDecizieFin(o){
   const ist = istoricFin(o.id), ora = o.t ? oraFin(o.t) : '';
@@ -1381,6 +1415,10 @@ function panouDecizieFin(o){
     <h4>${ic('checkc')} Decizia</h4>
     <div class="dec-st">${FST_BTN.map(s => `<button class="btn sm ${o.st === s || (!o.st && s === 'Nou') ? 'on' : ''}" data-st="${esc(s)}">${esc(s)}</button>`).join('')}</div>
     <div class="dec-row"><label class="lbl" for="decTd">Termen</label><input type="date" id="decTd" value="${o.t ? ymd(o.t) : ''}"><input type="time" id="decTo" value="${esc(ora)}" aria-label="Ora (opțional)"><button class="btn sm ghost" id="decT">Salvează termenul</button></div>
+    ${o.st === 'Shortlist' ? `<div class="dec-sl"><div class="fl">Shortlist</div>
+      <div class="dec-row"><select class="sel" id="slSt" aria-label="Stadiu">${['', ...((D.finantari && D.finantari.stadii) || [])].map(x => `<option value="${esc(x)}" ${o.stadiu === x ? 'selected' : ''}>${x ? esc(x) : 'Stadiu…'}</option>`).join('')}</select><input type="text" id="slResp" maxlength="60" placeholder="Responsabil" value="${esc(o.resp || '')}" aria-label="Responsabil"></div>
+      <div class="dec-row"><input type="text" id="slPas" maxlength="200" placeholder="Următorul pas" value="${esc(o.pas || '')}" aria-label="Următorul pas"><input type="date" id="slData" value="${o.dataPas ? ymd(dt(o.dataPas)) : ''}" aria-label="Data pasului"></div>
+      <div class="dec-row"><input type="url" id="slFisa" maxlength="300" placeholder="Link la fișa de lucru (https://…)" value="${esc(o.fisa || '')}" aria-label="Fișa de lucru"><button class="btn sm" id="slSave">Salvează shortlist</button></div></div>` : ''}
     <div class="dec-row"><input type="text" id="decN" maxlength="500" placeholder="Notă: de ce, ce urmează" aria-label="Notă"><button class="btn sm ghost" id="decNb">Adaugă nota</button></div>
     <div class="dec-row"><input type="text" id="decDub" maxlength="7" placeholder="Dublură a… (ex. O-00063)" aria-label="ID-ul oportunității păstrate"><button class="btn sm ghost" id="decDb">Marchează dublură</button></div>
     <p class="hint" id="decMsg" role="status">Se scrie în sheetul Finanțări, cu jurnal (foaia DECIZII). Ora e opțională.</p>
@@ -1412,11 +1450,11 @@ function vFinOpp(scope){
   const kp = [
     ['noi', 'noi relevante', 'Ridicată + Posibilă, găsite în ultimele 7 zile, încă deschise', toate.filter(o => o.nou && o.open && (o.rcls === 'ridicata' || o.rcls === 'posibila')).length, 'doc', 'k-noi'],
     ['term', 'termene ≤ 14 zile', 'Termen de depunere în următoarele 14 zile, fără cele cu relevanță Scăzută', toate.filter(o => o.t && o.open && zileCal(o.t) <= 14 && o.rcls !== 'scazuta').length, 'calg', 'k-term'],
-    ['apl', 'aplicăm / urmărim', 'Statusul din sheet: Aplicăm, Urmărim sau De analizat', toate.filter(o => FST_ACT.includes(o.st)).length, 'checkc', 'k-mod'],
+    ['apl', 'shortlist / aplicăm / urmărim', 'Statusul din sheet: Shortlist, Aplicăm, Urmărim sau De analizat', toate.filter(o => FST_ACT.includes(o.st)).length, 'checkc', 'k-mod'],
     ['dos', 'dosare active', 'Registrul DOSARE: în pregătire, depuse, contestații, contractare, implementare, decont', XF.dos.filter(d => FDOS_ACT.includes(d.st)).length, 'folder', 'k-sav']
   ];
   const ents = [['', 'Toate entitățile'], ['ong', 'ONG'], ['srl', 'SRL']];
-  const sts = ['', 'Nou', 'De analizat', 'Aplicăm', 'Urmărim', 'Ignorat', '→ Dosar'];
+  const sts = ['', 'Nou', 'De analizat', 'Shortlist', 'Aplicăm', 'Urmărim', 'Ignorat', '→ Dosar'];
   let h = `<div class="topbar">${titlu(scope, scope === 'fpentru' ? 'Apeluri care se potrivesc grupului: relevanță Ridicată sau Posibilă, cu termen viitor sau găsite recent.' : 'Tot ce a găsit scraperul de finanțări (52 de surse), cu termen viitor sau găsit în ultimele 45 de zile.')}
     <label class="search">${ic('search')}<input type="search" id="fq" placeholder="Caută după titlu, finanțator, program..." value="${esc(f.q)}" aria-label="Caută"></label>
     ${selw('fEnt', 'users', ents.map(([v, t]) => `<option value="${v}" ${f.ent === v ? 'selected' : ''}>${t}</option>`).join(''), 'Entitatea care poate aplica (după Claude)')}
@@ -1427,7 +1465,7 @@ function vFinOpp(scope){
     <div class="lhead"><h2>${lista.length} ${lista.length === 1 ? 'oportunitate' : 'oportunități'}</h2><div class="spacer"></div>
       <label style="display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--ink-2)"><input type="checkbox" id="fToate" ${f.toate ? 'checked' : ''}> include expirate</label>
       <label style="display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--ink-2)"><input type="checkbox" id="fAsc" ${f.ascunse ? 'checked' : ''}> și ascunse</label>
-      <span class="lbl">Sortează:</span><select class="sel" id="fSortF">${[['rel', 'Relevanță'], ['term', 'Termen'], ['nou', 'Cele mai noi']].map(([v, t]) => `<option value="${v}" ${f.sort === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
+      <span class="lbl">Sortează:</span><select class="sel" id="fSortF">${[['rel', 'Relevanță'], ['suma', 'Suma accesibilă'], ['term', 'Termen'], ['nou', 'Cele mai noi']].map(([v, t]) => `<option value="${v}" ${f.sort === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
     <div class="list">${lista.length ? lista.slice(0, f.lim).map(cardFin).join('') : '<div class="empty">Nicio oportunitate pe filtrele astea.</div>'}</div>
     ${lista.length > f.lim ? `<div class="more" style="margin-top:12px"><button class="btn sm" id="fLmoreF">Arată încă ${Math.min(30, lista.length - f.lim)} (din ${lista.length})</button></div>` : ''}
   </section>
@@ -1450,6 +1488,10 @@ function vFinCal(){
   h += `<div class="card" style="margin-bottom:12px"><h3>Termene (${ev.length})</h3>${table([{h:'Data'},{h:'Zile'},{h:'Tip'},{h:'ID'},{h:'Ce',l:1},{h:'Finanțator',l:1},{h:'Status'}], ev.map(e => { const z = zileCal(e.d);
     return `<tr><td class="num">${zi(e.d)}${e.d instanceof Date && oraFin(e.d) ? ' ' + oraFin(e.d) : ''}</td><td class="num">${z < 0 ? '<span class="badge b-off">' + z + '</span>' : z <= 7 ? '<span class="badge b-urg">' + z + '</span>' : z}</td><td>${esc(e.tip)}</td><td>${esc(e.id)}</td><td class="l">${e.link ? `<a href="${url(e.link)}" target="_blank" rel="noopener">${esc(e.ce)}</a>` : esc(e.ce)}</td><td class="l">${esc(e.cine)}</td><td>${esc(e.st)}</td></tr>`; }), { empty: 'Niciun termen viitor în oportunități sau dosare.' })}
     <p class="hint">Oportunitățile apar aici doar cu termen citit de Claude sau completat în sheet; dosarele, după coloana „Următorul termen”.</p></div>`;
+  const R = (D.finantari.recurente || []), lc = new Date().getMonth() + 1;
+  if (R.length) h += `<div class="card" style="margin-bottom:12px"><h3>Apeluri recurente — când se lansează de obicei (${R.length})</h3>${table([{h:'Program',l:1},{h:'Luna lansării'},{h:'Peste',},{h:'Istoric',l:1}], R.slice().sort((a, b) => ((a.luna - lc + 12) % 12) - ((b.luna - lc + 12) % 12)).map(r => { const d = (r.luna - lc + 12) % 12;
+    return `<tr><td class="l">${esc(r.nume)}</td><td>${esc(['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'][r.luna - 1])}</td><td>${d === 0 ? '<span class="badge b-urg">luna asta</span>' : d === 1 ? '<span class="badge b-new">luna viitoare</span>' : d + ' luni'}</td><td class="l">${esc(r.istoric)}</td></tr>`; }))}
+    <p class="hint">Emailul zilnic le anunță pe 1 și pe 16 ale lunii, cu o lună înainte de lansarea obișnuită. Sursa: listele și anunțurile oficiale citite pe 08–09.10.2026.</p></div>`;
   if (T.length) h += `<div class="card"><h3>Când depunem de obicei (din dosarele 2017–2026)</h3>${table([{h:'Finanțator / program',l:1},{h:'Luna depunerii',l:1},{h:'Rezultatul',l:1},{h:'Cerut (lei)',l:1},{h:'Aprobat (lei)',l:1}], T.map(c => `<tr><td class="l">${esc(c.fin)}</td><td class="l">${esc(c.depunere)}</td><td class="l">${esc(c.rezultat)}</td><td class="l">${esc(c.cerut)}</td><td class="l">${esc(c.aprobat)}</td></tr>`))}
     <p class="hint">Sursa: ${esc((D.finantari.tipar || {}).sursa || '')} (${esc((D.finantari.tipar || {}).actualizat || '')}). „nec.” = necunoscut în documentele citite.</p></div>`;
   return h;
@@ -1567,6 +1609,9 @@ function legaDetaliuFin(){
   p.querySelectorAll('[data-st]').forEach(b => b.addEventListener('click', () => { if (!b.classList.contains('on')) decideFin([{ id, status: b.dataset.st }], 'statusul „' + b.dataset.st + '”'); }));
   on('decT', () => { const d = $('#decTd').value, h = $('#decTo').value; if (!d) { $('#decMsg').textContent = 'Alege data.'; return; } decideFin([{ id, termen: d + (h ? ' ' + h : '') }], 'termenul'); });
   on('decNb', () => { const n = $('#decN').value.trim(); if (!n) { $('#decMsg').textContent = 'Scrie nota.'; return; } decideFin([{ id, nota: n }], 'nota'); });
+  on('slSave', () => { const v = i => { const e = document.getElementById(i); return e ? e.value.trim() : ''; }, f = v('slFisa');
+    if (f && !/^https:\/\//.test(f)) { $('#decMsg').textContent = 'Fișa: un link care începe cu https://'; return; }
+    decideFin([{ id, stadiu: v('slSt'), responsabil: v('slResp'), pas: v('slPas'), dataPas: v('slData'), fisa: f }], 'shortlist-ul'); });
   on('decDb', () => { const x = $('#decDub').value.trim().toUpperCase(); if (!/^O-\d{5}$/.test(x)) { $('#decMsg').textContent = 'ID-ul are forma O-00063.'; return; } decideFin([{ id, dublura: x }], 'dublura'); });
 }
 function leagaFin(){
@@ -1591,6 +1636,62 @@ function leagaFin(){
     el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selecteazaFin(el.dataset.fk, true); } });
   });
   legaDetaliuFin();
+}
+
+/* ====================== v3.4 — SHORTLIST, INVESTIȚII / CREDITARE, NIMIC RATAT ====================== */
+function sumaLei(o){
+  const m = String(o.suma || '').match(/^([\d.]+)\s*(lei|EUR|USD|CHF|GBP)?/i); if (!m) return null;
+  const v = Number(m[1]), mon = (m[2] || 'lei').toUpperCase(), c = (D.finantari && D.finantari.curs) || {};
+  return mon === 'LEI' ? v : c[mon] ? v * c[mon] : null;
+}
+function vShort(){
+  const fin = XF.ok ? XF.opo.filter(o => o.st === 'Shortlist').sort((a, b) => (a.t || 9e15) - (b.t || 9e15)) : [];
+  const lic = (X.opp || []).filter(o => o.kind === 'seap' && String(o.x.part || '').toUpperCase() === 'DA' && o.actual).sort((a, b) => (a.t || 9e15) - (b.t || 9e15));
+  const z = d => d ? (oraFin(d) ? termFin(d) : ziScurt(d)) : '—';
+  const cardS = (k, eticheta, titlu, sub, rows, extra) => `<article class="oc" data-go="${esc(k)}" tabindex="0" aria-label="${esc(titlu)}"><div class="thumb">${ill('festival')}</div>
+    <div class="oc-main"><div class="oc-b"><span class="badge b-new">★ ${esc(eticheta)}</span></div><h4 class="oc-t">${esc(titlu)}</h4><div class="oc-m"><span>${ic('bank')}<span class="tx">${esc(sub)}</span></span></div>
+    <div class="hint" style="margin-top:6px">${rows}</div></div><div class="oc-facts">${extra}</div><div class="oc-go">${ic('chevR')}</div></article>`;
+  let h = `<div class="topbar">${titlu(tab, 'Oportunitățile pe care lucrăm (A→P-009). Finanțări: statusul „Shortlist” din panoul „Decizia”, cu stadiu, responsabil, următorul pas și fișa de lucru. Licitații: „Participăm = DA” (sheet sau răspuns la email).')}</div>`;
+  h += `<div class="kpis"><div class="kpi k-mod"><span class="ki">${ic('star')}</span><span class="kt"><span class="kv">${fin.length + lic.length}</span><span class="kl">pe shortlist</span></span></div>
+    <div class="kpi k-term"><span class="ki">${ic('calg')}</span><span class="kt"><span class="kv">${fin.concat(lic).filter(o => o.t && zileCal(o.t) <= 14 && zileCal(o.t) >= 0).length}</span><span class="kl">termen ≤ 14 zile</span></span></div></div>`;
+  h += `<div class="list">${fin.map(o => cardS(o.k, 'Finanțare · ' + (o.stadiu || 'shortlist'), o.titlu, o.fin || o.sursa,
+      [o.resp ? 'Responsabil: ' + esc(o.resp) : '', o.pas ? 'Următorul pas: ' + esc(o.pas) + (o.dataPas ? ' — până ' + zi(o.dataPas) : '') : 'Următorul pas: —', o.fisa ? linkExt(o.fisa, 'Fișa de lucru') : ''].filter(Boolean).join(' · '),
+      `<div style="min-width:0;max-width:100%"><div class="fl">Buget</div><div class="fv" style="overflow:hidden;text-overflow:ellipsis" title="${esc(o.buget || o.suma || '')}">${esc(o.buget || o.suma || '—')}</div></div><div class="fd">${ic('calg')}<span>${esc(z(o.t))}</span></div>`)).join('')}
+    ${lic.map(o => cardS(o.k, 'Licitație · participăm', o.titlu, o.aut, (o.x.rez ? 'Rezultat: ' + esc(o.x.rez) : 'Decizie internă: ' + (o.t ? ziScurt(new Date(o.t.getTime() - 6 * ZI)) : '—')),
+      `<div><div class="fl">Valoare • fără TVA</div><div class="fv">${o.val != null ? lei(o.val) + ' lei' : '—'}</div></div><div class="fd">${ic('calg')}<span>${o.t ? esc(ziScurt(o.term)) : '—'}</span></div>`)).join('')}
+    ${!fin.length && !lic.length ? '<div class="empty">Nimic pe shortlist. Pune statusul „Shortlist” din panoul „Decizia” al unei finanțări.</div>' : ''}</div>`;
+  return h;
+}
+function leagaShort(){
+  document.querySelectorAll('.oc[data-go]').forEach(el => {
+    const go = () => { const k = el.dataset.go;
+      if (/^F:/.test(k)) { stateF.toate = true; stateF.sel = k; mergiLa('ftoate', () => { if (XF.byK[k]) selecteazaFin(k, true); }); }
+      else { state.f.toate = true; state.sel = k; mergiLa('toate', () => { const e = document.querySelector('.oc[data-k="' + CSS.escape(k) + '"]'); if (e) { e.scrollIntoView({ block: 'center' }); e.click(); } }); } };
+    el.addEventListener('click', go); el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  });
+}
+const INFO_CAT = {
+  'investiții': ['Capital pentru CODRU (A→P-012): de la ~500.000 EUR — vânzarea unei părți din firmă sau finanțare de la fonduri de investiții. Urmărim știrile despre investiții și achiziții în festivaluri și live entertainment (România / Europa Centrală și de Est), fondurile pentru industriile creative și fondurile regionale de capital de risc.',
+    'Exemplu de model: Asternova Centru (ADR Centru) — 8,06 mil. EUR, tichete 50.000–350.000 EUR; alertă dacă ADR Vest lansează ceva similar. BCR Social Finance — MARC Impact Programme (pregătire pentru investiții; scos de pe shortlist pe 09.10).'],
+  'creditare': ['Cashflow pentru cheltuielile în avans (A→P-013): credite avantajoase, garanții de stat, instrumente grant + credit.',
+    'BID — Banca de Investiții și Dezvoltare: garanții de portofoliu până la 70% din credit (80% pentru start-up-uri, IMM-uri deținute de femei, firme inovative / sustenabile), credite până la 10 mil. lei pentru investiții sau capital de lucru, prin BCR, BRD, Exim, Banca Transilvania, CEC, ING, Libra, UniCredit; 2025–2027 (alba24, 12.11.2025). FNGCIMM — IMM Plus și Garanția UE pentru sectoarele culturale și creative: starea în 2026 nu am verificat-o.']
+};
+function vFinCat(cat){
+  if (!XF.ok) return finIndisponibil();
+  const re = cat === 'investiții' ? /\b(investit\w*|capital|fond(ul)? de investit\w*|equity|achizit\w* (de|a) festival\w*|pachet majoritar|venture|business angel)\b/ : /\b(credit\w*|garant\w*|doband\w*|imm invest|imm plus|bid\b|fngcimm|linie de credit)\b/;
+  const L = XF.opo.filter(o => (o.cat === cat || (!o.cat && re.test(o.txt))) && (o.open || stateF.toate)).sort(SORTF.term);
+  const I = INFO_CAT[cat] || [];
+  let h = `<h2>${cat === 'investiții' ? 'Capital pentru CODRU: fonduri de investiții, achiziții în festivaluri, capital de risc.' : 'Credite, garanții și instrumente grant + credit pentru cashflow.'}</h2>`;
+  h += `<div class="card" style="margin-bottom:12px">${I.map(p => `<p class="note">${esc(p)}</p>`).join('')}<p class="hint">Lista de mai jos: oportunitățile din Finanțări pe care Claude le-a clasat ca „${esc(cat)}” (sau, la cele neanalizate încă, după cuvinte). Sursele noi (Google News, fonduri-structurale.ro, API-ul UE) le aduc automat.</p></div>`;
+  h += `<div class="list">${L.length ? L.map(cardFin).join('') : '<div class="empty">Nimic deocamdată.</div>'}</div>`;
+  return h;
+}
+function vRatat(){
+  const R = D.ratate || [];
+  let h = `<h2>Atribuiri peste pragul de 200.000 lei în Timiș, Arad, Caraș-Severin, Hunedoara și Dolj, pe care sistemul nu le-a văzut înainte (ultimele 30 de zile).</h2>`;
+  h += `<div class="card">${table([{h:'Data'},{h:'Tip'},{h:'Autoritate',l:1},{h:'Județ'},{h:'Obiect',l:1},{h:'Câștigător',l:1},{h:'Lei'},{h:'Canal',l:1}], R.map(a => `<tr><td class="num">${zi(a.d)}</td><td>${esc(a.tip)}</td><td class="l">${esc(a.aut)}</td><td>${esc(a.jud)}${a.dupaNume ? ' <span class="hint">(după nume)</span>' : ''}</td><td class="l">${a.link ? `<a href="${url(a.link)}" target="_blank" rel="noopener">${esc(a.ob)}</a>` : esc(a.ob)}</td><td class="l">${esc(a.cast)}</td><td class="num">${lei(a.val)}</td><td class="l">${esc(a.canal)}</td></tr>`))}
+    <p class="hint">Sursa: foaia PIATA (atribuirile din SEAP: CAN, DAN, DA). Județul se deduce din numele autorității (lista de localități din zonă) — de aici „după nume”. „Nevăzut” = nicio licitație a autorității în LICITATII. Valorile sunt cele din SEAP (TVA neverificat).</p></div>`;
+  return h;
 }
 
 /* ---------- evenimente ---------- */
@@ -1632,7 +1733,7 @@ function leaga(){
   on('fSrc', 'change', e => set('src', e.target.value));
   on('fVal', 'change', e => set('valMin', Number(e.target.value) || 0));
   on('fRel', 'change', e => set('relMin', e.target.value));
-  [['cToate','toate'],['cNoi','noi'],['cMod','modif'],['cTerm','termen'],['cAsc','ascunse'],['cNonAch','nonAch']].forEach(([id, k]) => on(id, 'change', e => set(k, e.target.checked)));
+  [['cToate','toate'],['cNoi','noi'],['cMod','modif'],['cTerm','termen'],['cAsc','ascunse'],['cNonAch','nonAch'],['cSub','subPrag']].forEach(([id, k]) => on(id, 'change', e => set(k, e.target.checked)));
   on('fLmore', 'click', () => { state.lim += 30; randeaza(); });
   document.querySelectorAll('[data-rm]').forEach(b => b.addEventListener('click', () => {
     const k = b.dataset.rm;
@@ -1697,7 +1798,13 @@ document.addEventListener('mousemove', e => {
 });
 
 /* ---------- pornire ---------- */
-porneste(false).then(() => { if (D) pornesteTimer(); });   // v3.2: fără PIN — contul Google e verificat de server
+porneste(false).then(() => { if (D) { pornesteTimer(); deschideDeep(); } });   // v3.2: fără PIN — contul Google e verificat de server
+/* v3.4: legătura directă din emailul zilnic (…/exec?id=S:ADV123 / W:… / F:O-00063) */
+function deschideDeep(){
+  const k = window.DEEP_K; if (!k) return; window.DEEP_K = '';
+  if (/^F:/.test(k) || /^O-\d{5}$/.test(k)) { const kk = /^F:/.test(k) ? k : 'F:' + k; stateF.toate = true; stateF.sel = kk; mergiLa('ftoate', () => { if (XF.byK[kk]) selecteazaFin(kk, true); }); return; }
+  state.f.toate = true; state.sel = k; mergiLa('toate', () => { const el = document.querySelector('.oc[data-k="' + CSS.escape(k) + '"]'); if (el) { el.scrollIntoView({ block: 'center' }); el.click(); } });
+}
 })();
 </script>
 </body>
