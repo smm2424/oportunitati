@@ -449,13 +449,13 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.4 (09.10.2026)';
+const DASH_V = 'v3.4.1 (09.10.2026)';
 const URL_INTRARE = 'https://smm2424.github.io/oportunitati/';   // v3.2: redirecționează spre web app-ul Apps Script (login Google)
 const KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
 const $ = s => document.querySelector(s);
 const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const url = u => /^https?:\/\//i.test(String(u||'')) ? esc(u) : '#';
+const url = u => /^https?:[/]{2}/i.test(String(u||'')) ? esc(u) : '#';
 const NF0 = new Intl.NumberFormat('ro-RO',{maximumFractionDigits:0});
 const NF2 = new Intl.NumberFormat('ro-RO',{minimumFractionDigits:2,maximumFractionDigits:2});
 const lei = v => (v == null || v === '' || isNaN(v)) ? '—' : NF0.format(v);
@@ -1418,7 +1418,7 @@ function panouDecizieFin(o){
     ${o.st === 'Shortlist' ? `<div class="dec-sl"><div class="fl">Shortlist</div>
       <div class="dec-row"><select class="sel" id="slSt" aria-label="Stadiu">${['', ...((D.finantari && D.finantari.stadii) || [])].map(x => `<option value="${esc(x)}" ${o.stadiu === x ? 'selected' : ''}>${x ? esc(x) : 'Stadiu…'}</option>`).join('')}</select><input type="text" id="slResp" maxlength="60" placeholder="Responsabil" value="${esc(o.resp || '')}" aria-label="Responsabil"></div>
       <div class="dec-row"><input type="text" id="slPas" maxlength="200" placeholder="Următorul pas" value="${esc(o.pas || '')}" aria-label="Următorul pas"><input type="date" id="slData" value="${o.dataPas ? ymd(dt(o.dataPas)) : ''}" aria-label="Data pasului"></div>
-      <div class="dec-row"><input type="url" id="slFisa" maxlength="300" placeholder="Link la fișa de lucru (https://…)" value="${esc(o.fisa || '')}" aria-label="Fișa de lucru"><button class="btn sm" id="slSave">Salvează shortlist</button></div></div>` : ''}
+      <div class="dec-row"><input type="url" id="slFisa" maxlength="300" placeholder="Link la fișa de lucru (începe cu https)" value="${esc(o.fisa || '')}" aria-label="Fișa de lucru"><button class="btn sm" id="slSave">Salvează shortlist</button></div></div>` : ''}
     <div class="dec-row"><input type="text" id="decN" maxlength="500" placeholder="Notă: de ce, ce urmează" aria-label="Notă"><button class="btn sm ghost" id="decNb">Adaugă nota</button></div>
     <div class="dec-row"><input type="text" id="decDub" maxlength="7" placeholder="Dublură a… (ex. O-00063)" aria-label="ID-ul oportunității păstrate"><button class="btn sm ghost" id="decDb">Marchează dublură</button></div>
     <p class="hint" id="decMsg" role="status">Se scrie în sheetul Finanțări, cu jurnal (foaia DECIZII). Ora e opțională.</p>
@@ -1610,7 +1610,7 @@ function legaDetaliuFin(){
   on('decT', () => { const d = $('#decTd').value, h = $('#decTo').value; if (!d) { $('#decMsg').textContent = 'Alege data.'; return; } decideFin([{ id, termen: d + (h ? ' ' + h : '') }], 'termenul'); });
   on('decNb', () => { const n = $('#decN').value.trim(); if (!n) { $('#decMsg').textContent = 'Scrie nota.'; return; } decideFin([{ id, nota: n }], 'nota'); });
   on('slSave', () => { const v = i => { const e = document.getElementById(i); return e ? e.value.trim() : ''; }, f = v('slFisa');
-    if (f && !/^https:\/\//.test(f)) { $('#decMsg').textContent = 'Fișa: un link care începe cu https://'; return; }
+    if (f && f.indexOf('https:') !== 0) { $('#decMsg').textContent = 'Fișa trebuie să fie un link https.'; return; }   // v3.4.1: fără „//” în regex (HtmlService îl taie ca pe un comentariu)
     decideFin([{ id, stadiu: v('slSt'), responsabil: v('slResp'), pas: v('slPas'), dataPas: v('slData'), fisa: f }], 'shortlist-ul'); });
   on('decDb', () => { const x = $('#decDub').value.trim().toUpperCase(); if (!/^O-\d{5}$/.test(x)) { $('#decMsg').textContent = 'ID-ul are forma O-00063.'; return; } decideFin([{ id, dublura: x }], 'dublura'); });
 }
