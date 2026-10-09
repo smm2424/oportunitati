@@ -425,7 +425,7 @@ div.kpi{cursor:default}
     <div class="plogo"><svg viewBox="0 0 44 38" aria-hidden="true"><rect x="0" y="1" width="19" height="7" rx="2" fill="#2dd4bf"/><rect x="0" y="15.5" width="13" height="7" rx="2" fill="#5b6b85"/><rect x="0" y="30" width="19" height="7" rx="2" fill="#5b6b85"/><path d="M24 1h18a2 2 0 0 1 2 2v32a2 2 0 0 1-2 2H27a2 2 0 0 1-2-2v-3h12V8H24z" fill="#2dd4bf"/><rect x="29" y="16" width="8" height="7" rx="1.5" fill="#2dd4bf"/></svg><b><span>TEG</span> / Oportunități</b></div>
     <div class="note" style="margin:0">Licitații și finanțări pentru grupul TEG</div>
     <div id="pinErr" role="alert">Se încarcă datele…</div>
-    <p class="note" style="margin-top:14px">Acces cu contul Google teg.ro (fără PIN). Dacă vezi „fără acces”, deschide linkul într-o fereastră logată doar cu contul teg.ro.</p>
+    <p class="note" style="margin-top:14px">Acces cu contul Google teg.ro sau codrufestival.ro. Dacă vezi „fără acces”, deschide linkul într-o fereastră logată doar cu acel cont.</p>
   </div>
 </div>
 
@@ -449,7 +449,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.4.1 (09.10.2026)';
+const DASH_V = 'v3.5 (09.10.2026)';
 const URL_INTRARE = 'https://smm2424.github.io/oportunitati/';   // v3.2: redirecționează spre web app-ul Apps Script (login Google)
 const KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -596,7 +596,20 @@ const NUMEV = { short:'Shortlist', fshort:'Shortlist', ratat:'Nimic ratat', finv
   fpentru:'Finanțări · Pentru TEG', ftoate:'Finanțări', fcal:'Calendar finanțări', fdos:'Dosare depuse', fist:'Istoric apeluri', ftip:'Tiparul dosarelor', fsur:'Surse finanțări', fsis:'Sistem finanțări' };
 const VECHI = { acum:'toate', lic:'toate', site:'surse', salvate:'pentru' };
 const TOATE_K = new Set(['short','fshort','pentru','toate','fpentru','ftoate'].concat(MODURI.lic.alt.map(a => a[0]), MODURI.fin.alt.map(a => a[0])));
-let tab = ls.get(KTAB) || 'pentru'; if (VECHI[tab]) tab = VECHI[tab]; if (!TOATE_K.has(tab)) tab = 'pentru';
+/* v3.5: două dashboard-uri (același cod): serverul pune window.DASH_MOD = 'lic' | 'fin' și trimite doar datele modului */
+const MOD = (window.DASH_MOD === 'lic' || window.DASH_MOD === 'fin') ? window.DASH_MOD : '';
+const MODURI_OK = MOD ? [MOD] : ['lic', 'fin'];
+const KTABM = KTAB + (MOD ? '.' + MOD : '');
+const TAB0 = () => MOD === 'fin' ? 'fpentru' : 'pentru';
+const tabOk = k => TOATE_K.has(k) && MODURI_OK.indexOf(modDe(k)) >= 0;
+let tab = ls.get(KTABM) || TAB0(); if (VECHI[tab]) tab = VECHI[tab]; if (!tabOk(tab)) tab = TAB0();
+if (MOD) {
+  const nm = MOD === 'lic' ? 'Licitații' : 'Finanțări', b = document.querySelector('#pinForm .plogo b'), n = document.querySelector('#pinForm .note'), lg = document.querySelector('.nav .logo');
+  if (b) b.innerHTML = '<span>TEG</span> / ' + nm;
+  if (n) n.textContent = MOD === 'lic' ? 'Licitații publice pentru grupul TEG' : 'Finanțări, investiții și creditare pentru grupul TEG';
+  if (lg) lg.title = 'TEG · ' + nm;
+  document.title = 'TEG · ' + nm;
+}
 const F0 = () => ({ q:'', reg:'', jud:'', cat:'', sort:'rel', src:'', toate:false, valMin:0, relMin:'', ascunse:false, noi:false, modif:false, termen:false, nonAch:false, subPrag:false });
 const state = { f: F0(), sel: null, lim: 30, more: false, lista: [], mapReg: 'Vest', dir: 1, compact: false,
   piata:{ q:'', per:'12', tm:false, gr:false, lim:150 }, site:{ q:'', src:'' }, tmPer:'12', calLuna:'' };
@@ -624,7 +637,7 @@ function apel(fn, arg){
     google.script.run.withSuccessHandler(res).withFailureHandler(e => rej(new Error((e && e.message) || String(e))))[fn](arg);
   });
 }
-async function incarca(fresh){ const t = await apel('dashDate', !!fresh); return typeof t === 'string' ? JSON.parse(t) : t; }
+async function incarca(fresh){ const t = await apel('dashDate', MOD ? { fresh: !!fresh, mod: MOD } : !!fresh); return typeof t === 'string' ? JSON.parse(t) : t; }
 async function trimiteDecizii(dec){ return apel('dashDecizii', dec); }
 async function porneste(fresh){
   $('#btnRefresh').disabled = true;
@@ -1036,13 +1049,14 @@ function randeazaTaburi(){
   /* v3.0: cele două zone mari, sus */
   const nL = X.opp ? X.opp.filter(o => o.actual && !ASC[o.k] && (o.rel === 'ridicata' || o.rel === 'posibila')).length : 0;
   const nF = XF.ok ? XF.opo.filter(o => o.open && !ASC[o.k] && (o.rcls === 'ridicata' || o.rcls === 'posibila')).length : 0;
-  $('#modbar').innerHTML = ['lic', 'fin'].map(m => `<button class="modb ${m === mod ? 'on' : ''}" data-mod="${m}" aria-pressed="${m === mod}">${ic(MODURI[m].ic)}<span>${MODURI[m].t}</span><span class="mn" title="Pentru TEG, actuale">${m === 'lic' ? nL : (XF.ok ? nF : '—')}</span></button>`).join('');
+  $('#modbar').innerHTML = MODURI_OK.map(m => `<button class="modb ${m === mod ? 'on' : ''}" data-mod="${m}" aria-pressed="${m === mod}">${ic(MODURI[m].ic)}<span>${MODURI[m].t}</span><span class="mn" title="Pentru TEG, actuale">${m === 'lic' ? nL : (XF.ok ? nF : '—')}</span></button>`).join('');
   $('#modbar').querySelectorAll('.modb').forEach(b => b.addEventListener('click', () => { const m = b.dataset.mod; if (m !== modDe(tab)) mergiLa(m === 'fin' ? 'fpentru' : 'pentru'); }));
 }
 function mergiLa(k, dupa){
   if (k === 'altele' || k === 'faltele') { const m = k === 'faltele' ? 'fin' : 'lic', ult = ls.get(KALT + m); k = MODURI[m].alt.some(a => a[0] === ult) ? ult : MODURI[m].alt[0][0]; }
   if (altDe(k)) ls.set(KALT + modDe(k), k);
-  tab = k; ls.set(KTAB, tab); state.lim = 30; stateF.lim = 30; document.body.classList.remove('det-open'); inchideDrawer();
+  if (!tabOk(k)) k = TAB0();                                          // v3.5: doar secțiunile dashboard-ului deschis
+  tab = k; ls.set(KTABM, tab); state.lim = 30; stateF.lim = 30; document.body.classList.remove('det-open'); inchideDrawer();
   randeaza(); if (dupa) dupa(); else window.scrollTo(0, 0);
 }
 /* bara de butoane din „Altele”, în ordinea cerută */
@@ -1052,7 +1066,7 @@ function altBar(){
 }
 function randeaza(){
   if (!D) return;
-  if (!TOATE_K.has(tab)) tab = 'pentru';
+  if (!tabOk(tab)) tab = TAB0();
   const st = D.stare || {};
   $('#stareTop').innerHTML = `${ziOra(D.generat)}<br>script ${esc(String(D.versiune || '').split(' ')[0])} · v${esc(DASH_V.split(' ')[0].replace(/^v/, ''))}`;
   $('#stareTop').title = `Date generate ${ziOra(D.generat)} · scanare SEAP ${st.ultimaZiScanata ? zi(st.ultimaZiScanata) : '—'} · site-uri ${ziOra(st.ultimaVerificareSiteuri)} · script ${D.versiune || ''} · dashboard ${DASH_V}${D.utilizator ? ' · cont ' + D.utilizator : ''}`;
@@ -1645,13 +1659,14 @@ function sumaLei(o){
   return mon === 'LEI' ? v : c[mon] ? v * c[mon] : null;
 }
 function vShort(){
-  const fin = XF.ok ? XF.opo.filter(o => o.st === 'Shortlist').sort((a, b) => (a.t || 9e15) - (b.t || 9e15)) : [];
-  const lic = (X.opp || []).filter(o => o.kind === 'seap' && String(o.x.part || '').toUpperCase() === 'DA' && o.actual).sort((a, b) => (a.t || 9e15) - (b.t || 9e15));
+  const mf = modDe(tab) === 'fin';                                                   // v3.5: fiecare dashboard cu shortlist-ul lui
+  const fin = mf && XF.ok ? XF.opo.filter(o => o.st === 'Shortlist').sort((a, b) => (a.t || 9e15) - (b.t || 9e15)) : [];
+  const lic = mf ? [] : (X.opp || []).filter(o => o.kind === 'seap' && String(o.x.part || '').toUpperCase() === 'DA' && o.actual).sort((a, b) => (a.t || 9e15) - (b.t || 9e15));
   const z = d => d ? (oraFin(d) ? termFin(d) : ziScurt(d)) : '—';
   const cardS = (k, eticheta, titlu, sub, rows, extra) => `<article class="oc" data-go="${esc(k)}" tabindex="0" aria-label="${esc(titlu)}"><div class="thumb">${ill('festival')}</div>
     <div class="oc-main"><div class="oc-b"><span class="badge b-new">★ ${esc(eticheta)}</span></div><h4 class="oc-t">${esc(titlu)}</h4><div class="oc-m"><span>${ic('bank')}<span class="tx">${esc(sub)}</span></span></div>
     <div class="hint" style="margin-top:6px">${rows}</div></div><div class="oc-facts">${extra}</div><div class="oc-go">${ic('chevR')}</div></article>`;
-  let h = `<div class="topbar">${titlu(tab, 'Oportunitățile pe care lucrăm (A→P-009). Finanțări: statusul „Shortlist” din panoul „Decizia”, cu stadiu, responsabil, următorul pas și fișa de lucru. Licitații: „Participăm = DA” (sheet sau răspuns la email).')}</div>`;
+  let h = `<div class="topbar">${titlu(tab, mf ? 'Finanțările pe care lucrăm: statusul „Shortlist” din panoul „Decizia”, cu stadiu, responsabil, următorul pas și fișa de lucru.' : 'Licitațiile la care participăm: „Participăm = DA” (în sheet sau prin răspuns la emailul zilnic).')}</div>`;
   h += `<div class="kpis"><div class="kpi k-mod"><span class="ki">${ic('star')}</span><span class="kt"><span class="kv">${fin.length + lic.length}</span><span class="kl">pe shortlist</span></span></div>
     <div class="kpi k-term"><span class="ki">${ic('calg')}</span><span class="kt"><span class="kv">${fin.concat(lic).filter(o => o.t && zileCal(o.t) <= 14 && zileCal(o.t) >= 0).length}</span><span class="kl">termen ≤ 14 zile</span></span></div></div>`;
   h += `<div class="list">${fin.map(o => cardS(o.k, 'Finanțare · ' + (o.stadiu || 'shortlist'), o.titlu, o.fin || o.sursa,
@@ -1659,7 +1674,7 @@ function vShort(){
       `<div style="min-width:0;max-width:100%"><div class="fl">Buget</div><div class="fv" style="overflow:hidden;text-overflow:ellipsis" title="${esc(o.buget || o.suma || '')}">${esc(o.buget || o.suma || '—')}</div></div><div class="fd">${ic('calg')}<span>${esc(z(o.t))}</span></div>`)).join('')}
     ${lic.map(o => cardS(o.k, 'Licitație · participăm', o.titlu, o.aut, (o.x.rez ? 'Rezultat: ' + esc(o.x.rez) : 'Decizie internă: ' + (o.t ? ziScurt(new Date(o.t.getTime() - 6 * ZI)) : '—')),
       `<div><div class="fl">Valoare • fără TVA</div><div class="fv">${o.val != null ? lei(o.val) + ' lei' : '—'}</div></div><div class="fd">${ic('calg')}<span>${o.t ? esc(ziScurt(o.term)) : '—'}</span></div>`)).join('')}
-    ${!fin.length && !lic.length ? '<div class="empty">Nimic pe shortlist. Pune statusul „Shortlist” din panoul „Decizia” al unei finanțări.</div>' : ''}</div>`;
+    ${!fin.length && !lic.length ? '<div class="empty">' + (mf ? 'Nimic pe shortlist. Pune statusul „Shortlist” din panoul „Decizia” al unei finanțări.' : 'Nicio licitație cu „Participăm = DA”.') + '</div>' : ''}</div>`;
   return h;
 }
 function leagaShort(){
@@ -1802,6 +1817,7 @@ porneste(false).then(() => { if (D) { pornesteTimer(); deschideDeep(); } });   /
 /* v3.4: legătura directă din emailul zilnic (…/exec?id=S:ADV123 / W:… / F:O-00063) */
 function deschideDeep(){
   const k = window.DEEP_K; if (!k) return; window.DEEP_K = '';
+  if (MOD && MOD !== (/^F:/.test(k) || /^O-\d{5}$/.test(k) ? 'fin' : 'lic')) return;   // v3.5: legătura e pentru celălalt dashboard
   if (/^F:/.test(k) || /^O-\d{5}$/.test(k)) { const kk = /^F:/.test(k) ? k : 'F:' + k; stateF.toate = true; stateF.sel = kk; mergiLa('ftoate', () => { if (XF.byK[kk]) selecteazaFin(kk, true); }); return; }
   state.f.toate = true; state.sel = k; mergiLa('toate', () => { const el = document.querySelector('.oc[data-k="' + CSS.escape(k) + '"]'); if (el) { el.scrollIntoView({ block: 'center' }); el.click(); } });
 }
