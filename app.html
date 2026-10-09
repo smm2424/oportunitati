@@ -449,7 +449,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.5 (09.10.2026)';
+const DASH_V = 'v3.5.1 (09.10.2026)';
 const URL_INTRARE = 'https://smm2424.github.io/oportunitati/';   // v3.2: redirecționează spre web app-ul Apps Script (login Google)
 const KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -600,6 +600,7 @@ const TOATE_K = new Set(['short','fshort','pentru','toate','fpentru','ftoate'].c
 const MOD = (window.DASH_MOD === 'lic' || window.DASH_MOD === 'fin') ? window.DASH_MOD : '';
 const MODURI_OK = MOD ? [MOD] : ['lic', 'fin'];
 const KTABM = KTAB + (MOD ? '.' + MOD : '');
+const KEYL = (typeof window.DASH_K === 'string' && /^[a-f0-9]{48,64}$/.test(window.DASH_K)) ? window.DASH_K : '';   // v3.5.1: link personal
 const TAB0 = () => MOD === 'fin' ? 'fpentru' : 'pentru';
 const tabOk = k => TOATE_K.has(k) && MODURI_OK.indexOf(modDe(k)) >= 0;
 let tab = ls.get(KTABM) || TAB0(); if (VECHI[tab]) tab = VECHI[tab]; if (!tabOk(tab)) tab = TAB0();
@@ -637,8 +638,8 @@ function apel(fn, arg){
     google.script.run.withSuccessHandler(res).withFailureHandler(e => rej(new Error((e && e.message) || String(e))))[fn](arg);
   });
 }
-async function incarca(fresh){ const t = await apel('dashDate', MOD ? { fresh: !!fresh, mod: MOD } : !!fresh); return typeof t === 'string' ? JSON.parse(t) : t; }
-async function trimiteDecizii(dec){ return apel('dashDecizii', dec); }
+async function incarca(fresh){ const t = await apel('dashDate', MOD ? { fresh: !!fresh, mod: MOD, k: KEYL } : !!fresh); return typeof t === 'string' ? JSON.parse(t) : t; }
+async function trimiteDecizii(dec){ return apel('dashDecizii', KEYL ? { k: KEYL, dec: dec } : dec); }
 async function porneste(fresh){
   $('#btnRefresh').disabled = true;
   try {
