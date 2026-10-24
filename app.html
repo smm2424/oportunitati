@@ -449,7 +449,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.5.1 (09.10.2026)';
+const DASH_V = 'v3.6 (24.10.2026)';
 const URL_INTRARE = 'https://smm2424.github.io/oportunitati/';   // v3.2: redirecționează spre web app-ul Apps Script (login Google)
 const KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -1386,8 +1386,11 @@ const SORTF = {
   suma: (a, b) => (sumaLei(b) || 0) - (sumaLei(a) || 0) || RELR[b.rcls] - RELR[a.rcls]   // v3.4: suma accesibilă (A→P-003 Fin 1)
 };
 function badgeStFin(st){ return st && st !== 'Nou' ? `<span class="badge ${st === 'Aplicăm' || st === 'Shortlist' ? 'b-new' : st === 'Ignorat' ? 'b-off' : ''}">${st === 'Shortlist' ? '★ ' : ''}${esc(st)}</span>` : ''; }
+/* v3.6: sistemul „Aplicăm, scrie proiectul” — aceeași casetă ca în sheet (OPORTUNITATI, coloana „Aplicăm, scrie proiectul”); starea o scrie puntea. */
+function stareScriere(o){ const s = String(o.scrieSt || '').trim(); return s || (o.scrie ? 'cerută — intră în coadă la verificarea orară a punții' : ''); }
+function badgeScrie(o){ return o.scrie ? `<span class="badge b-new" title="${esc(stareScriere(o))}">✎ scriere</span>` : ''; }
 function cardFin(o){
-  const b = [o.nou ? '<span class="badge b-new">nou</span>' : '', badgeStFin(o.st), o.t ? badgeTermenFin(o.t) : ''].join('');
+  const b = [o.nou ? '<span class="badge b-new">nou</span>' : '', badgeStFin(o.st), badgeScrie(o), o.t ? badgeTermenFin(o.t) : ''].join('');
   return `<article class="oc fc ${o.k === stateF.sel ? 'cur' : ''} ${ASC[o.k] ? 'dim' : ''}" data-fk="${esc(o.k)}" tabindex="0" aria-label="${esc(o.titlu)}">
     <div class="thumb">${ill(o.il)}</div>
     <div class="oc-main">${b ? `<div class="oc-b">${b}</div>` : ''}<h4 class="oc-t">${esc(o.titlu)}</h4>
@@ -1401,12 +1404,13 @@ function detaliuFin(o){
   if (!o) return '<div class="dempty">Alege o oportunitate din listă.</div>';
   const z = o.t ? zileCal(o.t) : null;
   return `<div class="dtopg"><div class="thumb">${ill(o.il)}</div><div style="min-width:0">
-      <div class="dhead"><div class="oc-b">${badgeStFin(o.st)}${pill(o.rcls)}</div><div class="spacer"></div><button class="sqbtn dclose" id="dClose" aria-label="Închide">${ic('x')}</button></div>
+      <div class="dhead"><div class="oc-b">${badgeStFin(o.st)}${badgeScrie(o)}${pill(o.rcls)}</div><div class="spacer"></div><button class="sqbtn dclose" id="dClose" aria-label="Închide">${ic('x')}</button></div>
       <h3 class="dt" title="${esc(o.titlu)}">${esc(o.titlu)}</h3>
       <div class="dmeta"><span>${ic('bank')} ${esc(o.fin || '—')}</span><span class="muted">${esc(o.id)} · ${esc(o.sursa)}</span></div>
       <div class="dvals"><div><div class="fl">Buget</div><div class="fv${o.buget ? '' : ' m'}">${esc(o.buget || 'nu apare')}</div></div>
         <div class="dl">${ic('calg')}<div><div class="fl">Termen de depunere</div><div class="fv${o.term ? '' : ' m'}">${o.t ? esc(termFin(o.t)) : esc(o.term || 'nu apare')}</div><div class="hint">${o.t ? esc(ramasFin(o.t)) : ''}</div></div></div></div>
     </div></div>
+    ${panouScriereFin(o)}
     <div class="dgrid">
       <div class="dbox">${ic('cube')}<h4>Ce e</h4><div class="bx"><p>${esc(o.rez || o.desc || 'Fără rezumat — Claude n-a analizat încă pagina.')}</p></div></div>
       <div class="dbox ${o.rcls === 'ridicata' || o.rcls === 'posibila' ? 'ok' : ''}">${ic(o.rcls === 'scazuta' ? 'ban' : 'checkc')}<h4>${o.rcls === 'scazuta' ? 'De ce nu se potrivește' : 'De ce apare aici'}</h4><div class="bx"><p>${esc(o.relDe)}${o.ent ? ' Entitate: ' + esc(o.ent) + '.' : ''}</p></div></div>
@@ -1420,6 +1424,18 @@ function detaliuFin(o){
     <div class="dact"><button class="btn" id="aAsc">${ic(ASC[o.k] ? 'refresh' : 'ban')} ${ASC[o.k] ? 'Readu în listă' : 'Nu mă interesează'}</button>
       ${o.link ? `<a class="btn ghost" href="${url(o.link)}" target="_blank" rel="noopener">Deschide sursa ${ic('ext')}</a>` : '<span></span>'}</div>
     ${panouDecizieFin(o)}`;
+}
+function panouScriereFin(o){
+  if (!D.poateScrie && !o.scrie && !o.scrieSt) return '';
+  const s = stareScriere(o), activ = !!o.scrie;
+  const ce = 'Procedura completă: documentare, analiza istorică, entitatea, conceptul, formularul, evaluarea cu agenții, pachetul, raportul și docul de analiză. Nimic nu se trimite și nu se depune.';
+  return `<div class="dec" id="scrFin" data-id="${esc(o.id)}" style="margin:12px 0">
+    <h4>${ic('docs')} Scrierea proiectului</h4>
+    <p>${s ? 'Stare: <b>' + esc(s) + '</b>' : 'Nepornită.'}</p>
+    ${D.poateScrie ? `<div class="dec-row" id="scrBtns">${activ ? `<button class="btn sm" id="scrStop">${ic('ban')} Oprește scrierea</button>` : `<button class="btn sm primary" id="scrGo">${ic('docs')} Aplicăm, scrie proiectul</button>`}</div>
+    <div class="dec-row" id="scrConf" hidden><span>${activ ? 'Oprești scrierea pentru ' + esc(o.id) + '?' : 'Pornești scrierea completă pentru ' + esc(o.id) + '?'}</span><button class="btn sm primary" id="scrDa" data-v="${activ ? '0' : '1'}">${activ ? 'Da, oprește' : 'Da, pornește'}</button><button class="btn sm ghost" id="scrNu">Renunță</button></div>` : ''}
+    <p class="hint" id="scrMsg" role="status">${!D.poateScrie ? 'Pornirea și oprirea le face Sebastian.' : activ ? 'Oprirea: dacă e încă în coadă → „anulat”; dacă scrierea a pornit → „oprit”.' : ce + ' Intră în coadă în maximum o oră; scrierea pornește la următorul slot al gardianului (09:23, 13:23, 17:23, 21:23).'}</p>
+  </div>`;
 }
 /* v3.1: decizia se dă de aici (sau din chat / email) — se scrie în sheet de Apps Script, cu jurnal în foaia DECIZII. */
 const FST_BTN = ['Nou', 'De analizat', 'Shortlist', 'Aplicăm', 'Urmărim', 'Ignorat'];
@@ -1440,9 +1456,10 @@ function panouDecizieFin(o){
     ${ist.length ? `<div class="dec-ist"><div class="fl">Istoric (${ist.length})</div>${ist.slice(0, 8).map(x => `<div class="di"><span class="num">${ziOra(x.d)}</span> · ${esc(x.sursa)} · ${esc(x.camp)}${x.camp !== '—' ? ': ' + (x.vechi ? esc(x.vechi) + ' → ' : '') + esc(x.nou) : ' ' + esc(x.rez)}</div>`).join('')}</div>` : ''}
   </div>`;
 }
-async function decideFin(dec, eticheta){
-  const m = $('#decMsg'), id = dec[0].id;
-  document.querySelectorAll('#decFin button').forEach(b => b.disabled = true);
+async function decideFin(dec, eticheta, mid){
+  mid = mid || '#decMsg';                                                   // v3.6: mesajul poate sta și în panoul de scriere
+  const m = $(mid), id = dec[0].id;
+  document.querySelectorAll('#decFin button, #scrFin button').forEach(b => b.disabled = true);
   if (m) m.textContent = 'Se salvează ' + eticheta + '…';
   try {
     const r = await trimiteDecizii(dec);
@@ -1450,11 +1467,11 @@ async function decideFin(dec, eticheta){
     const rau = (r.rezultate || []).filter(x => !x.ok);
     await porneste(true);
     stateF.sel = 'F:' + id; selecteazaFin(stateF.sel, false);
-    const m2 = $('#decMsg');
+    const m2 = $(mid);
     if (m2) m2.textContent = r.orb ? 'Trimis. Verifică istoricul de mai jos (răspunsul serverului nu s-a putut citi).' : rau.length ? 'Nu s-a salvat: ' + rau.map(x => x.mesaj).join('; ') : 'Salvat: ' + (r.rezultate || []).map(x => x.mesaj).join('; ') + '.';
   } catch (e) {
-    const m2 = $('#decMsg'); if (m2) m2.textContent = 'Eroare: ' + e.message + ' — nimic schimbat pe ecran; reîncearcă.';
-    document.querySelectorAll('#decFin button').forEach(b => b.disabled = false);
+    const m2 = $(mid); if (m2) m2.textContent = 'Eroare: ' + e.message + ' — nimic schimbat pe ecran; reîncearcă.';
+    document.querySelectorAll('#decFin button, #scrFin button').forEach(b => b.disabled = false);
   }
 }
 function vFinOpp(scope){
@@ -1619,6 +1636,12 @@ function legaDetaliuFin(){
   const on = (id, fn) => { const e = document.getElementById(id); if (e) e.addEventListener('click', fn); };
   on('dClose', () => document.body.classList.remove('det-open'));
   on('aAsc', () => { const k = stateF.sel; comuta(ASC, KASC, k); randeaza(); });
+  const ps = document.getElementById('scrFin');                              // v3.6: pornire / oprire în doi pași (fără dialoguri de browser)
+  if (ps) {
+    const sid = ps.dataset.id, arata = c => { const a = $('#scrBtns'), b = $('#scrConf'); if (a) a.hidden = c; if (b) b.hidden = !c; };
+    on('scrGo', () => arata(true)); on('scrStop', () => arata(true)); on('scrNu', () => arata(false));
+    on('scrDa', () => { const v = $('#scrDa').dataset.v === '1'; decideFin([{ id: sid, scrie: v }], v ? 'pornirea scrierii' : 'oprirea scrierii', '#scrMsg'); });
+  }
   const p = document.getElementById('decFin'); if (!p) return;
   const id = p.dataset.id;
   p.querySelectorAll('[data-st]').forEach(b => b.addEventListener('click', () => { if (!b.classList.contains('on')) decideFin([{ id, status: b.dataset.st }], 'statusul „' + b.dataset.st + '”'); }));
