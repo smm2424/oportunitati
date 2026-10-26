@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>CODRU · Vânzări 2026</title>
+<style>
+:root{--bg:#0b1020;--ink:#e6edf6;--muted:#9fb0c6}
+@media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--ink:#0f172a;--muted:#475569}}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:16px;box-sizing:border-box}
+main{max-width:520px;text-align:center} h1{font-size:22px;margin:0 0 8px} p{color:var(--muted);margin:8px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>CODRU · Vânzări 2026</h1>
+<p>Ediția 6 · 28–30 aug 2026 · încheiată, date finale.</p>
+<p id="s">Se încarcă dashboard-ul…</p>
+</main>
+<script>
+(function () {
+  var AN = '2026';
+  var WEBAPP = 'https://script.google.com/macros/s/AKfycbyxm0Zif0u2-qwNvau_VW9c4pEHwAs26wum4K7hImPbUc-o1k_7NBjXp5UzxZQWMM0yCA/exec';
+  var s = document.getElementById('s');
+  var m = location.hash.match(/k=([A-Za-z0-9]+)/);
+  var k = m ? m[1] : '';
+  try { if (k) sessionStorage.setItem('codru_k', k); else k = sessionStorage.getItem('codru_k') || ''; } catch (e) {}
+  if (!k) { s.textContent = 'Linkul nu e complet. Deschide linkul personal primit pe mail.'; return; }
+  fetch(WEBAPP + '?an=' + AN + '&k=' + encodeURIComponent(k))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (!d.ok) { s.textContent = d.eroare === 'acces' ? 'Linkul nu e activ. Cere-i lui Sebastian un link nou.' : 'Eroare: ' + d.eroare; return; }
+      document.open(); document.write(d.html); document.close();
+    })
+    .catch(function (e) { s.textContent = 'Nu s-a putut încărca (' + e.message + '). Reîncearcă peste un minut.'; });
+})();
+</script>
+</body>
+</html>
