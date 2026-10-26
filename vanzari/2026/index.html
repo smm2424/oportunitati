@@ -16,12 +16,12 @@ main{max-width:520px;text-align:center} h1{font-size:22px;margin:0 0 8px} p{colo
 <body>
 <main>
 <h1>CODRU · Vânzări 2026</h1>
-<p>Ediția 6 · 28–30 aug 2026 · încheiată, date finale.</p>
+<p>Ediția 6 · 28–30 aug 2026 · încheiată, date finale (fără TVA).</p>
 <p id="s">Se încarcă dashboard-ul…</p>
 </main>
 <script>
 (function () {
-  var AN = '2026';
+  var AN = '2027';   // fișierul servit de web app
   var WEBAPP = 'https://script.google.com/macros/s/AKfycbyxm0Zif0u2-qwNvau_VW9c4pEHwAs26wum4K7hImPbUc-o1k_7NBjXp5UzxZQWMM0yCA/exec';
   var s = document.getElementById('s');
   window.addEventListener('hashchange', function () { location.reload(); });
@@ -33,7 +33,8 @@ main{max-width:520px;text-align:center} h1{font-size:22px;margin:0 0 8px} p{colo
     .then(function (r) { return r.json(); })
     .then(function (d) {
       if (!d.ok) { s.textContent = d.eroare === 'acces' ? 'Linkul nu e activ. Cere-i lui Sebastian un link nou.' : 'Eroare: ' + d.eroare; return; }
-      document.open(); document.write(d.html); document.close();
+      var h = d.html; var i = h.lastIndexOf('</body>'); var inj = "<script>(function(){var n=0,t=setInterval(function(){n++;var k=document.getElementById('kpC26ven');if(typeof swMore==='function'&&document.getElementById('sec-c26')&&k&&k.innerText.indexOf('RON')>0){clearInterval(t);try{swMore('c26');}catch(e){}}if(n>200)clearInterval(t);},150);})();<\/script>"; h = i >= 0 ? h.slice(0, i) + inj + h.slice(i) : h + inj;
+      document.open(); document.write(h); document.close();
     })
     .catch(function (e) { s.textContent = 'Nu s-a putut încărca (' + e.message + '). Reîncearcă peste un minut.'; });
 })();
