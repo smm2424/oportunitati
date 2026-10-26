@@ -24,6 +24,7 @@ main{max-width:520px;text-align:center} h1{font-size:22px;margin:0 0 8px} p{colo
   var AN = '2027';
   var WEBAPP = 'https://script.google.com/macros/s/AKfycbyxm0Zif0u2-qwNvau_VW9c4pEHwAs26wum4K7hImPbUc-o1k_7NBjXp5UzxZQWMM0yCA/exec';
   var s = document.getElementById('s');
+  window.addEventListener('hashchange', function () { location.reload(); });
   var m = location.hash.match(/k=([A-Za-z0-9]+)/);
   var k = m ? m[1] : '';
   try { if (k) sessionStorage.setItem('codru_k', k); else k = sessionStorage.getItem('codru_k') || ''; } catch (e) {}
