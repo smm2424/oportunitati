@@ -1,0 +1,28 @@
+{
+ "colectat": "2026-10-27T11:13:32Z",
+ "tinte": {
+  "fs1": {
+   "http": 200,
+   "n": 509
+  },
+  "fs2": {
+   "http": 200,
+   "n": 50
+  },
+  "s20": {
+   "http": 200,
+   "caractere": 39640,
+   "linkuri": 68
+  },
+  "pmtm": {
+   "http": 200,
+   "caractere": 30080,
+   "linkuri": 48
+  },
+  "pmtm2": {
+   "http": 200,
+   "caractere": 15855,
+   "linkuri": 26
+  }
+ }
+}
