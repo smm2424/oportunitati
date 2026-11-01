@@ -1,5 +1,5 @@
 {
- "colectat": "2026-11-01T11:18:40Z",
+ "colectat": "2026-11-01T16:54:53Z",
  "tinte": {
   "fs1": {
    "http": 200,
@@ -16,12 +16,12 @@
   },
   "pmtm": {
    "http": 200,
-   "caractere": 29970,
+   "caractere": 29969,
    "linkuri": 48
   },
   "pmtm2": {
    "http": 200,
-   "caractere": 15746,
+   "caractere": 15747,
    "linkuri": 26
   }
  }
