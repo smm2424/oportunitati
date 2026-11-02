@@ -1,5 +1,5 @@
 {
- "colectat": "2026-11-02T12:30:37Z",
+ "colectat": "2026-11-02T12:36:36Z",
  "tinte": {
   "fs1": {
    "http": 200,
@@ -21,8 +21,36 @@
   },
   "pmtm2": {
    "http": 200,
-   "caractere": 15746,
+   "caractere": 15747,
    "linkuri": 26
+  },
+  "mfas": {
+   "http": 200,
+   "caractere": 132189,
+   "linkuri": 395,
+   "url": "https://mfinante.gov.ro/scheme_noi"
+  },
+  "mfoug8": {
+   "http": 200,
+   "caractere": 140257,
+   "linkuri": 396,
+   "url": "https://mfinante.gov.ro/oug-8/2026"
+  },
+  "afirc": {
+   "http": 200,
+   "caractere": 123112,
+   "linkuri": 297,
+   "url": "https://www.afir.ro/comunicate/"
+  },
+  "afir36": {
+   "http": 200,
+   "caractere": 138667,
+   "linkuri": 285,
+   "url": "https://www.afir.ro/domenii-de-interventie/detalii-si-anexe-dr-36/"
+  },
+  "eup": {
+   "eroare": "RuntimeError: https://energie.gov.ro/category/electricup/ -> URLError: <urlopen error [Errno 101] Network is unreachable> | https://energie.gov.ro/category/fondul-pentru-modernizare/ -> URLError: <urlopen error [Er",
+   "incercari": 2
   }
  }
 }
