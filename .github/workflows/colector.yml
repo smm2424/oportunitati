@@ -1,5 +1,5 @@
 name: Colector
-# Colectorul TEG Oportunități: paginile publice care refuză serverele Google (fonduri-structurale.ro, primariatm.ro) → colector/ (GitHub Pages).
+# Colectorul TEG Oportunități: paginile publice care refuză serverele Google (fonduri-structurale.ro, primariatm.ro, mfinante.gov.ro, afir.ro, energie.gov.ro) → colector/ (GitHub Pages).
 # Le citesc scraperul Finanțări (SETARI → FS_OGLINDA, sursa S20) și hub-ul Licitații (PMTM, PMTM2). Nu folosește secrete și nu are date interne.
 on:
   schedule:
