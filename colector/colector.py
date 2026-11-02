@@ -11,7 +11,7 @@ Scrie în colector/:
 Paginile HTML: fără scripturi / stiluri, linkuri absolute, <meta name="colectat"> cu ora. La o eroare fișierul vechi rămâne neatins
 (scraperul și hub-ul văd data veche și raportează eroarea). Doar biblioteca standard Python.
 """
-import json, re, sys, time, datetime, urllib.request, urllib.parse, os
+import json, re, sys, time, datetime, urllib.request, urllib.parse, os, html
 
 AICI = os.path.dirname(os.path.abspath(__file__))
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
@@ -92,7 +92,7 @@ def text_mf(href, interior):
     return 'Ministerul Finanțelor - schemă de ajutor de stat deschisă: ' + (interior or href.rsplit('/', 2)[-2])
 
 def text_afir(href, interior):
-    q = urllib.parse.parse_qs(urllib.parse.urlparse(href.replace('&amp;', '&')).query)
+    q = urllib.parse.parse_qs(urllib.parse.urlparse(html.unescape(href)).query)
     f = (q.get('filename') or [''])[0]
     return ('AFIR DR-36 LEADER - document: ' + f) if f else ''
 
