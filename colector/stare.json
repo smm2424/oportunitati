@@ -1,13 +1,13 @@
 {
- "colectat": "2026-11-02T12:36:36Z",
+ "colectat": "2026-11-02T12:42:35Z",
  "tinte": {
   "fs1": {
-   "http": 200,
-   "n": 489
+   "eroare": "HTTPError: HTTP Error 403: Forbidden",
+   "incercari": 2
   },
   "fs2": {
-   "http": 200,
-   "n": 50
+   "eroare": "HTTPError: HTTP Error 403: Forbidden",
+   "incercari": 2
   },
   "s20": {
    "http": 200,
@@ -16,12 +16,12 @@
   },
   "pmtm": {
    "http": 200,
-   "caractere": 29969,
+   "caractere": 29968,
    "linkuri": 48
   },
   "pmtm2": {
    "http": 200,
-   "caractere": 15747,
+   "caractere": 15746,
    "linkuri": 26
   },
   "mfas": {
@@ -44,7 +44,7 @@
   },
   "afir36": {
    "http": 200,
-   "caractere": 138667,
+   "caractere": 139069,
    "linkuri": 285,
    "url": "https://www.afir.ro/domenii-de-interventie/detalii-si-anexe-dr-36/"
   },
