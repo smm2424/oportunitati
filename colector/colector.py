@@ -5,6 +5,8 @@ Scrie în colector/:
   fs1.json  = apelurile active / programate de pe fonduri-structurale.ro (API-ul public al site-ului), aceleași câmpuri ca scraperul Finanțări (FSNEXT)
   fs2.json  = ultimele 50 de știri fonduri-structurale.ro
   s20.html  = prima pagină primariatm.ro (știrile) · pmtm.html = cumpărări directe · pmtm2.html = procedură proprie
+  mfas.html = MF, anunțuri ajutor de stat · mfoug8.html = MF, OUG 8/2026 · afirc.html = AFIR, comunicate · afir36.html = AFIR, DR-36 (ghid, anexe)
+  eup.html  = Ministerul Energiei, Electric Up (02.11.2026: sursele pentru hala-depozit, refuză serverele Google)
   stare.json = ora colectării și rezultatul fiecărei ținte
 Paginile HTML: fără scripturi / stiluri, linkuri absolute, <meta name="colectat"> cu ora. La o eroare fișierul vechi rămâne neatins
 (scraperul și hub-ul văd data veche și raportează eroarea). Doar biblioteca standard Python.
@@ -71,12 +73,30 @@ def pagina(url, nume):
     scrie(nume, h)
     return {'http': cod, 'caractere': len(h), 'linkuri': len(re.findall(r'<a\s', h, re.I))}
 
+def pagina_prima(urls, nume):
+    """Prima adresă care răspunde (unele site-uri își mută paginile); eroarea finală le listează pe toate."""
+    erori = []
+    for u in urls:
+        try:
+            r = pagina(u, nume)
+            r['url'] = u
+            return r
+        except Exception as e:
+            erori.append('{} -> {}: {}'.format(u, type(e).__name__, str(e)[:80]))
+    raise RuntimeError(' | '.join(erori))
+
 TINTE = [
     ('fs1', fs1),
     ('fs2', fs2),
     ('s20', lambda: pagina('https://www.primariatm.ro/', 's20.html')),
     ('pmtm', lambda: pagina('https://www.primariatm.ro/anunturi/cumparari-directe', 'pmtm.html')),
     ('pmtm2', lambda: pagina('https://www.primariatm.ro/anunturi/procedura-proprie', 'pmtm2.html')),
+    # 02.11.2026 (hala-depozit): surse care refuză serverele Google (sonda din scraper: „Adresa nu este disponibilă” / HTTP 500)
+    ('mfas', lambda: pagina_prima(['https://mfinante.gov.ro/domenii/ajutor-de-stat/anunturi-ajutor-de-stat', 'https://mfinante.gov.ro/domenii/ajutor-de-stat'], 'mfas.html')),
+    ('mfoug8', lambda: pagina_prima(['https://mfinante.gov.ro/oug-8/2026'], 'mfoug8.html')),
+    ('afirc', lambda: pagina_prima(['https://www.afir.ro/comunicate/', 'https://www.afir.ro/comunicare/comunicate/', 'https://www.afir.ro/'], 'afirc.html')),
+    ('afir36', lambda: pagina_prima(['https://www.afir.ro/domenii-de-interventie/detalii-si-anexe-dr-36/'], 'afir36.html')),
+    ('eup', lambda: pagina_prima(['https://energie.gov.ro/category/electricup/', 'https://energie.gov.ro/category/fondul-pentru-modernizare/'], 'eup.html')),
 ]
 
 def main():
