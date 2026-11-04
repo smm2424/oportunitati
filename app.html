@@ -449,7 +449,7 @@ div.kpi{cursor:default}
 <script>
 (function(){
 'use strict';
-const DASH_V = 'v3.6 (24.10.2026)';
+const DASH_V = 'v3.7 (04.11.2026)';
 const URL_INTRARE = 'https://smm2424.github.io/oportunitati/';   // v3.2: redirecționează spre web app-ul Apps Script (login Google)
 const KDOS = 'tegLicDosar', KTAB = 'tegOpTab3', KMOD = 'tegOpMod', KALT = 'tegOpAlt', KTH = 'tegLicTema2', KASC = 'tegLicAscunse';   // v3.0: fără „Salvate”
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
@@ -742,7 +742,7 @@ function oppSeap(x){
   return { k: 'S:' + x.id, kind: 'seap', id: x.id, titlu: x.titlu, aut: x.aut, loc: jk ? JUDK[jk].n : (x.jud || '—'), jk,
     val: typeof x.val === 'number' ? x.val : null, valTxt: typeof x.val === 'number' ? '' : String(x.val || ''),
     term: x.term, t: x._t, pub: x.pub, p: dt(x.pub), det, open: !!x._open, actual: !!x._open, nou: !!det && now - det < 7 * ZI, modif: false,
-    rel: r[0], relDe: r[1], cat, link: x.link, x, A, timis: !!x.timis,
+    rel: r[0], relDe: r[1], cat, link: x.link, x, A, timis: !!x.timis, of: !!x.of, ofSt: String(x.ofSt || ''),   // v3.7: pregătirea ofertei
     text: normT([x.titlu, x.aut, x.id, x.cpv, x.jud, x.desc, x.tip].join(' ')) };
 }
 function oppSite(s, so, locCui, i){
@@ -772,7 +772,7 @@ function oppSite(s, so, locCui, i){
   return { k: 'W:' + (s.cheie || s.link || i), kind: 'site', id: s.cheie || '', titlu, titluSite: s.titlu, aut: so ? so.nume : s.sursa, sursa: s.sursa,
     scurt: so ? (so.scurt || so.nume) : s.sursa, pagina: so ? so.pagina : '', cui: cuiL, loc, jk: 'timis', val, valTxt: '',
     term: s.term || null, t: tt, pub: s.pub, p: s._p, det: s._det, open: actual, actual, nou: !s._init && !!s._det && now - s._det < 7 * ZI,
-    modif: !!s._mod && now - s._mod < 7 * ZI, rel, relDe, nonAch, cat: catDe(normT([titlu, s.detalii].join(' '))), link: s.link, s, A, citit: !!s.verdict, timis: true,
+    modif: !!s._mod && now - s._mod < 7 * ZI, rel, relDe, nonAch, cat: catDe(normT([titlu, s.detalii].join(' '))), link: s.link, s, A, citit: !!s.verdict, timis: true, of: !!s.of, ofSt: String(s.ofSt || ''),   // v3.7
     text: normT([titlu, s.titlu, s.detalii, s.obiect, A.rezumat, s.sursa, loc].join(' ')) };
 }
 
@@ -884,6 +884,7 @@ function badges(o, scurt){
   else if (o.prag === 'client') b.push('<span class="badge b-new" title="Autoritate-client: intră fără prag">client</span>');
   else if (o.prag === 'sub') b.push('<span class="badge b-off" title="Sub pragul de 200.000 lei (zona) / 250.000 lei (restul țării), fără marjă mare">sub prag</span>');
   if (o.kind === 'seap' && o.t) { if (o.t <= ACUM()) b.push('<span class="badge b-off">Închis</span>'); else if (zileCal(o.t) <= 3) b.push(`<span class="badge b-urg">${termenText(o.t)}</span>`); }
+  if (o.of || /^(în coadă|pornit|în lucru|așteaptă)/.test(o.ofSt || '')) b.push(`<span class="badge b-new" title="${esc(stareOferta(o))}">✎ ofertă</span>`);   // v3.7
   if (ASC[o.k]) b.push('<span class="badge b-off">Nu mă interesează</span>');
   return b.join('');
 }
@@ -1204,6 +1205,7 @@ function detaliu(o){
         </div>
       </div>
     </div>
+    ${panouOferta(o)}
     <div class="dgrid">
       <div class="dbox">${ic('cube')}<h4>Ce se solicită</h4><div class="bx">${cere.length ? `<div class="tags">${cere.slice(0, 6).map(c => `<span class="tag">${esc(c[0])}</span>`).join('')}</div>` : ''}${o.kind === 'site' && A.rezumat ? `<p>${esc(A.rezumat)}</p>` : cere.length ? '' : '<p>Nu reiese din text — vezi documentele.</p>'}</div></div>
       <div class="dbox ${o.rel === 'ridicata' || o.rel === 'posibila' ? 'ok' : ''}">${ic(o.rel === 'scazuta' ? 'ban' : 'checkc')}<h4>${o.rel === 'scazuta' ? 'De ce nu se potrivește' : o.rel === 'neanalizata' ? 'Ce știm' : 'De ce se potrivește'}</h4><div class="bx"><p>${esc(motiv)}</p></div></div>
@@ -1212,6 +1214,20 @@ function detaliu(o){
     </div>
     <div class="dact"><button class="btn" id="aAsc">${ic(ASC[o.k] ? 'refresh' : 'ban')} ${ASC[o.k] ? 'Readu în listă' : 'Nu mă interesează'}</button>
       ${o.link ? `<a class="btn ghost" href="${url(o.link)}" target="_blank" rel="noopener">Deschide sursa oficială ${ic('ext')}</a>` : '<span></span>'}</div>`;
+}
+/* v3.7 (04.11.2026): „Ofertăm, pregătește oferta” - aceeași casetă ca în sheet (LICITATII / SITE-URI); starea o scrie puntea „TEG - Dosare finanțare” v1.8. */
+function stareOferta(o){ const s = String(o.ofSt || '').trim(); return s || (o.of ? 'cerută - intră în coadă la verificarea orară a punții' : ''); }
+function panouOferta(o){
+  if (!D || (!D.poateScrie && !o.of && !o.ofSt)) return '';
+  const s = stareOferta(o), activ = !!o.of, ce = o.kind === 'seap' ? esc(o.id) : 'acest anunț';
+  const txt = 'Documentația, matricea cerințelor, calificarea (Balvia Development sau SMM Management), propunerea tehnică, costul cu 3 variante de preț, verificarea și pachetul de depus. Nimic nu se depune și nu se trimite; prețul final îl alegi tu.';
+  return `<div class="dec" id="ofLic" data-id="${esc(o.k)}" style="margin:12px 0">
+    <h4>${ic('docs')} Pregătirea ofertei</h4>
+    <p>${s ? 'Stare: <b>' + esc(s) + '</b>' : 'Nepornită.'}</p>
+    ${D.poateScrie ? `<div class="dec-row" id="ofBtns">${activ ? `<button class="btn sm" id="ofStop">${ic('ban')} Oprește pregătirea</button>` : `<button class="btn sm primary" id="ofGo">${ic('docs')} Ofertăm, pregătește oferta</button>`}</div>
+    <div class="dec-row" id="ofConf" hidden><span>${activ ? 'Oprești pregătirea ofertei pentru ' + ce + '?' : 'Pornești pregătirea ofertei pentru ' + ce + '?'}</span><button class="btn sm primary" id="ofDa" data-v="${activ ? '0' : '1'}">${activ ? 'Da, oprește' : 'Da, pornește'}</button><button class="btn sm ghost" id="ofNu">Renunță</button></div>` : ''}
+    <p class="hint" id="ofMsg" role="status">${!D.poateScrie ? 'Pornirea și oprirea le fac Sebastian, Victor și Darius.' : activ ? 'Oprirea: dacă e încă în coadă, „anulat”; dacă pregătirea a pornit, „oprit”.' : txt + ' Intră în coadă în maximum o oră și pornește la următoarea rulare a gardianului (la 2 ore, 08:23-22:23).'}</p>
+  </div>`;
 }
 /* „Vezi detalii”: tot ce avem despre oportunitate */
 function detaliuComplet(o){
@@ -1744,10 +1760,33 @@ function selecteaza(k, deschide){
   dc.innerHTML = detaliu(o); legaDetaliu(); dc.scrollTop = 0;
   if (deschide && mobil()) document.body.classList.add('det-open');
 }
+async function decideOferta(k, v){                                          // v3.7: caseta „Ofertăm, pregătește oferta”, prin dashDecizii
+  const m = $('#ofMsg');
+  document.querySelectorAll('#ofLic button').forEach(b => b.disabled = true);
+  if (m) m.textContent = v ? 'Se pornește pregătirea ofertei…' : 'Se oprește pregătirea ofertei…';
+  try {
+    const r = await trimiteDecizii([{ id: k, oferta: v }]);
+    if (!r || r.ok !== true) { if (r && r.acces === false) { iesire(r.eroare || 'Fără acces.'); return; } throw new Error((r && r.eroare) || 'răspuns invalid'); }
+    const rau = (r.rezultate || []).filter(x => !x.ok);
+    await porneste(true);
+    selecteaza(k, false);
+    const m2 = $('#ofMsg');
+    if (m2) m2.textContent = r.orb ? 'Trimis. Verifică starea după reîmprospătare.' : rau.length ? 'Nu s-a salvat: ' + rau.map(x => x.mesaj).join('; ') : 'Salvat: ' + (r.rezultate || []).map(x => x.mesaj).join('; ') + '.';
+  } catch (e) {
+    const m2 = $('#ofMsg'); if (m2) m2.textContent = 'Eroare: ' + e.message + ' - nimic schimbat; reîncearcă.';
+    document.querySelectorAll('#ofLic button').forEach(b => b.disabled = false);
+  }
+}
 function legaDetaliu(){
   const on = (id, fn) => { const e = document.getElementById(id); if (e) e.addEventListener('click', fn); };
   on('dClose', () => document.body.classList.remove('det-open'));
   on('dMore', () => deschideDrawer(state.sel));
+  const po = document.getElementById('ofLic');                                // v3.7: pornire / oprire în doi pași
+  if (po) {
+    const oid = po.dataset.id, arata = c => { const a = $('#ofBtns'), b = $('#ofConf'); if (a) a.hidden = c; if (b) b.hidden = !c; };
+    on('ofGo', () => arata(true)); on('ofStop', () => arata(true)); on('ofNu', () => arata(false));
+    on('ofDa', () => decideOferta(oid, $('#ofDa').dataset.v === '1'));
+  }
   on('aAsc', () => {
     const k = state.sel; comuta(ASC, KASC, k);
     if (ASC[k] && !state.f.ascunse) { const i = state.lista.indexOf(k); state.sel = state.lista[i + 1] || state.lista[i - 1] || null; document.body.classList.remove('det-open'); }
