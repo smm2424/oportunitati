@@ -1,9 +1,9 @@
 {
- "colectat": "2026-11-04T12:13:10Z",
+ "colectat": "2026-11-04T18:13:57Z",
  "tinte": {
   "fs1": {
    "http": 200,
-   "n": 500
+   "n": 501
   },
   "fs2": {
    "http": 200,
@@ -11,17 +11,17 @@
   },
   "s20": {
    "http": 200,
-   "caractere": 43384,
+   "caractere": 43402,
    "linkuri": 73
   },
   "pmtm": {
    "http": 200,
-   "caractere": 29969,
+   "caractere": 29968,
    "linkuri": 48
   },
   "pmtm2": {
    "http": 200,
-   "caractere": 15745,
+   "caractere": 15747,
    "linkuri": 26
   },
   "mfas": {
@@ -37,12 +37,16 @@
    "url": "https://mfinante.gov.ro/oug-8/2026"
   },
   "afirc": {
-   "eroare": "RuntimeError: https://www.afir.ro/comunicate/ -> RemoteDisconnected: Remote end closed connection without response | https://www.afir.ro/comunicare/comunicate/ -> RemoteDisconnected: Remote end closed connection wi",
-   "incercari": 2
+   "http": 200,
+   "caractere": 123112,
+   "linkuri": 297,
+   "url": "https://www.afir.ro/comunicate/"
   },
   "afir36": {
-   "eroare": "RuntimeError: https://www.afir.ro/domenii-de-interventie/detalii-si-anexe-dr-36/ -> RemoteDisconnected: Remote end closed connection without response",
-   "incercari": 2
+   "http": 200,
+   "caractere": 139069,
+   "linkuri": 285,
+   "url": "https://www.afir.ro/domenii-de-interventie/detalii-si-anexe-dr-36/"
   },
   "eup": {
    "eroare": "RuntimeError: https://energie.gov.ro/category/electricup/ -> URLError: <urlopen error [Errno 101] Network is unreachable> | https://energie.gov.ro/category/fondul-pentru-modernizare/ -> URLError: <urlopen error [Er",
