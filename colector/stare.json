@@ -1,5 +1,5 @@
 {
- "colectat": "2026-11-05T12:26:28Z",
+ "colectat": "2026-11-05T18:17:13Z",
  "tinte": {
   "fs1": {
    "http": 200,
@@ -11,8 +11,8 @@
   },
   "s20": {
    "http": 200,
-   "caractere": 42469,
-   "linkuri": 70
+   "caractere": 43258,
+   "linkuri": 72
   },
   "pmtm": {
    "http": 200,
@@ -26,7 +26,7 @@
   },
   "mfas": {
    "http": 200,
-   "caractere": 132257,
+   "caractere": 132189,
    "linkuri": 395,
    "url": "https://mfinante.gov.ro/scheme_noi"
   },
