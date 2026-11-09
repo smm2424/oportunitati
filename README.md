@@ -11,3 +11,6 @@ Paginile dashboard-ului de vânzări CODRU (2026 încheiat, 2027 deschis). Nici 
 
 ## colector/ (din 27.10.2026)
 Copii zilnice ale unor pagini publice care refuză serverele Google (fonduri-structurale.ro — API-ul public al site-ului; primariatm.ro — știrile și achizițiile directe), făcute de workflow-ul `Colector` (GitHub Actions, `colector/colector.py`, fără secrete). Le citesc scripturile Apps Script TEG Oportunități (scraperul Finanțări și hub-ul Licitații). Conțin doar informație publicată deja de acele site-uri.
+
+## cockpit/ (din 09.11.2026)
+Lansatorul Cockpit-ului lui Sebastian: o pagină fără date, cu logo-ul Cockpit ca iconiță (filă, bookmark, ecranul principal pe iPhone), care deschide după 0,7 s artifactul Cockpit de pe claude.ai (privat, cere contul lui). Bookmark-ul se face pe https://smm2424.github.io/oportunitati/cockpit/.
