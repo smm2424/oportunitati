@@ -1,9 +1,9 @@
 {
- "colectat": "2026-11-11T11:54:59Z",
+ "colectat": "2026-11-11T18:03:45Z",
  "tinte": {
   "fs1": {
    "http": 200,
-   "n": 482
+   "n": 484
   },
   "fs2": {
    "http": 200,
@@ -11,22 +11,22 @@
   },
   "s20": {
    "http": 200,
-   "caractere": 42068,
+   "caractere": 41978,
    "linkuri": 68
   },
   "pmtm": {
    "http": 200,
-   "caractere": 29970,
-   "linkuri": 48
+   "caractere": 30577,
+   "linkuri": 49
   },
   "pmtm2": {
    "http": 200,
-   "caractere": 15745,
+   "caractere": 15747,
    "linkuri": 26
   },
   "mfas": {
    "http": 200,
-   "caractere": 132257,
+   "caractere": 132189,
    "linkuri": 395,
    "url": "https://mfinante.gov.ro/scheme_noi"
   },
