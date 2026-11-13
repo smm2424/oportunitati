@@ -1,9 +1,9 @@
 {
- "colectat": "2026-11-12T18:36:11Z",
+ "colectat": "2026-11-13T12:16:44Z",
  "tinte": {
   "fs1": {
    "http": 200,
-   "n": 485
+   "n": 484
   },
   "fs2": {
    "http": 200,
@@ -11,12 +11,12 @@
   },
   "s20": {
    "http": 200,
-   "caractere": 42280,
+   "caractere": 42418,
    "linkuri": 70
   },
   "pmtm": {
    "http": 200,
-   "caractere": 30577,
+   "caractere": 30576,
    "linkuri": 49
   },
   "pmtm2": {
@@ -44,8 +44,8 @@
   },
   "afir36": {
    "http": 200,
-   "caractere": 139069,
-   "linkuri": 285,
+   "caractere": 137795,
+   "linkuri": 283,
    "url": "https://www.afir.ro/domenii-de-interventie/detalii-si-anexe-dr-36/"
   },
   "eup": {
