@@ -1,5 +1,5 @@
 {
- "colectat": "2026-11-16T12:49:25Z",
+ "colectat": "2026-11-16T20:40:29Z",
  "tinte": {
   "fs1": {
    "http": 200,
@@ -11,7 +11,7 @@
   },
   "s20": {
    "http": 200,
-   "caractere": 41878,
+   "caractere": 41893,
    "linkuri": 67
   },
   "pmtm": {
@@ -21,7 +21,7 @@
   },
   "pmtm2": {
    "http": 200,
-   "caractere": 15747,
+   "caractere": 15746,
    "linkuri": 26
   },
   "mfas": {
@@ -37,16 +37,12 @@
    "url": "https://mfinante.gov.ro/oug-8/2026"
   },
   "afirc": {
-   "http": 200,
-   "caractere": 123173,
-   "linkuri": 298,
-   "url": "https://www.afir.ro/comunicate/"
+   "eroare": "RuntimeError: https://www.afir.ro/comunicate/ -> HTTPError: HTTP Error 403: Forbidden | https://www.afir.ro/comunicare/comunicate/ -> HTTPError: HTTP Error 403: Forbidden | https://www.afir.ro/ -> HTTPError: HTTP E",
+   "incercari": 2
   },
   "afir36": {
-   "http": 200,
-   "caractere": 137795,
-   "linkuri": 283,
-   "url": "https://www.afir.ro/domenii-de-interventie/detalii-si-anexe-dr-36/"
+   "eroare": "RuntimeError: https://www.afir.ro/domenii-de-interventie/detalii-si-anexe-dr-36/ -> HTTPError: HTTP Error 403: Forbidden",
+   "incercari": 2
   },
   "eup": {
    "eroare": "RuntimeError: https://energie.gov.ro/category/electricup/ -> URLError: <urlopen error [Errno 101] Network is unreachable> | https://energie.gov.ro/category/fondul-pentru-modernizare/ -> URLError: <urlopen error [Er",
