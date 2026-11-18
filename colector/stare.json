@@ -1,5 +1,5 @@
 {
- "colectat": "2026-11-17T19:24:12Z",
+ "colectat": "2026-11-18T13:07:53Z",
  "tinte": {
   "fs1": {
    "http": 200,
@@ -11,28 +11,28 @@
   },
   "s20": {
    "http": 200,
-   "caractere": 42643,
-   "linkuri": 69
+   "caractere": 43055,
+   "linkuri": 73
   },
   "pmtm": {
    "http": 200,
-   "caractere": 30578,
+   "caractere": 30577,
    "linkuri": 49
   },
   "pmtm2": {
    "http": 200,
-   "caractere": 15747,
+   "caractere": 15746,
    "linkuri": 26
   },
   "mfas": {
    "http": 200,
-   "caractere": 132189,
+   "caractere": 132171,
    "linkuri": 395,
    "url": "https://mfinante.gov.ro/scheme_noi"
   },
   "mfoug8": {
    "http": 200,
-   "caractere": 140257,
+   "caractere": 140239,
    "linkuri": 396,
    "url": "https://mfinante.gov.ro/oug-8/2026"
   },
