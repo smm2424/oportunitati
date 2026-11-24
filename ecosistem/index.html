@@ -11,9 +11,9 @@
 <style>
 :root{--bg:#03120a;--bg2:#061a0f;--panel:#0a2214;--panel2:#0c2818;--line:#163d26;--tx:#eafbe9;--tx2:#9fc4a6;--g:#1BCC2D;--neon:#9BFF4F;--blue:#0A4A7C;--warn:#ffcf4a;--hot:#ff8a4a;--r:20px}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 Inter,system-ui,sans-serif}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
 a{color:var(--neon)}
-h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;margin:0 0 .6em;letter-spacing:.01em}
+h1,h2,h3{font-family:"Space Grotesk",Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;margin:0 0 .6em;letter-spacing:.01em}
 h1{font-size:28px}h2{font-size:21px}h3{font-size:16px}
 button,input,select,textarea{font:inherit;color:inherit}
 .btn{background:var(--g);color:#02140a;border:0;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer}
@@ -28,7 +28,7 @@ label{display:block;font-size:13px;color:var(--tx2);margin:10px 0 4px}
 #login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(1200px 600px at 20% -10%,#0f3a1d 0,transparent 60%),var(--bg)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
 #login .card{max-width:420px;width:100%}
-.logo{font-family:"Space Grotesk";font-weight:700;font-size:13px;letter-spacing:.25em;color:var(--neon)}
+.logo{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:13px;letter-spacing:.25em;color:var(--neon)}
 #app{display:none;min-height:100vh}
 nav{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--bg2);border-right:1px solid var(--line);padding:18px 12px;overflow:auto}
 nav .logo{padding:0 10px 14px}
@@ -39,7 +39,7 @@ nav .sep{height:1px;background:var(--line);margin:10px 6px}
 nav .eu{font-size:13px;color:var(--tx2);padding:8px 12px}
 main{margin-left:230px;padding:26px 30px 80px;max-width:1300px}
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-.kpi .n{font-family:"Space Grotesk";font-size:34px;font-weight:700}
+.kpi .n{font-family:"Space Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:34px;font-weight:700}
 .kpi .l{color:var(--tx2);font-size:13px}
 .kpi.warn .n{color:var(--warn)}.kpi.hot .n{color:var(--hot)}.kpi.ok .n{color:var(--neon)}
 table{width:100%;border-collapse:collapse;font-size:14px}
@@ -196,7 +196,7 @@ PAGINI.azi = async function (m) {
   h += '</div><div class="spatiu"></div>';
   h += '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(380px,1fr))">';
   h += '<div class="card"><h3>Primele taskuri</h3>' + (d.taskuri.primele.length ? d.taskuri.primele.map(taskRand).join('') : '<p class="muted">Nimic deschis.</p>') + '<div class="spatiu"></div><a class="btn sec mic" href="#taskuri">Toate taskurile</a></div>';
-  h += '<div class="card"><h3>Expiră în următoarele 30 de zile</h3>' + (d.termene.length ? '<table><tr><th>Când</th><th>Ce</th><th>Al cui</th><th>Data</th></tr>' + d.termene.map(function (t) { return '<tr><td>' + zilePill(t.zile) + '</td><td>' + esc(t.ce) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') + '</table>' : '<p class="muted">Nimic nu expiră în 30 de zile.</p>') + '</div>';
+  h += '<div class="card"><h3>Mașini: expiră în 30 de zile sau a expirat</h3>' + (d.termene.length ? '<table><tr><th>Când</th><th>Ce</th><th>Al cui</th><th>Data</th></tr>' + d.termene.map(function (t) { return '<tr><td>' + zilePill(t.zile) + '</td><td>' + esc(t.ce) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') + '</table>' : '<p class="muted">Nimic nu expiră în 30 de zile.</p>') + '<div class="spatiu"></div><a class="btn sec mic" href="#termene">Toate termenele</a></div>';
   h += '</div>';
   m.innerHTML = h;
   m.querySelectorAll('.task').forEach(function (e) { e.onclick = function () { deschideTask(e.dataset.id); }; });
@@ -275,7 +275,8 @@ PAGINI.clarificat = async function (m) {
 PAGINI.termene = async function (m) {
   var d = await api('termene');
   var h = '<h1>Termene și expirări</h1><p class="muted">Din numele actelor din Acte firme („expira ZZ.LL.AAAA”) și din Centralizatorul auto (vehiculele active).</p>';
-  h += '<div class="tabwrap"><table><tr><th>Când</th><th>Categorie</th><th>Ce</th><th>Al cui</th><th>Data</th></tr>' + d.termene.map(function (t) { return '<tr><td>' + zilePill(t.zile) + '</td><td>' + esc(t.categorie) + '</td><td>' + (t.url ? '<a target="_blank" rel="noopener" href="' + esc(t.url) + '">' + esc(t.ce) + '</a>' : esc(t.ce)) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') + '</table></div>';
+  h += '<p class="muted">Certificatele constatatoare extinse și extrasele de la judecătorie sunt valabile 30 de zile și se cer la nevoie, pentru un dosar; „expirat” la ele nu e o urgență.</p>';
+  h += '<div class="tabwrap"><table><tr><th>Când</th><th>Categorie</th><th>Ce</th><th>Al cui</th><th>Data</th></tr>' + d.termene.map(function (t) { return '<tr><td>' + (t.categorie === 'Acte firme' && t.zile < 0 ? '<span class="pill">expirat</span>' : zilePill(t.zile)) + '</td><td>' + esc(t.categorie) + '</td><td>' + (t.url ? '<a target="_blank" rel="noopener" href="' + esc(t.url) + '">' + esc(t.ce) + '</a>' : esc(t.ce)) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') + '</table></div>';
   m.innerHTML = h;
 };
 
@@ -285,7 +286,7 @@ PAGINI.firme = async function (m) {
   var h = '<h1>Firme și asociații</h1><p class="muted">Actele la zi din Acte firme (rădăcina fiecărei firme) și ce lipsește din setul standard.</p><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))">';
   d.firme.forEach(function (f) {
     h += '<div class="card firma"><div class="rand" style="justify-content:space-between"><h3 style="margin:0">' + esc(f.firma) + '</h3><a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(f.url) + '">Folder ↗</a></div>';
-    h += '<ul>' + f.acte.filter(function (a) { return a.tip; }).map(function (a) { return '<li><a target="_blank" rel="noopener" href="' + esc(a.url) + '">' + esc(a.tip) + '</a>' + (a.emis ? ' <span class="muted">· ' + esc(a.emis) + '</span>' : '') + (a.expira ? ' <span class="pill warn">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
+    h += '<ul>' + f.acte.filter(function (a) { return a.tip; }).sort(function (x, y) { return x.nume < y.nume ? -1 : 1; }).map(function (a) { var ex = (/\.([a-z0-9]+)$/i.exec(a.nume) || [])[1]; return '<li><a target="_blank" rel="noopener" href="' + esc(a.url) + '">' + esc(a.tip) + '</a>' + (ex && ex.toLowerCase() !== 'pdf' ? ' <span class="pill">' + esc(ex.toLowerCase()) + '</span>' : '') + (a.emis ? ' <span class="muted">· ' + esc(a.emis) + '</span>' : '') + (a.expira ? ' <span class="pill warn">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
     if (f.lipsa.length) h += '<p style="margin:10px 0 0"><span class="pill hot">lipsă</span> <span class="muted">' + f.lipsa.map(esc).join(', ') + '</span></p>';
     h += '</div>';
   });
