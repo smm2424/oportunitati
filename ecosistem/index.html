@@ -85,7 +85,7 @@ tr:hover td{background:rgba(27,204,45,.04)}
   <h1>Intră</h1>
   <p class="muted">Contul Admin vede tot ecosistemul; contul User are accesul stabilit pentru Tamara.</p>
   <label for="cheie">Parola contului (Admin sau User)</label>
-  <input id="cheie" type="password" autocomplete="current-password" placeholder="TEG-XXXXX-XXXXX-...">
+  <input id="cheie" type="password" autocomplete="current-password" placeholder="Parola ta">
   <div class="spatiu"></div>
   <button class="btn" id="btnLogin" style="width:100%">Intră</button>
   <p id="loginErr" class="muted" style="color:var(--hot)"></p>
@@ -370,9 +370,21 @@ PAGINI.chei = async function (m) {
   var d = await api('chei');
   var h = '<h1>Parole (chei de acces)</h1><p class="muted">Două conturi: Admin și User. Parolele se păstrează doar ca amprentă; una nouă se vede o singură dată; revocarea închide imediat sesiunile contului.</p>';
   h += '<div class="tabwrap"><table><tr><th>Om</th><th>Rol</th><th>Stare</th><th>Creată</th><th>Ultima intrare</th><th></th></tr>' + d.chei.map(function (k) { return '<tr><td>' + esc(k.nume) + ' <span class="muted">(' + esc(k.id) + ')</span></td><td>' + esc(k.rol) + '</td><td>' + (k.activ ? '<span class="pill ok">activă</span>' : '<span class="pill hot">revocată</span>') + '</td><td>' + esc(k.creat) + '</td><td>' + esc(k.ultima || '-') + '</td><td>' + (k.activ ? '<button class="btn rosu mic" data-rev="' + esc(k.id) + '">Revocă</button>' : '') + '</td></tr>'; }).join('') + '</table></div>';
-  h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3>Parolă nouă (sau înlocuire)</h3><label>Contul</label><select id="kId"><option value="user|User|tamara">User (accesul Tamarei)</option><option value="sebastian|Admin|asociat">Admin (înlocuiește parola)</option></select><div class="spatiu"></div><button class="btn" id="kNou">Generează</button><div id="kRez"></div></div>';
+  h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3>Parola ta (aleasă de tine)</h3><p class="muted" style="margin-top:0">Aceeași parolă ca în asistent. Minimum 10 caractere; Admin și User diferite. Parola veche a contului se oprește.</p><label>Contul</label><select id="pId"><option value="sebastian">Admin</option><option value="user">User</option></select><label for="pP1">Parola nouă</label><input id="pP1" type="password" autocomplete="new-password"><label for="pP2">Parola nouă, încă o dată</label><input id="pP2" type="password" autocomplete="new-password"><div class="spatiu"></div><button class="btn" id="pSet">Setează parola</button></div>';
+  h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3>Parolă generată (sau înlocuire)</h3><label>Contul</label><select id="kId"><option value="user|User|tamara">User (accesul Tamarei)</option><option value="sebastian|Admin|asociat">Admin (înlocuiește parola)</option></select><div class="spatiu"></div><button class="btn" id="kNou">Generează</button><div id="kRez"></div></div>';
   m.innerHTML = h;
   m.querySelectorAll('[data-rev]').forEach(function (b) { b.onclick = async function () { if (!confirm('Revoci cheia lui ' + b.dataset.rev + '?')) return; try { await api('cheie_revoca', { id: b.dataset.rev }); toast('Revocată'); PAGINI.chei(m); } catch (e) { toast(e.message); } }; });
+  $('pSet').onclick = async function () {
+    var id = $('pId').value, a = $('pP1').value, b = $('pP2').value, nume = id === 'user' ? 'User' : 'Admin';
+    if (a.trim().length < 10) { toast('Minimum 10 caractere.'); return; }
+    if (a !== b) { toast('Parolele nu se potrivesc.'); return; }
+    try {
+      await api('parola_proprie', { id: id, parola: a });
+      $('pP1').value = ''; $('pP2').value = '';
+      if (id === 'sebastian') { toast('Parola Admin e setată: intră din nou cu ea.'); setTimeout(iesire, 1500); }
+      else { toast('Parola User e setată.'); PAGINI.chei(m); }
+    } catch (e) { toast(e.message); }
+  };
   $('kNou').onclick = async function () {
     var p = $('kId').value.split('|');
     if (!confirm('Generez o parolă nouă pentru contul ' + p[1] + '? Parola veche a contului se oprește.')) return;
