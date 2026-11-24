@@ -243,6 +243,7 @@ async function deschideTask(id) {
   h += '<label>Termen</label><div class="rand"><input id="dTermen" type="date" style="max-width:200px" value="' + inInputData(t.Termen) + '"><button class="btn sec mic" id="dSalvT">Salvează termenul</button><button class="btn sec mic" id="dAmana">Amână 7 zile</button></div>';
   h += '<label>Notă</label><textarea id="dNota" rows="2" placeholder="Ce s-a întâmplat, ce lipsește"></textarea>';
   h += '<div class="rand" style="margin-top:8px"><button class="btn sec mic" id="dNotaB">Adaugă nota</button>' + (S.rol === 'tamara' ? '<button class="btn sec mic" id="dSebi">Sebi știe (trimite în Cockpit)</button>' : '') + '</div>';
+  h += '<div class="rand" style="margin-top:8px"><button class="btn sec mic" id="dAsist">Întreabă asistentul</button></div>';
   h += '<div class="spatiu"></div><div class="rand"><button class="btn" id="dGata">Gata</button><button class="btn sec" id="dLucru">În lucru</button><button class="btn rosu" id="dSterge">Șterge</button></div>';
   h += '<div class="spatiu"></div><h3>Conversația</h3>' + d.fir.map(function (f) { return '<div class="fir"><div class="c">' + esc(f.cand) + ' · ' + esc(f.cine) + ' · ' + esc(f.tip) + '</div><div style="white-space:pre-wrap">' + esc(f.text) + '</div></div>'; }).join('');
   h += '<label>Mesaj</label><textarea id="dMsg" rows="2"></textarea><div class="spatiu"></div><button class="btn sec mic" id="dMsgB">Trimite</button>';
@@ -252,6 +253,7 @@ async function deschideTask(id) {
   $('dAmana').onclick = function () { var b = t.Termen ? new Date(inInputData(t.Termen)) : new Date(); b.setDate(b.getDate() + 7); sch({ termen: dinInputData(b.toISOString().slice(0, 10)), stare: 'amânat' }, 'Amânat cu 7 zile'); };
   $('dNotaB').onclick = function () { if ($('dNota').value.trim()) sch({ nota: $('dNota').value }, 'Notă adăugată'); };
   if ($('dSebi')) $('dSebi').onclick = function () { sch({ sebi_stie: true, nota: $('dNota').value }, 'Trimis lui Sebi în Cockpit'); };
+  $('dAsist').onclick = function () { deschideAsistent('Ajută-mă cu taskul ' + t.ID + ': ' + t.Titlu + (t.Detalii ? '\nDetalii: ' + t.Detalii : '') + (t.Termen ? '\nTermen: ' + t.Termen : '') + '\n'); };
   $('dGata').onclick = function () { sch({ stare: 'făcut' }, 'Marcat ca făcut'); };
   $('dLucru').onclick = function () { sch({ stare: 'în lucru' }, 'În lucru'); };
   $('dSterge').onclick = function () { if (confirm('Ștergi taskul ' + id + '? Rămâne în jurnal.')) { sch({ stare: 'șters' }, 'Șters'); inchide(); } };
@@ -320,87 +322,26 @@ PAGINI.urca = async function (m) {
   };
 };
 
-// ---------- Asistent ----------
-function md(t) {
-  var linii = String(t || '').split('\n'), out = [], tab = [], lista = [];
-  function inline(x) { return esc(x).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a target="_blank" rel="noopener" href="$2">$1</a>'); }
-  function golesteTab() { if (!tab.length) return;
-    var r = tab.filter(function (l) { return !/^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(l); });
-    out.push('<div class="tabwrap" style="max-height:none;margin:8px 0"><table>' + r.map(function (l, k) { var c = l.trim().replace(/^\||\|$/g, '').split('|'); return '<tr>' + c.map(function (x) { return (k ? '<td>' : '<th>') + inline(x.trim()) + (k ? '</td>' : '</th>'); }).join('') + '</tr>'; }).join('') + '</table></div>'); tab = []; }
-  function golesteLista() { if (!lista.length) return; out.push('<ul>' + lista.map(function (x) { return '<li>' + inline(x) + '</li>'; }).join('') + '</ul>'); lista = []; }
-  linii.forEach(function (l) {
-    if (/^\s*\|/.test(l)) { golesteLista(); tab.push(l); return; } golesteTab();
-    var m = /^\s*[-*] (.*)$/.exec(l); if (m) { lista.push(m[1]); return; } golesteLista();
-    var h = /^(#{1,3}) (.*)$/.exec(l); if (h) { out.push('<h3>' + inline(h[2]) + '</h3>'); return; }
-    out.push(l.trim() ? '<p style="margin:6px 0">' + inline(l) + '</p>' : '');
-  });
-  golesteTab(); golesteLista();
-  return out.join('');
+// ---------- Asistent (rulează în claude.ai, pe abonamentul Claude al fiecăruia) ----------
+var ASISTENT_URL = 'https://claude.ai/artifact/UHQPRVYQiR7D8wUBpSSB3c';
+function deschideAsistent(text) {
+  var go = function () { window.open(ASISTENT_URL, '_blank', 'noopener'); };
+  if (text && navigator.clipboard) navigator.clipboard.writeText(text).then(function () { toast('Copiat: lipește în asistent (Ctrl+V)'); go(); }, go); else go();
 }
-var AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null };
-var ETICHETE = { cauta_drive: 'caut în Drive', lista_folder: 'citesc un folder', structura_sursa: 'mă uit în foi', citeste_foaie: 'citesc o foaie', citeste_fisier: 'citesc un fișier', task_nou: 'creez un task', bash: 'calculez', write: 'scriu un fișier', read: 'citesc' };
 PAGINI.asistent = async function (m) {
-  clearTimeout(AS.timer);
-  var ist;
-  try { ist = await api('asistent_istoric'); } catch (e) { ist = { istoric: [] }; }
-  m.innerHTML = '<div class="rand" style="justify-content:space-between"><h1>Asistent</h1><button class="btn sec mic" id="asNou">Conversație nouă</button></div>' +
-    '<p class="muted">' + (S.rol === 'asociat' ? 'Acces la tot ecosistemul.' : 'Vede TEG Finance, TEG Public Funding și documentele primite nominal.') + ' Face Excel-uri (ca foi Google), PDF-uri și rapoarte; primește atașamente.' + (ist.plafon ? ' Cost luna asta: ' + ist.cost_luna + ' $ din ' + ist.plafon + ' $.' : '') + '</p>' +
-    '<div class="grid" style="grid-template-columns:260px 1fr;align-items:start"><div class="card" style="padding:12px"><div class="grupt" style="margin-top:0">Conversațiile mele</div><div id="asIst"></div></div>' +
-    '<div class="card"><div id="asChat" style="min-height:240px;max-height:60vh;overflow:auto"></div><div class="spatiu"></div>' +
-    '<textarea id="asText" rows="3" placeholder="Scrie ce ai nevoie. Ex.: „Fă-mi un Excel cu facturile neachitate ale CODRU Festival SRL din octombrie, pe furnizori”"></textarea>' +
-    '<div class="rand" style="margin-top:8px;justify-content:space-between"><input type="file" id="asFis" multiple style="max-width:60%"><div class="rand"><button class="btn sec mic" id="asStop">Oprește</button><button class="btn" id="asTrimite">Trimite</button></div></div><p id="asStare" class="muted"></p></div></div>';
-  $('asIst').innerHTML = ist.istoric.length ? ist.istoric.map(function (x) { return '<a class="link" style="margin:6px 0;padding:8px 10px;font-size:13px" data-sid="' + esc(x.sid) + '">' + esc(x.titlu) + '<br><span class="muted">' + esc(x.la) + '</span></a>'; }).join('') : '<p class="muted">Încă nimic.</p>';
-  $('asIst').querySelectorAll('[data-sid]').forEach(function (a) { a.onclick = function () { deschideConv(a.dataset.sid); }; });
-  $('asNou').onclick = function () { AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null }; randeazaChat(); };
-  $('asTrimite').onclick = trimiteAs;
-  $('asStop').onclick = async function () { if (AS.sid) { try { await api('asistent_opreste', { sid: AS.sid }); toast('Oprit'); } catch (e) { toast(e.message); } } };
-  $('asText').addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteAs(); });
-  if (AS.sid) randeazaChat(); else randeazaChat();
+  var asoc = S.rol === 'asociat';
+  m.innerHTML = '<h1>Asistent</h1>' +
+    '<div class="card" style="max-width:760px"><h2 style="margin-top:0">' + (asoc ? 'ZEUS' : 'ZEUS light') + ', în Claude</h2>' +
+    '<p class="muted">Asistentul rulează în claude.ai, pe abonamentul Claude al fiecăruia (ca asistentul din Cockpit), și citește Google Drive prin conexiunea ta Google. ' +
+    (asoc ? 'Vede tot ce vezi tu în Drive.' : 'Vede TEG Finance, TEG Public Funding și documentele primite nominal; restul îl refuză.') +
+    ' Caută și citește documente, calculează exact, face Excel-uri (devin Google Sheets) și PDF-uri în TEG Finance, folderul „_Generate de asistent”, și primește atașamente.</p>' +
+    '<div class="rand"><a class="btn" target="_blank" rel="noopener" href="' + ASISTENT_URL + '">Deschide asistentul</a></div>' +
+    '<div class="spatiu"></div><div class="grupt">Prima dată</div><ol class="muted" style="margin:6px 0 0;padding-left:20px">' +
+    '<li>Deschizi linkul logat în claude.ai cu contul tău @teg.ro.</li>' +
+    '<li>Dacă nu ai Google Drive conectat în Claude: Settings, Connectors, Google Drive.</li>' +
+    '<li>La primul mesaj Claude îți cere voie să folosească Claude și Google Drive în pagină: alegi Allow.</li></ol>' +
+    '<div class="spatiu"></div><p class="muted" style="margin:0">Din orice task: butonul „Întreabă asistentul” copiază taskul și deschide asistentul; lipești cu Ctrl+V.</p></div>';
 };
-function citesteFisiere(files) {
-  return Promise.all(Array.from(files || []).slice(0, 5).map(function (f) { return new Promise(function (ok, nu) {
-    if (f.size > 15 * 1024 * 1024) return nu(new Error('Fișier prea mare: ' + f.name));
-    var r = new FileReader(); r.onload = function () { ok({ nume: f.name, mime: f.type, date: String(r.result).split(',')[1] }); }; r.onerror = nu; r.readAsDataURL(f); }); }));
-}
-async function trimiteAs() {
-  var text = $('asText').value.trim(); if (!text) return;
-  $('asTrimite').disabled = true; $('asStare').textContent = 'Trimit...';
-  try {
-    var atas = await citesteFisiere($('asFis').files);
-    var r = await api('asistent_trimite', { sid: AS.sid, text: text, atasamente: atas });
-    if (!AS.sid) { AS.sid = r.sid; AS.dupa = null; }
-    $('asText').value = ''; $('asFis').value = '';
-    sondeaza();
-  } catch (e) { $('asStare').textContent = e.message; }
-  $('asTrimite').disabled = false;
-}
-async function deschideConv(sid) { clearTimeout(AS.timer); AS = { sid: sid, dupa: null, ev: {}, ordine: [], timer: null }; randeazaChat(); sondeaza(); }
-async function sondeaza() {
-  clearTimeout(AS.timer);
-  if (!AS.sid || location.hash.slice(1) !== 'asistent') return;
-  try {
-    var r = await api('asistent_progres', { sid: AS.sid, dupa: AS.dupa });
-    r.evenimente.forEach(function (x) { if (!AS.ev[x.id]) { AS.ev[x.id] = x; AS.ordine.push(x.id); } if (x.la) AS.dupa = x.la; });
-    AS.fisiere = r.fisiere || AS.fisiere;
-    randeazaChat();
-    $('asStare').textContent = r.gata ? '' : 'Lucrez...';
-    if (!r.gata) AS.timer = setTimeout(sondeaza, 2500);
-  } catch (e) { if ($('asStare')) $('asStare').textContent = e.message; }
-}
-function randeazaChat() {
-  var c = $('asChat'); if (!c) return;
-  if (!AS.sid) { c.innerHTML = '<p class="muted">Conversație nouă. Scrie mai jos.</p>'; return; }
-  var h = AS.ordine.map(function (id) {
-    var x = AS.ev[id];
-    if (x.t === 'user.message') return '<div style="margin:10px 0 10px 15%;background:var(--panel2);border-radius:14px;padding:10px 14px;white-space:pre-wrap">' + esc(String(x.text || '').replace(/^\[[^\]]*\]\n(\[Atașamente[^\]]*\]\n)?/, '')) + '</div>';
-    if (x.t === 'agent.message') return '<div style="margin:10px 15% 10px 0">' + md(x.text) + '</div>';
-    if (x.unealta) return '<div class="muted" style="font-size:12px">· ' + esc(ETICHETE[x.unealta] || x.unealta) + '</div>';
-    if (x.t === 'session.error') return '<div style="color:var(--hot)">' + esc(x.text) + '</div>';
-    return '';
-  }).join('');
-  if (AS.fisiere && AS.fisiere.length) h += '<div class="rand" style="margin:10px 0">' + AS.fisiere.map(function (f) { return '<a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(f.url) + '">' + esc(f.nume) + ' ↗</a>'; }).join('') + '</div>';
-  c.innerHTML = h; c.scrollTop = c.scrollHeight;
-}
 
 // ---------- Bot WhatsApp ----------
 PAGINI.bot = async function (m) {
