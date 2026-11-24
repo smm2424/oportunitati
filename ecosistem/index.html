@@ -83,8 +83,8 @@ tr:hover td{background:rgba(27,204,45,.04)}
   <div class="logo">ECOSISTEM TEG</div>
   <div class="spatiu"></div>
   <h1>Intră</h1>
-  <p class="muted">Contul Admin vede tot ecosistemul; contul User are accesul stabilit pentru Tamara.</p>
-  <label for="cheie">Parola contului (Admin sau User)</label>
+  <p class="muted">Fiecare om are parola lui. Prima dată intri cu cheia primită (TEG-…), apoi îți alegi parola din „Parola mea”.</p>
+  <label for="cheie">Parola ta</label>
   <input id="cheie" type="password" autocomplete="current-password" placeholder="Parola ta">
   <div class="spatiu"></div>
   <button class="btn" id="btnLogin" style="width:100%">Intră</button>
@@ -108,7 +108,7 @@ tr:hover td{background:rgba(27,204,45,.04)}
   <a href="https://smm2424.github.io/oportunitati/contracte/" target="_blank" rel="noopener">Contracte ↗</a>
   <div class="sep"></div>
   <a data-p="jurnal">Jurnal</a>
-  <a data-p="chei" class="doar-asociat">Chei de acces</a>
+  <a data-p="chei">Parole</a>
   <div class="sep"></div>
   <div class="eu" id="eu"></div>
   <a id="iesire">Ieșire</a>
@@ -146,7 +146,7 @@ async function login() {
     var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ act: 'login', cheie: cheie }) });
     var j = await r.json();
     if (!j.ok) throw new Error(j.eroare);
-    S = { sesiune: j.sesiune, nume: j.nume, rol: j.rol, exp: j.exp };
+    S = { sesiune: j.sesiune, id: j.id, nume: j.nume, rol: j.rol, exp: j.exp };
     localStorage.setItem('eco_sesiune', JSON.stringify(S));
     $('cheie').value = '';
     porneste();
@@ -160,7 +160,8 @@ $('burger').onclick = function () { $('nav').classList.toggle('deschis'); };
 
 function porneste() {
   $('login').style.display = 'none'; $('app').style.display = 'block'; $('burger').style.display = '';
-  $('eu').textContent = (S.rol === 'asociat' ? 'Admin' : 'User');
+  $('eu').textContent = S.nume + (S.rol === 'asociat' ? ' · asociat' : '');
+  if (!S.id) api('eu').then(function (r) { S.id = r.id; S.nume = r.nume; localStorage.setItem('eco_sesiune', JSON.stringify(S)); $('eu').textContent = S.nume + (S.rol === 'asociat' ? ' · asociat' : ''); }).catch(function () { });
   document.querySelectorAll('.doar-asociat').forEach(function (e) { e.style.display = S.rol === 'asociat' ? '' : 'none'; });
   mergi(location.hash.slice(1) || 'azi');
 }
@@ -234,6 +235,58 @@ function formTaskNou() {
   };
 }
 function inchide() { $('drawer').classList.remove('deschis'); }
+// ---------- Cere lui Claude pe un task (conversația ta pe acest task, ca în Cockpit) ----------
+var TC = { task: null, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
+async function pornesteClaudeTask(id) {
+  clearTimeout(TC.timer); TC = { task: id, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
+  $('tcTrimite').onclick = trimiteTC;
+  $('tcText').addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteTC(); });
+  $('tcStop').onclick = async function () { if (TC.sid) { try { await api('asistent_opreste', { sid: TC.sid }); toast('Oprit'); } catch (e) { toast(e.message); } } };
+  try {
+    var r = await api('asistent_task', { task: id });
+    if (TC.task !== id) return;
+    if (!r.pornit) { $('tcChat').innerHTML = '<p class="muted">Asistentul se pornește în curând.</p>'; $('tcTrimite').disabled = true; return; }
+    TC.sid = r.sid;
+    if (TC.sid) sondeazaTC(); else randeazaTC();
+  } catch (e) { $('tcChat').innerHTML = '<p class="muted">' + esc(e.message) + '</p>'; }
+}
+async function trimiteTC() {
+  var text = $('tcText').value.trim(); if (!text || !TC.task) return;
+  $('tcTrimite').disabled = true; $('tcStare').textContent = 'Trimit...';
+  try {
+    var r = await api('asistent_trimite', { task: TC.task, sid: TC.sid, text: text });
+    TC.sid = r.sid; $('tcText').value = ''; sondeazaTC();
+  } catch (e) { $('tcStare').textContent = e.message; }
+  $('tcTrimite').disabled = false;
+}
+async function sondeazaTC() {
+  clearTimeout(TC.timer);
+  if (!TC.sid || !$('tcChat') || !$('drawer').classList.contains('deschis')) return;
+  var task = TC.task;
+  try {
+    var r = await api('asistent_progres', { sid: TC.sid, dupa: TC.dupa });
+    if (TC.task !== task) return;
+    r.evenimente.forEach(function (x) { if (!TC.ev[x.id]) { TC.ev[x.id] = x; TC.ordine.push(x.id); } if (x.la) TC.dupa = x.la; });
+    TC.fisiere = r.fisiere || TC.fisiere;
+    randeazaTC();
+    if ($('tcStare')) $('tcStare').textContent = r.gata ? '' : 'Claude lucrează...';
+    if (!r.gata) TC.timer = setTimeout(sondeazaTC, 2500);
+  } catch (e) { if ($('tcStare')) $('tcStare').textContent = e.message; }
+}
+function randeazaTC() {
+  var c = $('tcChat'); if (!c) return;
+  if (!TC.sid || !TC.ordine.length) { c.innerHTML = '<p class="muted">Încă nicio întrebare pe acest task.</p>'; return; }
+  var h = TC.ordine.map(function (id) {
+    var x = TC.ev[id];
+    if (x.t === 'user.message') return '<div style="margin:8px 0 8px 12%;background:var(--panel2);border-radius:12px;padding:8px 12px;white-space:pre-wrap">' + esc(curataMesaj(x.text)) + '</div>';
+    if (x.t === 'agent.message') return '<div style="margin:8px 12% 8px 0">' + md(x.text) + '</div>';
+    if (x.unealta) return '<div class="muted" style="font-size:12px">· ' + esc(ETICHETE[x.unealta] || x.unealta) + '</div>';
+    if (x.t === 'session.error') return '<div style="color:var(--hot)">' + esc(x.text) + '</div>';
+    return '';
+  }).join('');
+  if (TC.fisiere && TC.fisiere.length) h += '<div class="rand" style="margin:8px 0">' + TC.fisiere.map(function (f) { return '<a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(f.url) + '">' + esc(f.nume) + ' ↗</a>'; }).join('') + '</div>';
+  c.innerHTML = h; c.scrollTop = c.scrollHeight;
+}
 async function deschideTask(id) {
   var dr = $('drawer'); dr.innerHTML = '<p class="muted">Se încarcă...</p>'; dr.classList.add('deschis');
   var d = await api('task_fir', { id: id }), t = d.task;
@@ -243,17 +296,18 @@ async function deschideTask(id) {
   h += '<label>Termen</label><div class="rand"><input id="dTermen" type="date" style="max-width:200px" value="' + inInputData(t.Termen) + '"><button class="btn sec mic" id="dSalvT">Salvează termenul</button><button class="btn sec mic" id="dAmana">Amână 7 zile</button></div>';
   h += '<label>Notă</label><textarea id="dNota" rows="2" placeholder="Ce s-a întâmplat, ce lipsește"></textarea>';
   h += '<div class="rand" style="margin-top:8px"><button class="btn sec mic" id="dNotaB">Adaugă nota</button>' + (S.rol === 'tamara' ? '<button class="btn sec mic" id="dSebi">Sebi știe (trimite în Cockpit)</button>' : '') + '</div>';
-  h += '<div class="rand" style="margin-top:8px"><button class="btn sec mic" id="dAsist">Întreabă asistentul</button></div>';
+
   h += '<div class="spatiu"></div><div class="rand"><button class="btn" id="dGata">Gata</button><button class="btn sec" id="dLucru">În lucru</button><button class="btn rosu" id="dSterge">Șterge</button></div>';
   h += '<div class="spatiu"></div><h3>Conversația</h3>' + d.fir.map(function (f) { return '<div class="fir"><div class="c">' + esc(f.cand) + ' · ' + esc(f.cine) + ' · ' + esc(f.tip) + '</div><div style="white-space:pre-wrap">' + esc(f.text) + '</div></div>'; }).join('');
   h += '<label>Mesaj</label><textarea id="dMsg" rows="2"></textarea><div class="spatiu"></div><button class="btn sec mic" id="dMsgB">Trimite</button>';
+  h += '<div class="spatiu"></div><h3>Cere lui Claude</h3><p class="muted" style="margin-top:0">Conversația ta cu Claude despre acest task; Claude vede taskul și istoricul lui și caută în Drive cu accesul tău.</p><div id="tcChat" class="card" style="max-height:50vh;overflow:auto"><p class="muted">Se încarcă...</p></div><textarea id="tcText" rows="2" placeholder="Ex.: Ce mai lipsește ca să închid taskul? Găsește factura și spune-mi suma."></textarea><div class="rand" style="margin-top:8px"><button class="btn" id="tcTrimite">Trimite lui Claude</button><button class="btn sec mic" id="tcStop">Oprește</button></div><p id="tcStare" class="muted"></p>';
   dr.innerHTML = h;
+  pornesteClaudeTask(id);
   var sch = async function (o, msg) { try { await api('task_schimba', Object.assign({ id: id }, o)); toast(msg); deschideTask(id); if (location.hash.slice(1) === 'taskuri' || location.hash.slice(1) === 'azi') mergi(location.hash.slice(1), true); } catch (e) { toast(e.message); } };
   $('dSalvT').onclick = function () { sch({ termen: dinInputData($('dTermen').value) }, 'Termen salvat'); };
   $('dAmana').onclick = function () { var b = t.Termen ? new Date(inInputData(t.Termen)) : new Date(); b.setDate(b.getDate() + 7); sch({ termen: dinInputData(b.toISOString().slice(0, 10)), stare: 'amânat' }, 'Amânat cu 7 zile'); };
   $('dNotaB').onclick = function () { if ($('dNota').value.trim()) sch({ nota: $('dNota').value }, 'Notă adăugată'); };
   if ($('dSebi')) $('dSebi').onclick = function () { sch({ sebi_stie: true, nota: $('dNota').value }, 'Trimis lui Sebi în Cockpit'); };
-  $('dAsist').onclick = function () { deschideAsistent('Ajută-mă cu taskul ' + t.ID + ': ' + t.Titlu + (t.Detalii ? '\nDetalii: ' + t.Detalii : '') + (t.Termen ? '\nTermen: ' + t.Termen : '') + '\n'); };
   $('dGata').onclick = function () { sch({ stare: 'făcut' }, 'Marcat ca făcut'); };
   $('dLucru').onclick = function () { sch({ stare: 'în lucru' }, 'În lucru'); };
   $('dSterge').onclick = function () { if (confirm('Ștergi taskul ' + id + '? Rămâne în jurnal.')) { sch({ stare: 'șters' }, 'Șters'); inchide(); } };
@@ -322,21 +376,96 @@ PAGINI.urca = async function (m) {
   };
 };
 
-// ---------- Asistent (rulează în claude.ai, pe abonamentul Claude al lui Sebastian; aceleași conturi Admin / User) ----------
+// ---------- Asistent (API Anthropic, din creditele lunare incluse în abonamentul Claude Max al lui Sebastian; patru oameni, fiecare cu accesul lui) ----------
 var ASISTENT_URL = 'https://claude.ai/artifact/UHQPRVYQiR7D8wUBpSSB3c';
-function deschideAsistent(text) {
-  var go = function () { window.open(ASISTENT_URL, '_blank', 'noopener'); };
-  if (text && navigator.clipboard) navigator.clipboard.writeText(text).then(function () { toast('Copiat: lipește în asistent (Ctrl+V)'); go(); }, go); else go();
+var AS_TEXT = '';
+function deschideAsistent(text) { AS_TEXT = text || ''; inchide(); location.hash = 'asistent'; }
+function md(t) {
+  var linii = String(t || '').split('\n'), out = [], tab = [], lista = [];
+  function inline(x) { return esc(x).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a target="_blank" rel="noopener" href="$2">$1</a>'); }
+  function golesteTab() { if (!tab.length) return;
+    var r = tab.filter(function (l) { return !/^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(l); });
+    out.push('<div class="tabwrap" style="max-height:none;margin:8px 0"><table>' + r.map(function (l, k) { var c = l.trim().replace(/^\||\|$/g, '').split('|'); return '<tr>' + c.map(function (x) { return (k ? '<td>' : '<th>') + inline(x.trim()) + (k ? '</td>' : '</th>'); }).join('') + '</tr>'; }).join('') + '</table></div>'); tab = []; }
+  function golesteLista() { if (!lista.length) return; out.push('<ul>' + lista.map(function (x) { return '<li>' + inline(x) + '</li>'; }).join('') + '</ul>'); lista = []; }
+  linii.forEach(function (l) {
+    if (/^\s*\|/.test(l)) { golesteLista(); tab.push(l); return; } golesteTab();
+    var m = /^\s*[-*] (.*)$/.exec(l); if (m) { lista.push(m[1]); return; } golesteLista();
+    var h = /^(#{1,3}) (.*)$/.exec(l); if (h) { out.push('<h3>' + inline(h[2]) + '</h3>'); return; }
+    out.push(l.trim() ? '<p style="margin:6px 0">' + inline(l) + '</p>' : '');
+  });
+  golesteTab(); golesteLista();
+  return out.join('');
 }
+function curataMesaj(t) { t = String(t || ''); var i = t.indexOf('[Mesajul despre acest task:]\n'); if (i >= 0) return t.slice(i + 29); return t.replace(/^\[[^\]]*\]\n(\[Atașamente[^\]]*\]\n)?/, ''); }
+var AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null };
+var ETICHETE = { cauta_drive: 'caut în Drive', lista_folder: 'citesc un folder', structura_sursa: 'mă uit în foi', citeste_foaie: 'citesc o foaie', citeste_fisier: 'citesc un fișier', task_nou: 'creez un task', bash: 'calculez', write: 'scriu un fișier', read: 'citesc' };
 PAGINI.asistent = async function (m) {
-  var asoc = S.rol === 'asociat';
-  m.innerHTML = '<h1>Asistent</h1>' +
-    '<div class="card" style="max-width:760px"><h2 style="margin-top:0">' + (asoc ? 'Admin · ZEUS' : 'User · ZEUS light') + '</h2>' +
-    '<p class="muted">Asistentul rulează în Claude, pe abonamentul tău, și citește Google Drive prin conexiunea ta. Intri acolo cu parola contului ' + (asoc ? 'Admin: vede tot ecosistemul.' : 'User: vede TEG Finance, TEG Public Funding și documentele date nominal Tamarei; restul îl refuză.') +
-    ' Caută și citește documente, citește foile întregi, calculează exact, face Excel-uri (devin Google Sheets) și PDF-uri în TEG Finance › „_Generate de asistent” și primește atașamente.</p>' +
-    '<div class="rand"><a class="btn" target="_blank" rel="noopener" href="' + ASISTENT_URL + '">Deschide asistentul</a></div>' +
-    '<div class="spatiu"></div><p class="muted" style="margin:0">Din orice task: „Întreabă asistentul” copiază taskul și deschide asistentul; lipești cu Ctrl+V.</p></div>';
+  clearTimeout(AS.timer);
+  var ist, eu = {};
+  try { ist = await api('asistent_istoric'); } catch (e) { ist = { istoric: [] }; }
+  try { eu = await api('eu'); } catch (e) { }
+  var nepornit = eu.asistent === false;
+  m.innerHTML = '<div class="rand" style="justify-content:space-between"><h1>Asistent</h1><button class="btn sec mic" id="asNou">Conversație nouă</button></div>' +
+    '<p class="muted">' + (S.rol === 'asociat' ? 'Acces la tot ecosistemul.' : 'Vede TEG Finance, TEG Public Funding și documentele primite nominal.') + ' Face Excel-uri (ca foi Google), PDF-uri și rapoarte; primește atașamente.' + (ist.plafon ? ' Consum luna asta: ' + ist.cost_luna + ' $ din ' + ist.plafon + ' $.' : '') + '</p>' +
+    (S.id === 'sebastian' ? '<div class="card" style="margin-bottom:14px;padding:12px 16px"><b>Pe abonamentul tău Claude:</b> același asistent, direct în Claude, cu Google Drive-ul tău. <a target="_blank" rel="noopener" href="' + ASISTENT_URL + '">Deschide în Claude ↗</a></div>' : '') +
+    (nepornit ? '<div class="card" style="margin-bottom:14px;padding:12px 16px;border-color:#5e4b12"><b>Asistentul se pornește în curând.</b> <span class="muted">Până atunci, întrebările merg pe WhatsApp la Sebastian.</span></div>' : '') +
+    '<div class="grid" style="grid-template-columns:260px 1fr;align-items:start"><div class="card" style="padding:12px"><div class="grupt" style="margin-top:0">Conversațiile mele</div><div id="asIst"></div></div>' +
+    '<div class="card"><div id="asChat" style="min-height:240px;max-height:60vh;overflow:auto"></div><div class="spatiu"></div>' +
+    '<textarea id="asText" rows="3" placeholder="Scrie ce ai nevoie. Ex.: „Fă-mi un Excel cu facturile neachitate ale CODRU Festival SRL din octombrie, pe furnizori”"></textarea>' +
+    '<div class="rand" style="margin-top:8px;justify-content:space-between"><input type="file" id="asFis" multiple style="max-width:60%"><div class="rand"><button class="btn sec mic" id="asStop">Oprește</button><button class="btn" id="asTrimite">Trimite</button></div></div><p id="asStare" class="muted"></p></div></div>';
+  $('asIst').innerHTML = ist.istoric.length ? ist.istoric.map(function (x) { return '<a class="link" style="margin:6px 0;padding:8px 10px;font-size:13px" data-sid="' + esc(x.sid) + '">' + esc(x.titlu) + '<br><span class="muted">' + esc(x.la) + '</span></a>'; }).join('') : '<p class="muted">Încă nimic.</p>';
+  $('asIst').querySelectorAll('[data-sid]').forEach(function (a) { a.onclick = function () { deschideConv(a.dataset.sid); }; });
+  $('asNou').onclick = function () { AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null }; randeazaChat(); };
+  $('asTrimite').onclick = trimiteAs;
+  $('asStop').onclick = async function () { if (AS.sid) { try { await api('asistent_opreste', { sid: AS.sid }); toast('Oprit'); } catch (e) { toast(e.message); } } };
+  $('asText').addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteAs(); });
+  if (AS_TEXT) { $('asText').value = AS_TEXT; AS_TEXT = ''; $('asText').focus(); }
+  randeazaChat();
 };
+function citesteFisiere(files) {
+  return Promise.all(Array.from(files || []).slice(0, 5).map(function (f) { return new Promise(function (ok, nu) {
+    if (f.size > 15 * 1024 * 1024) return nu(new Error('Fișier prea mare: ' + f.name));
+    var r = new FileReader(); r.onload = function () { ok({ nume: f.name, mime: f.type, date: String(r.result).split(',')[1] }); }; r.onerror = nu; r.readAsDataURL(f); }); }));
+}
+async function trimiteAs() {
+  var text = $('asText').value.trim(); if (!text) return;
+  $('asTrimite').disabled = true; $('asStare').textContent = 'Trimit...';
+  try {
+    var atas = await citesteFisiere($('asFis').files);
+    var r = await api('asistent_trimite', { sid: AS.sid, text: text, atasamente: atas });
+    if (!AS.sid) { AS.sid = r.sid; AS.dupa = null; }
+    $('asText').value = ''; $('asFis').value = '';
+    sondeaza();
+  } catch (e) { $('asStare').textContent = e.message; }
+  $('asTrimite').disabled = false;
+}
+async function deschideConv(sid) { clearTimeout(AS.timer); AS = { sid: sid, dupa: null, ev: {}, ordine: [], timer: null }; randeazaChat(); sondeaza(); }
+async function sondeaza() {
+  clearTimeout(AS.timer);
+  if (!AS.sid || location.hash.slice(1) !== 'asistent') return;
+  try {
+    var r = await api('asistent_progres', { sid: AS.sid, dupa: AS.dupa });
+    r.evenimente.forEach(function (x) { if (!AS.ev[x.id]) { AS.ev[x.id] = x; AS.ordine.push(x.id); } if (x.la) AS.dupa = x.la; });
+    AS.fisiere = r.fisiere || AS.fisiere;
+    randeazaChat();
+    $('asStare').textContent = r.gata ? '' : 'Lucrez...';
+    if (!r.gata) AS.timer = setTimeout(sondeaza, 2500);
+  } catch (e) { if ($('asStare')) $('asStare').textContent = e.message; }
+}
+function randeazaChat() {
+  var c = $('asChat'); if (!c) return;
+  if (!AS.sid) { c.innerHTML = '<p class="muted">Conversație nouă. Scrie mai jos.</p>'; return; }
+  var h = AS.ordine.map(function (id) {
+    var x = AS.ev[id];
+    if (x.t === 'user.message') return '<div style="margin:10px 0 10px 15%;background:var(--panel2);border-radius:14px;padding:10px 14px;white-space:pre-wrap">' + esc(curataMesaj(x.text)) + '</div>';
+    if (x.t === 'agent.message') return '<div style="margin:10px 15% 10px 0">' + md(x.text) + '</div>';
+    if (x.unealta) return '<div class="muted" style="font-size:12px">· ' + esc(ETICHETE[x.unealta] || x.unealta) + '</div>';
+    if (x.t === 'session.error') return '<div style="color:var(--hot)">' + esc(x.text) + '</div>';
+    return '';
+  }).join('');
+  if (AS.fisiere && AS.fisiere.length) h += '<div class="rand" style="margin:10px 0">' + AS.fisiere.map(function (f) { return '<a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(f.url) + '">' + esc(f.nume) + ' ↗</a>'; }).join('') + '</div>';
+  c.innerHTML = h; c.scrollTop = c.scrollHeight;
+}
 
 // ---------- Bot WhatsApp ----------
 PAGINI.bot = async function (m) {
@@ -366,36 +495,37 @@ PAGINI.jurnal = async function (m) {
 
 // ---------- Chei (asociați) ----------
 PAGINI.chei = async function (m) {
-  if (S.rol !== 'asociat') { m.innerHTML = '<p class="muted">Doar din contul Admin.</p>'; return; }
-  var d = await api('chei');
-  var h = '<h1>Parole (chei de acces)</h1><p class="muted">Două conturi: Admin și User. Parolele se păstrează doar ca amprentă; una nouă se vede o singură dată; revocarea închide imediat sesiunile contului.</p>';
-  h += '<div class="tabwrap"><table><tr><th>Om</th><th>Rol</th><th>Stare</th><th>Creată</th><th>Ultima intrare</th><th></th></tr>' + d.chei.map(function (k) { return '<tr><td>' + esc(k.nume) + ' <span class="muted">(' + esc(k.id) + ')</span></td><td>' + esc(k.rol) + '</td><td>' + (k.activ ? '<span class="pill ok">activă</span>' : '<span class="pill hot">revocată</span>') + '</td><td>' + esc(k.creat) + '</td><td>' + esc(k.ultima || '-') + '</td><td>' + (k.activ ? '<button class="btn rosu mic" data-rev="' + esc(k.id) + '">Revocă</button>' : '') + '</td></tr>'; }).join('') + '</table></div>';
-  h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3>Parola ta (aleasă de tine)</h3><p class="muted" style="margin-top:0">Aceeași parolă ca în asistent. Minimum 10 caractere; Admin și User diferite. Parola veche a contului se oprește.</p><label>Contul</label><select id="pId"><option value="sebastian">Admin</option><option value="user">User</option></select><label for="pP1">Parola nouă</label><input id="pP1" type="password" autocomplete="new-password"><label for="pP2">Parola nouă, încă o dată</label><input id="pP2" type="password" autocomplete="new-password"><div class="spatiu"></div><button class="btn" id="pSet">Setează parola</button></div>';
-  h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3>Parolă generată (sau înlocuire)</h3><label>Contul</label><select id="kId"><option value="user|User|tamara">User (accesul Tamarei)</option><option value="sebastian|Admin|asociat">Admin (înlocuiește parola)</option></select><div class="spatiu"></div><button class="btn" id="kNou">Generează</button><div id="kRez"></div></div>';
+  var h = '<h1>Parole</h1>';
+  h += '<div class="card" style="max-width:560px"><h3 style="margin-top:0">Parola mea</h3><p class="muted" style="margin-top:0">Îți alegi parola ta (minimum 10 caractere). Cheia sau parola veche se oprește și intri din nou cu cea nouă.</p><label for="pP1">Parola nouă</label><input id="pP1" type="password" autocomplete="new-password"><label for="pP2">Parola nouă, încă o dată</label><input id="pP2" type="password" autocomplete="new-password"><div class="spatiu"></div><button class="btn" id="pSet">Setează parola mea</button></div>';
+  if (S.rol === 'asociat') {
+    var d = await api('chei');
+    h += '<div class="spatiu"></div><h2>Conturile</h2><p class="muted">Parolele se păstrează doar ca amprentă. O cheie nouă se vede o singură dată; o trimiți omului pe un canal privat. Revocarea închide imediat sesiunile lui.</p>';
+    h += '<div class="tabwrap"><table><tr><th>Om</th><th>Acces</th><th>Stare</th><th>Creată</th><th>Ultima intrare</th><th></th></tr>' + d.chei.map(function (k) { return '<tr><td>' + esc(k.nume) + ' <span class="muted">(' + esc(k.id) + ')</span></td><td>' + (k.rol === 'asociat' ? 'asociat' : 'acces Tamara') + '</td><td>' + (k.activ ? '<span class="pill ok">activă</span>' : '<span class="pill hot">revocată</span>') + '</td><td>' + esc(k.creat) + '</td><td>' + esc(k.ultima || '-') + '</td><td>' + (k.activ && k.id !== S.id ? '<button class="btn rosu mic" data-rev="' + esc(k.id) + '">Revocă</button>' : '') + '</td></tr>'; }).join('') + '</table></div>';
+    h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3 style="margin-top:0">Cheie nouă pentru un om</h3><label>Cine</label><select id="kId"><option value="victor|Victor|asociat">Victor (asociat)</option><option value="darius|Darius|asociat">Darius (asociat)</option><option value="tamara|Tamara|tamara">Tamara</option><option value="sebastian|Sebastian|asociat">Sebastian (înlocuire)</option></select><div class="spatiu"></div><button class="btn" id="kNou">Generează cheia</button><div id="kRez"></div></div>';
+  }
   m.innerHTML = h;
-  m.querySelectorAll('[data-rev]').forEach(function (b) { b.onclick = async function () { if (!confirm('Revoci cheia lui ' + b.dataset.rev + '?')) return; try { await api('cheie_revoca', { id: b.dataset.rev }); toast('Revocată'); PAGINI.chei(m); } catch (e) { toast(e.message); } }; });
   $('pSet').onclick = async function () {
-    var id = $('pId').value, a = $('pP1').value, b = $('pP2').value, nume = id === 'user' ? 'User' : 'Admin';
+    var a = $('pP1').value, b = $('pP2').value;
     if (a.trim().length < 10) { toast('Minimum 10 caractere.'); return; }
     if (a !== b) { toast('Parolele nu se potrivesc.'); return; }
-    try {
-      await api('parola_proprie', { id: id, parola: a });
-      $('pP1').value = ''; $('pP2').value = '';
-      if (id === 'sebastian') { toast('Parola Admin e setată: intră din nou cu ea.'); setTimeout(iesire, 1500); }
-      else { toast('Parola User e setată.'); PAGINI.chei(m); }
-    } catch (e) { toast(e.message); }
+    try { await api('parola_proprie', { parola: a }); $('pP1').value = ''; $('pP2').value = ''; toast('Parola ta e setată: intră din nou cu ea.'); setTimeout(iesire, 1500); }
+    catch (e) { toast(e.message); }
   };
+  if (S.rol !== 'asociat') return;
+  m.querySelectorAll('[data-rev]').forEach(function (b) { b.onclick = async function () { if (!confirm('Revoci accesul lui ' + b.dataset.rev + '?')) return; try { await api('cheie_revoca', { id: b.dataset.rev }); toast('Revocat'); PAGINI.chei(m); } catch (e) { toast(e.message); } }; });
   $('kNou').onclick = async function () {
     var p = $('kId').value.split('|');
-    if (!confirm('Generez o parolă nouă pentru contul ' + p[1] + '? Parola veche a contului se oprește.')) return;
+    if (!confirm('Generez o cheie nouă pentru ' + p[1] + '? Cheia sau parola lui veche se oprește.')) return;
     try {
       var r = await api('cheie_noua', { id: p[0], nume: p[1], rol: p[2] });
-      $('kRez').innerHTML = '<div class="spatiu"></div><p>Parola contului ' + esc(p[1]) + ' (o salvezi acum în managerul de parole; nu se mai afișează):</p><div class="cheie">' + esc(r.cheie) + '</div><div class="spatiu"></div><button class="btn sec mic" id="kCopy">Copiază</button>';
+      $('kRez').innerHTML = '<div class="spatiu"></div><p>Cheia pentru ' + esc(p[1]) + ' (o trimiți pe un canal privat; nu se mai afișează). Cu ea intră prima dată, apoi își alege parola din „Parola mea”:</p><div class="cheie">' + esc(r.cheie) + '</div><div class="spatiu"></div><button class="btn sec mic" id="kCopy">Copiază</button>';
       $('kCopy').onclick = function () { navigator.clipboard.writeText(r.cheie); toast('Copiată'); };
-      if (p[0] === 'sebastian') { toast('Parola Admin s-a schimbat: intră din nou.'); }
+      if (p[0] === 'sebastian') { toast('Cheia ta s-a schimbat: intră din nou.'); }
+      PAGINI.chei && setTimeout(function () { }, 0);
     } catch (e) { toast(e.message); }
   };
 };
+
 
 if (S.sesiune) porneste(); else { $('burger').style.display = 'none'; }
 </script>
