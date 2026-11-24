@@ -14,3 +14,6 @@ Copii zilnice ale unor pagini publice care refuză serverele Google (fonduri-str
 
 ## cockpit/ (din 09.11.2026)
 Lansatorul Cockpit-ului lui Sebastian: o pagină fără date, cu logo-ul Cockpit ca iconiță (filă, bookmark, ecranul principal pe iPhone), care deschide după 0,7 s artifactul Cockpit de pe claude.ai (privat, cere contul lui). Bookmark-ul se face pe https://smm2424.github.io/oportunitati/cockpit/.
+
+## ecosistem/ (din 24.11.2026)
+Pagina „Platforma Ecosistem TEG” (asociați + Tamara). Nu conține date și nici chei: intrarea se face cu cheia personală a fiecărui om, verificată pe server de un web app Apps Script („Ecosistem TEG”, contul sebastian@teg.ro), care păstrează cheile doar ca amprentă (hash) și dă sesiuni semnate de 12 ore. Rolul (asociat / Tamara) se decide pe server la fiecare apel. Linkul final va fi ecosistem.teg.ro.

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Ecosistem TEG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#03120a;--bg2:#061a0f;--panel:#0a2214;--panel2:#0c2818;--line:#163d26;--tx:#eafbe9;--tx2:#9fc4a6;--g:#1BCC2D;--neon:#9BFF4F;--blue:#0A4A7C;--warn:#ffcf4a;--hot:#ff8a4a;--r:20px}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 Inter,system-ui,sans-serif}
+a{color:var(--neon)}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;margin:0 0 .6em;letter-spacing:.01em}
+h1{font-size:28px}h2{font-size:21px}h3{font-size:16px}
+button,input,select,textarea{font:inherit;color:inherit}
+.btn{background:var(--g);color:#02140a;border:0;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--neon)}
+.btn.sec{background:transparent;color:var(--tx);border:1px solid var(--line)}
+.btn.sec:hover{border-color:var(--g)}
+.btn.mic{padding:6px 10px;font-size:13px}
+.btn.rosu{background:transparent;border:1px solid #6b2a1a;color:var(--hot)}
+input,select,textarea{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g)}
+label{display:block;font-size:13px;color:var(--tx2);margin:10px 0 4px}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(1200px 600px at 20% -10%,#0f3a1d 0,transparent 60%),var(--bg)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+#login .card{max-width:420px;width:100%}
+.logo{font-family:"Space Grotesk";font-weight:700;font-size:13px;letter-spacing:.25em;color:var(--neon)}
+#app{display:none;min-height:100vh}
+nav{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--bg2);border-right:1px solid var(--line);padding:18px 12px;overflow:auto}
+nav .logo{padding:0 10px 14px}
+nav a{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:12px;color:var(--tx);text-decoration:none;margin:2px 0;cursor:pointer}
+nav a:hover{background:var(--panel)}
+nav a.activ{background:var(--panel2);color:var(--neon)}
+nav .sep{height:1px;background:var(--line);margin:10px 6px}
+nav .eu{font-size:13px;color:var(--tx2);padding:8px 12px}
+main{margin-left:230px;padding:26px 30px 80px;max-width:1300px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.kpi .n{font-family:"Space Grotesk";font-size:34px;font-weight:700}
+.kpi .l{color:var(--tx2);font-size:13px}
+.kpi.warn .n{color:var(--warn)}.kpi.hot .n{color:var(--hot)}.kpi.ok .n{color:var(--neon)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+th{color:var(--tx2);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;position:sticky;top:0;background:var(--panel)}
+tr:hover td{background:rgba(27,204,45,.04)}
+.tabwrap{overflow:auto;max-height:70vh;border-radius:14px;border:1px solid var(--line)}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--panel2);border:1px solid var(--line)}
+.pill.hot{color:var(--hot);border-color:#6b2a1a}.pill.warn{color:var(--warn);border-color:#5e4b12}.pill.ok{color:var(--neon);border-color:#245a2a}
+.rand{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.spatiu{height:16px}
+.muted{color:var(--tx2)}
+.task{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:14px;margin:8px 0;background:var(--panel);cursor:pointer}
+.task:hover{border-color:var(--g)}
+.task .t{font-weight:600}
+.task .m{font-size:12px;color:var(--tx2)}
+.link{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);text-decoration:none;color:var(--tx)}
+.link:hover{border-color:var(--g);color:var(--neon)}
+.grupt{margin:22px 0 8px;color:var(--tx2);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg2);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .2s;z-index:20;overflow:auto;padding:22px}
+#drawer.deschis{transform:none}
+.fir{border-left:2px solid var(--line);padding-left:12px;margin:10px 0}
+.fir .c{font-size:12px;color:var(--tx2)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--g);padding:10px 16px;border-radius:12px;display:none;z-index:30}
+.cheie{font-family:ui-monospace,monospace;font-size:17px;background:var(--bg);padding:12px;border-radius:12px;border:1px dashed var(--g);word-break:break-all}
+.firma{margin-bottom:14px}
+.firma ul{margin:6px 0 0;padding-left:18px}
+.firma li{margin:3px 0}
+.burger{display:none}
+@media (max-width:860px){
+ nav{transform:translateX(-100%);transition:transform .2s;z-index:25;width:260px}
+ nav.deschis{transform:none}
+ main{margin-left:0;padding:70px 16px 80px}
+ .burger{display:block;position:fixed;top:12px;left:12px;z-index:26}
+}
+</style>
+</head>
+<body>
+<section id="login">
+ <div class="card">
+  <div class="logo">ECOSISTEM TEG</div>
+  <div class="spatiu"></div>
+  <h1>Intră cu cheia ta</h1>
+  <p class="muted">Fiecare om are cheia lui. Dacă nu o ai sau ai pierdut-o, cere-o lui Sebi.</p>
+  <label for="cheie">Cheia personală</label>
+  <input id="cheie" type="password" autocomplete="off" placeholder="TEG-XXXXX-XXXXX-...">
+  <div class="spatiu"></div>
+  <button class="btn" id="btnLogin" style="width:100%">Intră</button>
+  <p id="loginErr" class="muted" style="color:var(--hot)"></p>
+ </div>
+</section>
+
+<button class="btn sec mic burger" id="burger">Meniu</button>
+<div id="app">
+ <nav id="nav">
+  <div class="logo">ECOSISTEM TEG</div>
+  <a data-p="azi">Azi</a>
+  <a data-p="taskuri">Taskuri</a>
+  <a data-p="clarificat">De clarificat</a>
+  <a data-p="termene">Termene și expirări</a>
+  <a data-p="firme">Firme</a>
+  <a data-p="linkuri">Link-uri utile</a>
+  <a data-p="urca">Urcă document</a>
+  <a data-p="asistent">Asistent</a>
+  <a data-p="bot">Bot WhatsApp</a>
+  <a href="https://smm2424.github.io/oportunitati/contracte/" target="_blank" rel="noopener">Contracte ↗</a>
+  <div class="sep"></div>
+  <a data-p="jurnal">Jurnal</a>
+  <a data-p="chei" class="doar-asociat">Chei de acces</a>
+  <div class="sep"></div>
+  <div class="eu" id="eu"></div>
+  <a id="iesire">Ieșire</a>
+ </nav>
+ <main id="main"></main>
+</div>
+<aside id="drawer"></aside>
+<div id="toast"></div>
+
+<script>
+var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
+var S = { sesiune: null, nume: '', rol: '' };
+try { var s0 = JSON.parse(localStorage.getItem('eco_sesiune') || 'null'); if (s0 && s0.exp > Date.now()) S = s0; } catch (e) {}
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
+function $(id) { return document.getElementById(id); }
+function toast(t) { var e = $('toast'); e.textContent = t; e.style.display = 'block'; clearTimeout(e._t); e._t = setTimeout(function () { e.style.display = 'none'; }, 3200); }
+async function api(act, date) {
+  var corp = Object.assign({ act: act, sesiune: S.sesiune }, date || {});
+  var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(corp), redirect: 'follow' });
+  var j = await r.json();
+  if (!j.ok) {
+    if (/^SESIUNE/.test(j.eroare || '')) { iesire(); throw new Error('Sesiunea a expirat. Intră din nou.'); }
+    throw new Error(j.eroare || 'Eroare');
+  }
+  return j;
+}
+function iesire() { localStorage.removeItem('eco_sesiune'); S = { sesiune: null }; $('app').style.display = 'none'; $('burger').style.display = 'none'; $('login').style.display = 'flex'; }
+async function login() {
+  $('loginErr').textContent = '';
+  var cheie = $('cheie').value.trim();
+  if (!cheie) return;
+  $('btnLogin').disabled = true; $('btnLogin').textContent = 'Verific...';
+  try {
+    var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ act: 'login', cheie: cheie }) });
+    var j = await r.json();
+    if (!j.ok) throw new Error(j.eroare);
+    S = { sesiune: j.sesiune, nume: j.nume, rol: j.rol, exp: j.exp };
+    localStorage.setItem('eco_sesiune', JSON.stringify(S));
+    $('cheie').value = '';
+    porneste();
+  } catch (e) { $('loginErr').textContent = e.message; }
+  $('btnLogin').disabled = false; $('btnLogin').textContent = 'Intră';
+}
+$('btnLogin').onclick = login;
+$('cheie').addEventListener('keydown', function (e) { if (e.key === 'Enter') login(); });
+$('iesire').onclick = iesire;
+$('burger').onclick = function () { $('nav').classList.toggle('deschis'); };
+
+function porneste() {
+  $('login').style.display = 'none'; $('app').style.display = 'block'; $('burger').style.display = '';
+  $('eu').textContent = S.nume + ' · ' + (S.rol === 'asociat' ? 'asociat' : 'Tamara');
+  document.querySelectorAll('.doar-asociat').forEach(function (e) { e.style.display = S.rol === 'asociat' ? '' : 'none'; });
+  mergi(location.hash.slice(1) || 'azi');
+}
+document.querySelectorAll('nav a[data-p]').forEach(function (a) { a.onclick = function () { mergi(a.dataset.p); $('nav').classList.remove('deschis'); }; });
+window.addEventListener('hashchange', function () { if (S.sesiune) mergi(location.hash.slice(1) || 'azi', true); });
+
+var PAGINI = {};
+async function mergi(p, dinHash) {
+  if (!PAGINI[p]) p = 'azi';
+  if (!dinHash) history.replaceState(null, '', '#' + p);
+  document.querySelectorAll('nav a[data-p]').forEach(function (a) { a.classList.toggle('activ', a.dataset.p === p); });
+  var m = $('main'); m.innerHTML = '<p class="muted">Se încarcă...</p>';
+  try { await PAGINI[p](m); } catch (e) { m.innerHTML = '<div class="card"><h3>Nu s-a putut încărca</h3><p class="muted">' + esc(e.message) + '</p></div>'; }
+}
+function zilePill(z) {
+  if (z === null || z === undefined || z === '') return '<span class="pill">fără termen</span>';
+  var c = z < 0 ? 'hot' : (z <= 7 ? 'warn' : 'ok');
+  var t = z < 0 ? (-z) + ' zile întârziere' : (z === 0 ? 'azi' : 'în ' + z + ' zile');
+  return '<span class="pill ' + c + '">' + t + '</span>';
+}
+function dinInputData(v) { if (!v) return ''; var p = v.split('-'); return p[2] + '.' + p[1] + '.' + p[0]; }
+function inInputData(v) { var m = /(\d{2})\.(\d{2})\.(\d{4})/.exec(v || ''); return m ? m[3] + '-' + m[2] + '-' + m[1] : ''; }
+
+// ---------- Azi ----------
+PAGINI.azi = async function (m) {
+  var d = await api('azi');
+  var h = '<h1>Bună, ' + esc(d.nume) + '</h1><p class="muted">' + new Date().toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' }) + '</p>';
+  h += '<div class="grid">';
+  h += '<div class="card kpi ok"><div class="n">' + d.taskuri.deschise + '</div><div class="l">taskuri deschise</div></div>';
+  h += '<div class="card kpi ' + (d.taskuri.intarziate ? 'hot' : 'ok') + '"><div class="n">' + d.taskuri.intarziate + '</div><div class="l">taskuri întârziate</div></div>';
+  h += '<div class="card kpi warn"><div class="n">' + d.taskuri.azi + '</div><div class="l">cu termen azi</div></div>';
+  h += '<div class="card kpi ' + (d.deClarificat ? 'warn' : 'ok') + '"><div class="n">' + (d.deClarificat == null ? '?' : d.deClarificat) + '</div><div class="l">puncte deschise în DE CLARIFICAT</div></div>';
+  h += '</div><div class="spatiu"></div>';
+  h += '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(380px,1fr))">';
+  h += '<div class="card"><h3>Primele taskuri</h3>' + (d.taskuri.primele.length ? d.taskuri.primele.map(taskRand).join('') : '<p class="muted">Nimic deschis.</p>') + '<div class="spatiu"></div><a class="btn sec mic" href="#taskuri">Toate taskurile</a></div>';
+  h += '<div class="card"><h3>Expiră în următoarele 30 de zile</h3>' + (d.termene.length ? '<table><tr><th>Când</th><th>Ce</th><th>Al cui</th><th>Data</th></tr>' + d.termene.map(function (t) { return '<tr><td>' + zilePill(t.zile) + '</td><td>' + esc(t.ce) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') + '</table>' : '<p class="muted">Nimic nu expiră în 30 de zile.</p>') + '</div>';
+  h += '</div>';
+  m.innerHTML = h;
+  m.querySelectorAll('.task').forEach(function (e) { e.onclick = function () { deschideTask(e.dataset.id); }; });
+};
+function taskRand(t) {
+  return '<div class="task" data-id="' + esc(t.ID) + '"><div><div class="t">' + esc(t.Titlu) + '</div><div class="m">' + esc(t.ID) + ' · ' + esc(t.Pentru) + ' · ' + esc(t.Stare) + (t.Sursa ? ' · ' + esc(t.Sursa) : '') + '</div></div><div>' + zilePill(t.zile) + '</div></div>';
+}
+
+// ---------- Taskuri ----------
+PAGINI.taskuri = async function (m) {
+  var toate = m._toate || false;
+  var d = await api('taskuri', { toate: toate });
+  var h = '<div class="rand" style="justify-content:space-between"><h1>Taskuri</h1><div class="rand"><button class="btn sec mic" id="tgToate">' + (toate ? 'Ascunde ce e făcut' : 'Arată și ce e făcut') + '</button><button class="btn" id="tNou">Task nou</button></div></div>';
+  h += d.taskuri.length ? d.taskuri.map(taskRand).join('') : '<div class="card"><p class="muted">Niciun task. Apasă „Task nou”.</p></div>';
+  m.innerHTML = h;
+  m.querySelectorAll('.task').forEach(function (e) { e.onclick = function () { deschideTask(e.dataset.id); }; });
+  $('tgToate').onclick = function () { m._toate = !toate; PAGINI.taskuri(m); };
+  $('tNou').onclick = formTaskNou;
+};
+function formTaskNou() {
+  var dr = $('drawer');
+  dr.innerHTML = '<div class="rand" style="justify-content:space-between"><h2>Task nou</h2><button class="btn sec mic" onclick="inchide()">Închide</button></div>' +
+    '<label>Ce trebuie făcut</label><input id="nTitlu" placeholder="ex. Certificat constatator extins pentru CODRU Festival SRL">' +
+    '<label>Detalii</label><textarea id="nDet" rows="4" placeholder="Ce, pentru ce, de unde, la cine ajunge"></textarea>' +
+    '<label>Termen</label><input id="nTermen" type="date">' +
+    (S.rol === 'asociat' ? '<label>Pentru</label><select id="nPentru"><option>Tamara</option><option>Sebastian</option><option>Victor</option><option>Darius</option></select>' : '') +
+    '<label>Prioritate</label><select id="nPrio"><option>normală</option><option>urgentă</option><option>scăzută</option></select>' +
+    '<div class="spatiu"></div><button class="btn" id="nSalv">Creează</button>';
+  dr.classList.add('deschis');
+  $('nSalv').onclick = async function () {
+    try {
+      var r = await api('task_nou', { titlu: $('nTitlu').value, detalii: $('nDet').value, termen: dinInputData($('nTermen').value), pentru: $('nPentru') ? $('nPentru').value : 'Tamara', prioritate: $('nPrio').value });
+      toast('Creat ' + r.id); inchide(); mergi('taskuri');
+    } catch (e) { toast(e.message); }
+  };
+}
+function inchide() { $('drawer').classList.remove('deschis'); }
+async function deschideTask(id) {
+  var dr = $('drawer'); dr.innerHTML = '<p class="muted">Se încarcă...</p>'; dr.classList.add('deschis');
+  var d = await api('task_fir', { id: id }), t = d.task;
+  var h = '<div class="rand" style="justify-content:space-between"><span class="pill">' + esc(t.ID) + '</span><button class="btn sec mic" onclick="inchide()">Închide</button></div><div class="spatiu"></div>';
+  h += '<h2>' + esc(t.Titlu) + '</h2><p class="muted">Pentru ' + esc(t.Pentru) + ' · ' + esc(t.Stare) + ' · creat de ' + esc(t['Creat de']) + ' la ' + esc(t['Creat la']) + (t.Sursa ? ' · sursa: ' + esc(t.Sursa) : '') + '</p>';
+  if (t.Detalii) h += '<div class="card" style="white-space:pre-wrap">' + esc(t.Detalii) + '</div>';
+  h += '<label>Termen</label><div class="rand"><input id="dTermen" type="date" style="max-width:200px" value="' + inInputData(t.Termen) + '"><button class="btn sec mic" id="dSalvT">Salvează termenul</button><button class="btn sec mic" id="dAmana">Amână 7 zile</button></div>';
+  h += '<label>Notă</label><textarea id="dNota" rows="2" placeholder="Ce s-a întâmplat, ce lipsește"></textarea>';
+  h += '<div class="rand" style="margin-top:8px"><button class="btn sec mic" id="dNotaB">Adaugă nota</button>' + (S.rol === 'tamara' ? '<button class="btn sec mic" id="dSebi">Sebi știe (trimite în Cockpit)</button>' : '') + '</div>';
+  h += '<div class="spatiu"></div><div class="rand"><button class="btn" id="dGata">Gata</button><button class="btn sec" id="dLucru">În lucru</button><button class="btn rosu" id="dSterge">Șterge</button></div>';
+  h += '<div class="spatiu"></div><h3>Conversația</h3>' + d.fir.map(function (f) { return '<div class="fir"><div class="c">' + esc(f.cand) + ' · ' + esc(f.cine) + ' · ' + esc(f.tip) + '</div><div style="white-space:pre-wrap">' + esc(f.text) + '</div></div>'; }).join('');
+  h += '<label>Mesaj</label><textarea id="dMsg" rows="2"></textarea><div class="spatiu"></div><button class="btn sec mic" id="dMsgB">Trimite</button>';
+  dr.innerHTML = h;
+  var sch = async function (o, msg) { try { await api('task_schimba', Object.assign({ id: id }, o)); toast(msg); deschideTask(id); if (location.hash.slice(1) === 'taskuri' || location.hash.slice(1) === 'azi') mergi(location.hash.slice(1), true); } catch (e) { toast(e.message); } };
+  $('dSalvT').onclick = function () { sch({ termen: dinInputData($('dTermen').value) }, 'Termen salvat'); };
+  $('dAmana').onclick = function () { var b = t.Termen ? new Date(inInputData(t.Termen)) : new Date(); b.setDate(b.getDate() + 7); sch({ termen: dinInputData(b.toISOString().slice(0, 10)), stare: 'amânat' }, 'Amânat cu 7 zile'); };
+  $('dNotaB').onclick = function () { if ($('dNota').value.trim()) sch({ nota: $('dNota').value }, 'Notă adăugată'); };
+  if ($('dSebi')) $('dSebi').onclick = function () { sch({ sebi_stie: true, nota: $('dNota').value }, 'Trimis lui Sebi în Cockpit'); };
+  $('dGata').onclick = function () { sch({ stare: 'făcut' }, 'Marcat ca făcut'); };
+  $('dLucru').onclick = function () { sch({ stare: 'în lucru' }, 'În lucru'); };
+  $('dSterge').onclick = function () { if (confirm('Ștergi taskul ' + id + '? Rămâne în jurnal.')) { sch({ stare: 'șters' }, 'Șters'); inchide(); } };
+  $('dMsgB').onclick = async function () { if (!$('dMsg').value.trim()) return; try { await api('task_mesaj', { id: id, text: $('dMsg').value }); deschideTask(id); } catch (e) { toast(e.message); } };
+}
+
+// ---------- De clarificat ----------
+PAGINI.clarificat = async function (m) {
+  var d = await api('de_clarificat');
+  var h = '<div class="rand" style="justify-content:space-between"><h1>De clarificat</h1>' + (d.link ? '<a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(d.link) + '">Deschide foaia ↗</a>' : '') + '</div>';
+  h += '<p class="muted">Punctele deschise din TEG - Cash Flow › DE CLARIFICAT (' + (d.total || 0) + '). Răspunsul se scrie în foaie, în coloana de răspuns; botul îl aplică.</p>';
+  if (d.eroare) h += '<p style="color:var(--hot)">' + esc(d.eroare) + '</p>';
+  if (d.randuri && d.randuri.length) {
+    var col = d.cap.map(function (c, i) { return i; }).filter(function (i) { return d.cap[i] && d.randuri.some(function (r) { return r[i]; }); });
+    h += '<div class="tabwrap"><table><tr>' + col.map(function (i) { return '<th>' + esc(d.cap[i]) + '</th>'; }).join('') + '</tr>' + d.randuri.slice().reverse().map(function (r) { return '<tr>' + col.map(function (i) { return '<td>' + esc(r[i]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></div>';
+  }
+  m.innerHTML = h;
+};
+
+// ---------- Termene ----------
+PAGINI.termene = async function (m) {
+  var d = await api('termene');
+  var h = '<h1>Termene și expirări</h1><p class="muted">Din numele actelor din Acte firme („expira ZZ.LL.AAAA”) și din Centralizatorul auto (vehiculele active).</p>';
+  h += '<div class="tabwrap"><table><tr><th>Când</th><th>Categorie</th><th>Ce</th><th>Al cui</th><th>Data</th></tr>' + d.termene.map(function (t) { return '<tr><td>' + zilePill(t.zile) + '</td><td>' + esc(t.categorie) + '</td><td>' + (t.url ? '<a target="_blank" rel="noopener" href="' + esc(t.url) + '">' + esc(t.ce) + '</a>' : esc(t.ce)) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') + '</table></div>';
+  m.innerHTML = h;
+};
+
+// ---------- Firme ----------
+PAGINI.firme = async function (m) {
+  var d = await api('firme');
+  var h = '<h1>Firme și asociații</h1><p class="muted">Actele la zi din Acte firme (rădăcina fiecărei firme) și ce lipsește din setul standard.</p><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))">';
+  d.firme.forEach(function (f) {
+    h += '<div class="card firma"><div class="rand" style="justify-content:space-between"><h3 style="margin:0">' + esc(f.firma) + '</h3><a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(f.url) + '">Folder ↗</a></div>';
+    h += '<ul>' + f.acte.filter(function (a) { return a.tip; }).map(function (a) { return '<li><a target="_blank" rel="noopener" href="' + esc(a.url) + '">' + esc(a.tip) + '</a>' + (a.emis ? ' <span class="muted">· ' + esc(a.emis) + '</span>' : '') + (a.expira ? ' <span class="pill warn">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
+    if (f.lipsa.length) h += '<p style="margin:10px 0 0"><span class="pill hot">lipsă</span> <span class="muted">' + f.lipsa.map(esc).join(', ') + '</span></p>';
+    h += '</div>';
+  });
+  m.innerHTML = h + '</div>';
+};
+
+// ---------- Link-uri ----------
+PAGINI.linkuri = async function (m) {
+  var d = await api('linkuri'), gr = {};
+  d.linkuri.forEach(function (l) { (gr[l.g] = gr[l.g] || []).push(l); });
+  var h = '<h1>Link-uri utile</h1>';
+  Object.keys(gr).forEach(function (g) { h += '<div class="grupt">' + esc(g) + '</div><div class="grid">' + gr[g].map(function (l) { return '<a class="link" target="_blank" rel="noopener" href="' + esc(l.u) + '">' + esc(l.t) + ' ↗</a>'; }).join('') + '</div>'; });
+  m.innerHTML = h;
+};
+
+// ---------- Urcă ----------
+PAGINI.urca = async function (m) {
+  m.innerHTML = '<h1>Urcă un document</h1><p class="muted">Documentul ajunge în TEG Finance › _Urcate din platforma. Curățenia de seară îl redenumește și îl mută la locul lui.</p>' +
+    '<div class="card" style="max-width:560px"><label>Fișierul (maxim 20 MB)</label><input type="file" id="uFis"><label>Ce e și al cui (ajută la așezare)</label><input id="uNota" placeholder="ex. ITP HD 73 TEG, 10.11.2026"><div class="spatiu"></div><button class="btn" id="uBtn">Urcă</button><p id="uRez" class="muted"></p></div>';
+  $('uBtn').onclick = function () {
+    var f = $('uFis').files[0]; if (!f) return toast('Alege un fișier.');
+    if (f.size > 20 * 1024 * 1024) return toast('Fișier prea mare.');
+    var rd = new FileReader();
+    rd.onload = async function () {
+      $('uBtn').disabled = true; $('uRez').textContent = 'Se urcă...';
+      try { var r = await api('urca', { nume: f.name, mime: f.type, date: String(rd.result).split(',')[1], nota: $('uNota').value }); $('uRez').innerHTML = 'Urcat: <a target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(r.nume) + '</a>'; $('uFis').value = ''; $('uNota').value = ''; }
+      catch (e) { $('uRez').textContent = e.message; }
+      $('uBtn').disabled = false;
+    };
+    rd.readAsDataURL(f);
+  };
+};
+
+// ---------- Asistent (pornește după cheia API dedicată) ----------
+PAGINI.asistent = async function (m) {
+  m.innerHTML = '<h1>Asistent</h1><div class="card" style="max-width:640px"><p>Asistentul ecosistemului pornește după ce e creată cheia API dedicată „Ecosistem”.</p><p class="muted">' + (S.rol === 'asociat' ? 'Pentru asociați: acces la tot ecosistemul (ca ZEUS).' : 'Vede tot ce e în TEG Finance și TEG Public Funding și documentele pe care le-ai primit nominal. Face Excel-uri (ca foi Google), PDF-uri și rapoarte și primește atașamente.') + '</p></div>';
+};
+
+// ---------- Bot WhatsApp ----------
+PAGINI.bot = async function (m) {
+  var f = [
+    ['Factură nouă', 'PDF sau poză clară trimisă botului, plus textul: proiect / departament / detalii (ex. CODRU 26 / ART / avans artist). Fără reply, fără mesaje vocale. Confirmarea vine în 1-2 minute.'],
+    ['Mai multe facturi deodată', 'Toate fișierele unul după altul, apoi un singur text dacă au același proiect și departament. Proiecte diferite = loturi separate.'],
+    ['Corecturi', 'Reply la factură sau la confirmare: „schimbă departamentul în MKT”, „CODRU 26 / PROD / consumabile”. Din chat se schimbă doar proiectul, departamentul și detaliile; restul îl face Tamara.'],
+    ['Anulare', 'Reply la factură cu „anulează” (și motivul). Cererea ajunge la Tamara; dacă există cerere de plată, e marcată „NU PLĂTI”.'],
+    ['Cerere de plată', 'Reply la confirmare: „cer plata / integral sau parțial suma / termen / mențiuni”. Primești codul P-XXXX; aprobarea o dau Sebastian, Victor sau Darius.'],
+    ['Plată parțială', '„cer plata / parțial 500 lei / 20.10” sau „parțial 30%”. Restul se cere la fel, mai târziu.'],
+    ['IBAN', 'Dacă factura nu are IBAN, botul îl cere; răspunzi cu reply, ca text.'],
+    ['Plătit din banii mei', 'Scrii „plătit de mine” în detalii: botul o notează ca decont pentru Tamara.'],
+    ['Proforme, bonuri, dovezi de plată', 'Se trimit la fel; botul le leagă de factură când o găsește.'],
+    ['Șefii de departament', 'Primesc pe mail fiecare factură înregistrată pe departamentele lor, cu PDF-ul atașat.']
+  ];
+  var h = '<h1>Bot WhatsApp „TEG Facturi”</h1><p class="muted">Ce face botul azi (din ghidul pentru echipă, 09.10.2026).</p><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">' + f.map(function (x) { return '<div class="card"><h3>' + esc(x[0]) + '</h3><p class="muted" style="margin:0">' + esc(x[1]) + '</p></div>'; }).join('') + '</div>';
+  h += '<div class="grupt">Ghiduri (PDF)</div><div class="grid"><a class="link" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1AwXQsZcWlalYcnw6ode1P7u5uIEB5Zk3/view">Ghid echipă: facturi și cereri de plată ↗</a><a class="link" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1peqQkvZukPWeZReiG3EQEDiKmXJVl-Dy/view">Ghid Tamara: plăți și cash flow ↗</a>' + (S.rol === 'asociat' ? '<a class="link" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1EY9OO1RMr-IJC3yt-d3W6l6EpqQPzAZR/view">Ghid admini (complet) ↗</a>' : '') + '</div>';
+  h += '<div class="spatiu"></div><div class="card"><h3>O funcție nouă pentru bot?</h3><p class="muted" style="margin:0">Creează un task cu „Bot:” în titlu și descrie ce vrei să facă. Implementarea trece prin repo-ul botului, cu teste, și apare aici după publicare.</p></div>';
+  m.innerHTML = h;
+};
+
+// ---------- Jurnal ----------
+PAGINI.jurnal = async function (m) {
+  var d = await api('jurnal');
+  m.innerHTML = '<h1>Jurnal</h1><p class="muted">' + (S.rol === 'asociat' ? 'Ultimele acțiuni din platformă.' : 'Acțiunile tale din platformă.') + '</p><div class="tabwrap"><table><tr><th>Când</th><th>Cine</th><th>Acțiune</th><th>Detalii</th></tr>' + d.randuri.map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td>' + esc(r[3]) + '</td><td>' + esc(r[4]) + '</td></tr>'; }).join('') + '</table></div>';
+};
+
+// ---------- Chei (asociați) ----------
+PAGINI.chei = async function (m) {
+  if (S.rol !== 'asociat') { m.innerHTML = '<p class="muted">Doar asociații.</p>'; return; }
+  var d = await api('chei');
+  var h = '<h1>Chei de acces</h1><p class="muted">Cheile se păstrează doar ca amprentă. O cheie nouă se vede o singură dată; revocarea închide imediat sesiunile omului.</p>';
+  h += '<div class="tabwrap"><table><tr><th>Om</th><th>Rol</th><th>Stare</th><th>Creată</th><th>Ultima intrare</th><th></th></tr>' + d.chei.map(function (k) { return '<tr><td>' + esc(k.nume) + ' <span class="muted">(' + esc(k.id) + ')</span></td><td>' + esc(k.rol) + '</td><td>' + (k.activ ? '<span class="pill ok">activă</span>' : '<span class="pill hot">revocată</span>') + '</td><td>' + esc(k.creat) + '</td><td>' + esc(k.ultima || '-') + '</td><td>' + (k.activ ? '<button class="btn rosu mic" data-rev="' + esc(k.id) + '">Revocă</button>' : '') + '</td></tr>'; }).join('') + '</table></div>';
+  h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3>Cheie nouă (sau înlocuire)</h3><label>Cine</label><select id="kId"><option value="victor|Victor|asociat">Victor (asociat)</option><option value="darius|Darius|asociat">Darius (asociat)</option><option value="tamara|Tamara|tamara">Tamara</option><option value="sebastian|Sebastian|asociat">Sebastian (asociat, înlocuire)</option></select><div class="spatiu"></div><button class="btn" id="kNou">Generează</button><div id="kRez"></div></div>';
+  m.innerHTML = h;
+  m.querySelectorAll('[data-rev]').forEach(function (b) { b.onclick = async function () { if (!confirm('Revoci cheia lui ' + b.dataset.rev + '?')) return; try { await api('cheie_revoca', { id: b.dataset.rev }); toast('Revocată'); PAGINI.chei(m); } catch (e) { toast(e.message); } }; });
+  $('kNou').onclick = async function () {
+    var p = $('kId').value.split('|');
+    if (!confirm('Generez o cheie nouă pentru ' + p[1] + '? Cheia veche a omului se oprește.')) return;
+    try {
+      var r = await api('cheie_noua', { id: p[0], nume: p[1], rol: p[2] });
+      $('kRez').innerHTML = '<div class="spatiu"></div><p>Cheia pentru ' + esc(p[1]) + ' (o trimiți pe un canal privat; nu se mai afișează):</p><div class="cheie">' + esc(r.cheie) + '</div><div class="spatiu"></div><button class="btn sec mic" id="kCopy">Copiază</button>';
+      $('kCopy').onclick = function () { navigator.clipboard.writeText(r.cheie); toast('Copiată'); };
+      if (p[0] === 'sebastian') { toast('Cheia ta s-a schimbat: intră din nou.'); }
+    } catch (e) { toast(e.message); }
+  };
+};
+
+if (S.sesiune) porneste(); else { $('burger').style.display = 'none'; }
+</script>
+</body>
+</html>
