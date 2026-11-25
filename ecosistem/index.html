@@ -83,8 +83,8 @@ tr:hover td{background:rgba(27,204,45,.04)}
   <div class="logo">ECOSISTEM TEG</div>
   <div class="spatiu"></div>
   <h1>Intră</h1>
-  <p class="muted">Fiecare om are parola lui. Prima dată intri cu cheia primită (TEG-…), apoi îți alegi parola din „Parola mea”.</p>
-  <label for="cheie">Parola ta</label>
+  <p class="muted">Contul Admin vede tot ecosistemul; contul Tamara are accesul stabilit pentru Tamara.</p>
+  <label for="cheie">Parola</label>
   <input id="cheie" type="password" autocomplete="current-password" placeholder="Parola ta">
   <div class="spatiu"></div>
   <button class="btn" id="btnLogin" style="width:100%">Intră</button>
@@ -160,8 +160,8 @@ $('burger').onclick = function () { $('nav').classList.toggle('deschis'); };
 
 function porneste() {
   $('login').style.display = 'none'; $('app').style.display = 'block'; $('burger').style.display = '';
-  $('eu').textContent = S.nume + (S.rol === 'asociat' ? ' · asociat' : '');
-  if (!S.id) api('eu').then(function (r) { S.id = r.id; S.nume = r.nume; localStorage.setItem('eco_sesiune', JSON.stringify(S)); $('eu').textContent = S.nume + (S.rol === 'asociat' ? ' · asociat' : ''); }).catch(function () { });
+  $('eu').textContent = S.nume;
+  if (!S.id) api('eu').then(function (r) { S.id = r.id; S.nume = r.nume; localStorage.setItem('eco_sesiune', JSON.stringify(S)); $('eu').textContent = S.nume; }).catch(function () { });
   document.querySelectorAll('.doar-asociat').forEach(function (e) { e.style.display = S.rol === 'asociat' ? '' : 'none'; });
   mergi(location.hash.slice(1) || 'azi');
 }
@@ -496,33 +496,28 @@ PAGINI.jurnal = async function (m) {
 // ---------- Chei (asociați) ----------
 PAGINI.chei = async function (m) {
   var h = '<h1>Parole</h1>';
-  h += '<div class="card" style="max-width:560px"><h3 style="margin-top:0">Parola mea</h3><p class="muted" style="margin-top:0">Îți alegi parola ta (minimum 10 caractere). Cheia sau parola veche se oprește și intri din nou cu cea nouă.</p><label for="pP1">Parola nouă</label><input id="pP1" type="password" autocomplete="new-password"><label for="pP2">Parola nouă, încă o dată</label><input id="pP2" type="password" autocomplete="new-password"><div class="spatiu"></div><button class="btn" id="pSet">Setează parola mea</button></div>';
+  h += '<div class="card" style="max-width:560px"><h3 style="margin-top:0">Parola mea</h3><p class="muted" style="margin-top:0">Parola contului cu care ești intrat (minimum 8 caractere). Parola veche se oprește și intri din nou cu cea nouă.</p><label for="pP1">Parola nouă</label><input id="pP1" type="password" autocomplete="new-password"><label for="pP2">Parola nouă, încă o dată</label><input id="pP2" type="password" autocomplete="new-password"><div class="spatiu"></div><button class="btn" id="pSet">Setează parola mea</button></div>';
   if (S.rol === 'asociat') {
     var d = await api('chei');
-    h += '<div class="spatiu"></div><h2>Conturile</h2><p class="muted">Parolele se păstrează doar ca amprentă. O cheie nouă se vede o singură dată; o trimiți omului pe un canal privat. Revocarea închide imediat sesiunile lui.</p>';
-    h += '<div class="tabwrap"><table><tr><th>Om</th><th>Acces</th><th>Stare</th><th>Creată</th><th>Ultima intrare</th><th></th></tr>' + d.chei.map(function (k) { return '<tr><td>' + esc(k.nume) + ' <span class="muted">(' + esc(k.id) + ')</span></td><td>' + (k.rol === 'asociat' ? 'asociat' : 'acces Tamara') + '</td><td>' + (k.activ ? '<span class="pill ok">activă</span>' : '<span class="pill hot">revocată</span>') + '</td><td>' + esc(k.creat) + '</td><td>' + esc(k.ultima || '-') + '</td><td>' + (k.activ && k.id !== S.id ? '<button class="btn rosu mic" data-rev="' + esc(k.id) + '">Revocă</button>' : '') + '</td></tr>'; }).join('') + '</table></div>';
-    h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3 style="margin-top:0">Cheie nouă pentru un om</h3><label>Cine</label><select id="kId"><option value="victor|Victor|asociat">Victor (asociat)</option><option value="darius|Darius|asociat">Darius (asociat)</option><option value="tamara|Tamara|tamara">Tamara</option><option value="sebastian|Sebastian|asociat">Sebastian (înlocuire)</option></select><div class="spatiu"></div><button class="btn" id="kNou">Generează cheia</button><div id="kRez"></div></div>';
+    h += '<div class="spatiu"></div><h2>Conturile</h2>';
+    h += '<div class="tabwrap"><table><tr><th>Cont</th><th>Acces</th><th>Stare</th><th>Setată</th><th>Ultima intrare</th></tr>' + d.chei.map(function (k) { return '<tr><td>' + esc(k.nume) + '</td><td>' + (k.rol === 'asociat' ? 'tot ecosistemul' : 'acces Tamara') + '</td><td>' + (k.activ ? '<span class="pill ok">activ</span>' : '<span class="pill hot">oprit</span>') + '</td><td>' + esc(k.creat) + '</td><td>' + esc(k.ultima || '-') + '</td></tr>'; }).join('') + '</table></div>';
+    h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3 style="margin-top:0">Parola contului Tamara</h3><label for="tP1">Parola nouă</label><input id="tP1" type="password" autocomplete="new-password"><label for="tP2">Parola nouă, încă o dată</label><input id="tP2" type="password" autocomplete="new-password"><div class="spatiu"></div><button class="btn" id="tSet">Setează parola Tamarei</button></div>';
   }
   m.innerHTML = h;
   $('pSet').onclick = async function () {
     var a = $('pP1').value, b = $('pP2').value;
-    if (a.trim().length < 10) { toast('Minimum 10 caractere.'); return; }
+    if (a.trim().length < 8) { toast('Minimum 8 caractere.'); return; }
     if (a !== b) { toast('Parolele nu se potrivesc.'); return; }
     try { await api('parola_proprie', { parola: a }); $('pP1').value = ''; $('pP2').value = ''; toast('Parola ta e setată: intră din nou cu ea.'); setTimeout(iesire, 1500); }
     catch (e) { toast(e.message); }
   };
   if (S.rol !== 'asociat') return;
-  m.querySelectorAll('[data-rev]').forEach(function (b) { b.onclick = async function () { if (!confirm('Revoci accesul lui ' + b.dataset.rev + '?')) return; try { await api('cheie_revoca', { id: b.dataset.rev }); toast('Revocat'); PAGINI.chei(m); } catch (e) { toast(e.message); } }; });
-  $('kNou').onclick = async function () {
-    var p = $('kId').value.split('|');
-    if (!confirm('Generez o cheie nouă pentru ' + p[1] + '? Cheia sau parola lui veche se oprește.')) return;
-    try {
-      var r = await api('cheie_noua', { id: p[0], nume: p[1], rol: p[2] });
-      $('kRez').innerHTML = '<div class="spatiu"></div><p>Cheia pentru ' + esc(p[1]) + ' (o trimiți pe un canal privat; nu se mai afișează). Cu ea intră prima dată, apoi își alege parola din „Parola mea”:</p><div class="cheie">' + esc(r.cheie) + '</div><div class="spatiu"></div><button class="btn sec mic" id="kCopy">Copiază</button>';
-      $('kCopy').onclick = function () { navigator.clipboard.writeText(r.cheie); toast('Copiată'); };
-      if (p[0] === 'sebastian') { toast('Cheia ta s-a schimbat: intră din nou.'); }
-      PAGINI.chei && setTimeout(function () { }, 0);
-    } catch (e) { toast(e.message); }
+  $('tSet').onclick = async function () {
+    var a = $('tP1').value, b = $('tP2').value;
+    if (a.trim().length < 8) { toast('Minimum 8 caractere.'); return; }
+    if (a !== b) { toast('Parolele nu se potrivesc.'); return; }
+    try { await api('parola_proprie', { id: 'tamara', parola: a }); $('tP1').value = ''; $('tP2').value = ''; toast('Parola Tamarei e schimbată.'); PAGINI.chei(m); }
+    catch (e) { toast(e.message); }
   };
 };
 
