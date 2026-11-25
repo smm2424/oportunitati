@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ROLzNXCOFNGB9pmVI3ePpLsQ/uuziRYIIov2G9eLn0s='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NmgbB2Okyz5vILULXvww+dd5zWy2MuIz4wejTyodVRg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
 <meta name="theme-color" content="#EDF1EC">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,9 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+html,body{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.rezumat b,.rb-intarz b{font-variant-numeric:tabular-nums}
 a{color:var(--moss);text-underline-offset:2px}
 a:hover{color:var(--moss2)}
 h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em;line-height:1.2}
@@ -91,7 +93,7 @@ label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:14px
 @keyframes scutura{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
 
 /* cadrul aplicației */
-#app{min-height:100vh}
+#app{min-height:100vh;overflow-x:clip}
 #side{position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:30;transition:transform .25s var(--ease)}
 .brand{display:flex;align-items:baseline;gap:8px;padding:20px 20px 16px;text-decoration:none;color:var(--ink)}
 .brand b{font-size:22px;font-weight:800;letter-spacing:-.04em}
@@ -252,8 +254,10 @@ table.nw td{white-space:nowrap}
 /* fișa taskului (panou lateral) */
 #scrim{position:fixed;inset:0;background:rgba(8,18,12,.38);opacity:0;pointer-events:none;transition:opacity .25s;z-index:39}
 #scrim.on{opacity:1;pointer-events:auto}
-#drawer{position:fixed;top:0;right:0;bottom:0;width:min(600px,100%);background:var(--surface);box-shadow:var(--sh2);transform:translateX(104%);transition:transform .32s var(--ease);z-index:40;display:flex;flex-direction:column}
-#drawer.deschis{transform:none}
+/* panoul stă într-un cadru fix care taie tot ce iese din ecran: pe iPhone, un panou ascuns în dreapta lărgea pagina */
+#drawerWrap{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:40}
+#drawer{position:absolute;top:0;right:0;bottom:0;width:min(600px,100%);background:var(--surface);box-shadow:var(--sh2);transform:translateX(104%);visibility:hidden;transition:transform .32s var(--ease),visibility 0s .32s;display:flex;flex-direction:column;pointer-events:auto}
+#drawer.deschis{transform:none;visibility:visible;transition:transform .32s var(--ease)}
 .dr-cap{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line2)}
 .dr-cap .sp{flex:1}
 .dr-corp{flex:1;overflow:auto;padding:22px 24px 30px}
@@ -366,8 +370,9 @@ table.nw td{white-space:nowrap}
  .lg-art{padding:28px;min-height:220px}
  .lg-art .marca{font-size:96px}
  .lg-art .jos{display:none}
- #side{transform:translateX(-102%);box-shadow:var(--sh2)}
- #side.deschis{transform:none}
+ #side{z-index:45;transform:translateX(-102%);visibility:hidden;transition:transform .25s var(--ease),visibility 0s .25s;box-shadow:var(--sh2)}
+ #side.deschis{transform:none;visibility:visible;transition:transform .25s var(--ease)}
+ input,select,textarea{font-size:16px}
  #top,main{margin-left:0}
  #top{padding:0 14px}
  #top .titlu{opacity:1}
@@ -433,7 +438,7 @@ table.nw td{white-space:nowrap}
  <main id="main"></main>
 </div>
 <div id="scrim"></div>
-<aside id="drawer" aria-label="Fișa taskului" role="dialog" aria-modal="true"></aside>
+<div id="drawerWrap"><aside id="drawer" aria-label="Fișa taskului" role="dialog" aria-modal="true"></aside></div>
 <div id="toasts" aria-live="polite"></div>
 
 <script>
@@ -680,6 +685,7 @@ function panglica(taskuri, termene, nIntarz) {
   taskuri.forEach(function (t) { if (t.zile !== null && t.zile !== undefined && t.zile !== '') it.push({ z: t.zile, t: t.Titlu, tip: /urgent/i.test(t.Prioritate || '') ? 'urg' : 'task', id: t.ID }); });
   termene.forEach(function (t) { if (t.zile !== null && t.zile !== undefined) it.push({ z: t.zile, t: t.ce + ' ' + t.cine, tip: 'auto' }); });
   var intarz = it.filter(function (x) { return x.z < 0; }), viit = it.filter(function (x) { return x.z >= 0 && x.z <= 30; });
+  nIntarz = (nIntarz || 0) + termene.filter(function (t) { return t.zile !== null && t.zile !== undefined && t.zile < 0; }).length;
   var azi = new Date(); azi.setHours(0, 0, 0, 0);
   var zile = '', ultima = -9;
   for (var i = 0; i <= 30; i++) {
@@ -693,7 +699,7 @@ function panglica(taskuri, termene, nIntarz) {
   }).join('');
   var lst = intarz.slice(0, 3).map(function (x) { return '<button type="button"' + (x.id ? ' data-id="' + esc(x.id) + '"' : ' data-auto="1"') + ' title="' + esc(x.t) + '">' + esc(x.t) + '</button>'; }).join('');
   return '<section class="rb" aria-label="Termene în următoarele 30 de zile"><div class="rb-cap"><h2>Următoarele 30 de zile</h2><div class="rb-leg"><span><i></i>taskuri</span><span><i class="urg"></i>urgente</span><span><i class="auto"></i>mașini</span></div></div>' +
-    '<div class="rb-corp"><div class="rb-intarz"><b class="' + (nIntarz ? '' : 'zero') + '">' + nIntarz + '</b><span>' + (nIntarz === 1 ? 'task întârziat' : 'întârziate') + '</span>' + lst + '</div>' +
+    '<div class="rb-corp"><div class="rb-intarz"><b class="' + (nIntarz ? '' : 'zero') + '">' + nIntarz + '</b><span>' + (nIntarz === 1 ? 'termen depășit' : 'termene depășite') + '</span>' + lst + '</div>' +
     '<div class="rb-pista"><div class="rb-zile">' + zile + '</div><div class="rb-azi"></div>' + mk + (viit.length ? '' : '<div class="mic-t" style="position:absolute;left:24px;top:50px">Niciun termen în următoarele 30 de zile.</div>') + '</div></div></section>';
 }
 function asazaPanglica(m, anim) {
