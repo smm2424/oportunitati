@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-QxSE3uMUKi+YtPGyCqOlENadGdZV+v/cxYxy/yJC4ck='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Jgd/wlVMLQ8XQm2FBTSvhlUmur8nOkDjft5BFWOYm20='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
 <meta name="theme-color" content="#EDF1EC">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,7 +112,7 @@ label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:14px
 .av{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--ink);color:var(--bg);flex:none}
 .side-jos .cine{flex:1;min-width:0;line-height:1.25}
 .side-jos .cine b{display:block;font-size:14px}
-.side-jos .cine span{font-size:12.5px;color:var(--ink3);white-space:nowrap}
+.side-jos .cine span{font-size:12.5px;color:var(--ink3);white-space:nowrap;display:block;overflow:hidden;text-overflow:ellipsis}
 #top{position:sticky;top:0;z-index:20;height:var(--top);margin-left:var(--side);display:flex;align-items:center;gap:12px;padding:0 28px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
 #top.umbra{border-bottom-color:var(--line)}
 #top .titlu{font-weight:700;font-size:15px;opacity:0;transition:opacity .2s}
@@ -305,6 +305,37 @@ table.nw td{white-space:nowrap}
 .compune .bara .sp{flex:1}
 .dr-jos{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid var(--line2)}
 
+/* fișa taskului */
+.campuri{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+.campuri>div{min-width:0}
+input[type=date],.campuri select{height:44px}
+input[type=date]{min-width:0;max-width:100%;display:block;-webkit-appearance:none;appearance:none;text-align:left}
+input[type=date]::-webkit-date-and-time-value{text-align:left}
+.atas-zona{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.atas-l{display:flex;gap:6px;flex-wrap:wrap}
+.fr-titlu{font-size:23px;letter-spacing:-.02em;line-height:1.25;margin:0 0 10px}
+.fr-meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--ink2);font-size:14px}
+.fr-meta span{display:inline-flex;align-items:center;gap:7px}
+.fr-meta svg.i{width:16px;height:16px;color:var(--ink3)}
+.fr-rapid{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:16px 0 4px}
+.fr-rapid .sp{flex:1}
+.fr-rapid label.fr-alta{position:relative;overflow:hidden;margin:0}
+.fr-alta input{position:absolute;inset:0;opacity:0;cursor:pointer;min-height:0;border:0;padding:0}
+.fr-mod{margin:12px 0 4px;padding:4px 16px 16px;border-radius:var(--r2);background:var(--surface2);border:1px solid var(--line2);animation:intra .2s var(--ease)}
+.fr-asist{margin-top:22px;border-top:1px solid var(--line2);padding-top:16px}
+.fr-asist-cap{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.fr-asist-cap svg.i{color:var(--moss)}
+.fr-asist-cap .mic-t{margin-left:auto}
+.fr-ist{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.fr-ev{display:flex;flex-direction:column;font-size:13px;color:var(--ink3);padding-left:12px;border-left:2px solid var(--line2)}
+.fr-ev .x{color:var(--ink2);white-space:pre-wrap;overflow-wrap:anywhere}
+.fr-ev.om{border-left-color:var(--moss)}
+.fr-ev.om .x{color:var(--ink);font-size:14.5px}
+.fr-jos{border-top:1px solid var(--line2);padding:10px 14px calc(12px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.fr-jos .compune{margin:0}
+.fr-jos .compune textarea{min-height:44px}
+#drawer.editez .fr-jos{display:none}
+.fr-gata{width:100%;justify-content:center;height:46px;font-size:15.5px}
 /* conversații cu Claude */
 .chat{display:flex;flex-direction:column;gap:14px}
 .msg-eu{align-self:flex-end;max-width:84%;padding:10px 14px;border-radius:14px 14px 4px 14px;background:var(--ink);color:var(--bg);white-space:pre-wrap;overflow-wrap:anywhere}
@@ -406,6 +437,7 @@ table.nw td{white-space:nowrap}
  .rt .t{white-space:normal}
  .rezumat a{flex:1 1 50%;border-bottom:1px solid var(--line2)}
  .meta{grid-template-columns:1fr 1fr}
+ .campuri{grid-template-columns:1fr}
  .dr-corp{padding:18px 16px 24px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
@@ -457,7 +489,7 @@ table.nw td{white-space:nowrap}
 
 <script>
 'use strict';
-var VER = '0.4.2';
+var VER = '0.4.3';
 if (window.top !== window.self) { document.documentElement.innerHTML = ''; throw new Error('încadrat'); }
 var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
 var S = { sesiune: null };
@@ -482,6 +514,7 @@ var IC = {
  bot: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
  contracte: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
  jurnal: '<path d="M4 6h16M4 12h16M4 18h10"/>',
+ creion: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/>',
  chei: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>',
  iesire: '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>',
  luna: '<path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/>',
@@ -793,88 +826,139 @@ PAGINI.taskuri = function (m) {
   });
 };
 function deschideDrawer(html) {
-  var dr = $('drawer'); dr.innerHTML = html; dr.classList.add('deschis'); $('scrim').classList.add('on');
+  var dr = $('drawer'); dr.classList.remove('editez'); dr.innerHTML = html; dr.classList.add('deschis'); $('scrim').classList.add('on');
   dr.querySelectorAll('[data-inchide]').forEach(function (b) { b.onclick = inchide; });
   return dr;
 }
-function inchide() { var dr = $('drawer'); if (!dr.classList.contains('deschis')) return; dr.classList.remove('deschis'); $('scrim').classList.remove('on'); clearTimeout(TC.timer); TC.task = null; }
+function inchide() { var dr = $('drawer'); if (!dr.classList.contains('deschis')) return; dr.classList.remove('deschis', 'editez'); $('scrim').classList.remove('on'); clearTimeout(TC.timer); TC.task = null; }
 function formTaskNou() {
+  var fis = [];
   deschideDrawer('<div class="dr-cap"><b>Task nou</b><div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div>' +
-    '<form class="dr-corp" id="fNou"><label for="nTitlu">Ce trebuie făcut</label><input id="nTitlu" required maxlength="200" placeholder="Ex.: Certificat constatator extins pentru CODRU Festival SRL">' +
-    '<label for="nDet">Detalii</label><textarea id="nDet" rows="5" placeholder="Pentru ce, de unde, la cine ajunge"></textarea>' +
-    '<div class="meta" style="margin-top:4px"><div><label for="nTermen">Termen</label><input id="nTermen" type="date"></div><div><label for="nPrio">Prioritate</label><select id="nPrio"><option>normală</option><option>urgentă</option><option>scăzută</option></select></div>' +
+    '<form class="dr-corp" id="fNou"><label for="nTitlu">Ce trebuie făcut</label><input id="nTitlu" required maxlength="200" placeholder="Ex.: Contract de sponsorizare Hella">' +
+    '<label for="nDet">Detalii</label><textarea id="nDet" rows="4" placeholder="Pentru ce, de unde, la cine ajunge"></textarea>' +
+    '<div class="campuri"><div><label for="nTermen">Termen</label><input id="nTermen" type="date"></div><div><label for="nPrio">Prioritate</label><select id="nPrio"><option>normală</option><option>urgentă</option><option>scăzută</option></select></div>' +
     (S.rol === 'asociat' ? '<div><label for="nPentru">Pentru</label><select id="nPentru"><option>Tamara</option><option>Sebastian</option><option>Victor</option><option>Darius</option></select></div>' : '') + '</div>' +
-    '<button class="btn" type="submit" id="nSalv" style="margin-top:20px">' + ic('plus') + 'Creează taskul</button></form>');
+    '<label>Atașamente</label><div class="atas-zona"><label class="btn sec mic" for="nFis" style="margin:0">' + ic('clips') + 'Adaugă fișiere</label><input type="file" id="nFis" class="sr" multiple><div id="nAtas" class="atas-l"></div></div>' +
+    '<button class="btn" type="submit" id="nSalv" style="margin-top:22px;width:100%;justify-content:center">' + ic('plus') + 'Creează taskul</button></form>');
+  var desAtas = function () { $('nAtas').innerHTML = fis.map(function (f, i) { return '<span class="fis">' + esc(f.name) + '<button type="button" data-i="' + i + '" aria-label="Scoate ' + esc(f.name) + '">' + ic('x') + '</button></span>'; }).join(''); $('nAtas').querySelectorAll('button').forEach(function (b) { b.onclick = function () { fis.splice(Number(b.dataset.i), 1); desAtas(); }; }); };
+  $('nFis').onchange = function () { Array.from(this.files).forEach(function (f) { if (fis.length < 5) fis.push(f); }); this.value = ''; desAtas(); };
   setTimeout(function () { $('nTitlu').focus(); }, 120);
   $('fNou').onsubmit = async function (ev) {
-    ev.preventDefault(); $('nSalv').disabled = true;
+    ev.preventDefault(); $('nSalv').disabled = true; $('nSalv').textContent = 'Creez...';
     try {
       var r = await api('task_nou', { titlu: $('nTitlu').value, detalii: $('nDet').value, termen: dinInputData($('nTermen').value), pentru: $('nPentru') ? $('nPentru').value : 'Tamara', prioritate: $('nPrio').value });
-      toast('Am creat taskul ' + r.id + '.'); inchide(); mergi('taskuri');
-    } catch (e) { toast(e.message, { err: true }); $('nSalv').disabled = false; }
+      if (fis.length) { $('nSalv').textContent = 'Urc atașamentele...'; await urcaPeTask(r.id, fis); }
+      toast('Am creat taskul ' + r.id + '.'); inchide(); mergi('taskuri', true); setTimeout(function () { deschideTask(r.id); }, 400);
+    } catch (e) { toast(e.message, { err: true }); $('nSalv').disabled = false; $('nSalv').innerHTML = ic('plus') + 'Creează taskul'; }
   };
 }
+// Atașamentele unui task: fișierul urcă în Drive (TEG Finance › _Urcate din platformă), iar în istoricul taskului rămâne linkul.
+function citesteFisier(f) { return new Promise(function (ok, nu) { if (f.size > 15 * 1024 * 1024) return nu(new Error('Fișier prea mare (peste 15 MB): ' + f.name)); var r = new FileReader(); r.onload = function () { ok({ nume: f.name, mime: f.type, date: String(r.result).split(',')[1] }); }; r.onerror = function () { nu(new Error('Nu am putut citi ' + f.name)); }; r.readAsDataURL(f); }); }
+async function urcaPeTask(id, files) {
+  var citite = [];
+  for (var i = 0; i < files.length; i++) {
+    var c = await citesteFisier(files[i]); citite.push(c);
+    var r = await api('urca', { nume: c.nume, mime: c.mime, date: c.date, nota: 'Atașament la taskul ' + id });
+    await api('task_mesaj', { id: id, text: 'Atașament: ' + r.nume + ' ' + r.url });
+    c.url = r.url; c.idDrive = r.id;
+  }
+  return citite;
+}
+function linkuri(t) {
+  return esc(t).replace(/https:\/\/[^\s<]+/g, function (u) { var uu = u.replace(/&amp;/g, '&'), dom = domeniu(uu); return /(^|\.)(docs\.google\.com|drive\.google\.com|teg\.ro)$/.test(dom) ? '<a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(uu)) + '">deschide</a>' : u; });
+}
+function dataPlus(zile) { var d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + zile); return d; }
+function ziRo(d) { return ('0' + d.getDate()).slice(-2) + '.' + ('0' + (d.getMonth() + 1)).slice(-2) + '.' + d.getFullYear(); }
+function lunaViitoare() { var d = new Date(); var z = (8 - d.getDay()) % 7 || 7; return dataPlus(z); }
 
-// fișa taskului
+// fișa taskului: titlul și ce trebuie știut sus, mutările rapide (ca în Cockpit), Asistentul Claudiu în mijloc, Gata jos
+var FT = { fis: [] };
 async function deschideTask(id) {
   deschideDrawer('<div class="dr-cap"><span class="sk" style="width:60px;height:20px"></span><div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp"><div class="sk" style="height:28px;width:80%"></div><div class="sk" style="height:14px;width:50%;margin-top:14px"></div><div class="sk" style="height:120px;margin-top:24px"></div></div>');
   var d;
   try { d = await api('task_fir', { id: id }); } catch (e) { deschideDrawer('<div class="dr-cap"><div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp gol"><b>Taskul nu s-a încărcat</b>' + esc(e.message) + '</div>'); return; }
-  var t = d.task, stari = ['deschis', 'în lucru', 'amânat', 'făcut'];
-  var h = '<div class="dr-cap"><span class="pill">' + esc(t.ID) + '</span>' + (/urgent/i.test(t.Prioritate || '') ? '<span class="pill hot">urgent</span>' : '') + '<div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp">';
-  h += '<h2>' + esc(t.Titlu) + '</h2>';
-  h += '<div class="seg" role="radiogroup" aria-label="Starea taskului">' + stari.map(function (s) { return '<button type="button" role="radio" aria-checked="' + (t.Stare === s) + '" data-stare="' + s + '" class="' + (t.Stare === s ? 'activ' : '') + '">' + s.charAt(0).toUpperCase() + s.slice(1) + '</button>'; }).join('') + '</div>';
-  h += '<dl class="meta" style="margin-top:18px"><div><dt>Pentru</dt><dd>' + esc(t.Pentru) + '</dd></div><div><dt>Termen</dt><dd>' + (t.Termen ? esc(t.Termen) + ' ' + zilePill(d.task.zile !== undefined ? d.task.zile : zileDin(t.Termen)) : 'fără termen') + '</dd></div><div><dt>Creat</dt><dd>' + esc(t['Creat de']) + ', ' + esc(t['Creat la']) + '</dd></div><div><dt>Sursa</dt><dd>' + esc(t.Sursa || '-') + '</dd></div></dl>';
-  h += '<div class="rand" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input id="dTermen" type="date" style="max-width:180px" value="' + inInputData(t.Termen) + '" aria-label="Termen nou"><button class="btn sec mic" id="dSalvT">Salvează termenul</button><button class="btn ghost mic" id="dAmana">Amână 7 zile</button></div>';
-  if (t.Detalii) h += '<div class="detalii">' + esc(t.Detalii) + '</div>';
-  h += '<div class="tabs" role="tablist"><button type="button" role="tab" class="activ" data-tab="ist">Istoric <span class="mic-t">' + d.fir.length + '</span></button><button type="button" role="tab" data-tab="claude">Cere lui Claudiu</button></div>';
-  h += '<div id="pIst">' + (d.fir.length ? d.fir.map(function (f) { return '<div class="fir' + (f.tip === 'notă' ? ' fn' : '') + '"><div class="c"><b>' + esc(f.cine) + '</b>, ' + esc(f.cand) + (f.tip && f.tip !== 'sistem' ? ', ' + esc(f.tip) : '') + '</div><div class="x">' + esc(f.text) + '</div></div>'; }).join('') : '<p class="mic-t">Nimic încă.</p>') +
-    '<div class="compune"><textarea id="dNota" rows="2" placeholder="Ce s-a întâmplat, ce lipsește" aria-label="Notă"></textarea><div class="bara"><div class="sp"></div>' + (S.rol === 'tamara' ? '<button class="btn sec mic" id="dSebi">Trimite și lui Sebi</button>' : '') + '<button class="btn mic" id="dNotaB">Adaugă nota</button></div></div></div>';
-  h += '<div id="pClaude" hidden><p class="mic-t" style="margin-bottom:12px">Conversația ta cu Claudiu despre acest task. Claudiu vede taskul și istoricul lui și caută în Drive cu accesul contului tău.</p><div id="tcChat" class="chat"></div><p id="tcStare" style="margin-top:10px"></p>' +
-    '<div class="compune"><textarea id="tcText" rows="2" placeholder="Ex.: Ce mai lipsește ca să închid taskul? Găsește factura și spune-mi suma." aria-label="Mesaj pentru Claudiu"></textarea><div class="bara"><span class="mic-t">Ctrl + Enter trimite</span><div class="sp"></div><button class="btn ghost mic" id="tcStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="tcTrimite">' + ic('trimite') + 'Trimite</button></div></div></div>';
-  h += '</div><div class="dr-jos"><span class="mic-t">Actualizat ' + esc(t['Actualizat la'] || '') + '</span><button class="btn rosu mic" id="dSterge">Șterge taskul</button></div>';
-  if (TC.task !== null && TC.task !== id) { clearTimeout(TC.timer); }
+  var t = d.task, facut = t.Stare === 'făcut', z = zileDin(t.Termen);
+  FT = { fis: [], t: t };
+  var h = '<div class="dr-cap"><span class="pill">' + esc(t.ID) + '</span>' + (/urgent/i.test(t.Prioritate || '') ? '<span class="pill hot">urgent</span>' : '') + (t.Stare && t.Stare !== 'deschis' ? '<span class="pill ' + (facut ? 'ok' : 'info') + '">' + esc(t.Stare) + '</span>' : '') + '<div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp" id="frCorp">';
+  h += '<h2 class="fr-titlu">' + esc(t.Titlu) + '</h2>';
+  h += '<div class="fr-meta"><span>' + ic('taskuri') + 'pentru <b>' + esc(t.Pentru) + '</b></span><span>' + ic('termene') + (t.Termen ? esc(t.Termen) + ' ' + zilePill(z) : 'fără termen') + '</span></div>';
+  if (t.Detalii) h += '<div class="detalii">' + linkuri(t.Detalii) + '</div>';
+  h += '<div class="fr-rapid"><button class="btn sec mic" data-muta="1">Mâine</button><button class="btn sec mic" data-muta="luni">Luni</button><label class="btn sec mic fr-alta">Altă dată<input type="date" id="frAlta" aria-label="Altă dată"></label><div class="sp"></div><button class="btn ghost mic" id="frMod" aria-expanded="false">' + ic('creion') + 'Modifică</button></div>';
+  h += '<form id="frForm" class="fr-mod" hidden><label for="mTitlu">Ce trebuie făcut</label><input id="mTitlu" maxlength="200" value="' + esc(t.Titlu) + '"><label for="mDet">Detalii</label><textarea id="mDet" rows="3">' + esc(t.Detalii || '') + '</textarea>' +
+    '<div class="campuri"><div><label for="mTermen">Termen</label><input id="mTermen" type="date" value="' + inInputData(t.Termen) + '"></div><div><label for="mStare">Stare</label><select id="mStare">' + ['deschis', 'în lucru', 'amânat', 'făcut'].map(function (x) { return '<option' + (x === t.Stare ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' +
+    '<div><label for="mPrio">Prioritate</label><select id="mPrio">' + ['normală', 'urgentă', 'scăzută'].map(function (x) { return '<option' + (x === t.Prioritate ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' +
+    (S.rol === 'asociat' ? '<div><label for="mPentru">Pentru</label><select id="mPentru">' + ['Tamara', 'Sebastian', 'Victor', 'Darius'].map(function (x) { return '<option' + (x === t.Pentru ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' : '') + '</div>' +
+    '<div style="display:flex;gap:8px;margin-top:16px"><button class="btn mic" type="submit">Salvează</button><button class="btn ghost mic" type="button" id="mRenunta">Renunță</button><div class="sp" style="flex:1"></div><button class="btn rosu mic" type="button" id="dSterge">Șterge taskul</button></div></form>';
+  h += '<div class="fr-asist"><div class="fr-asist-cap">' + ic('asistent') + '<b>Asistent Claudiu</b><span class="mic-t">lucrează cu tine pe acest task</span></div>';
+  h += '<div class="fr-ist">' + d.fir.map(function (f) { return '<div class="fr-ev' + (f.tip === 'notă' || f.tip === 'mesaj' ? ' om' : '') + '"><span class="c">' + esc(f.cine) + ', ' + esc(f.cand) + '</span><span class="x">' + linkuri(f.text) + '</span></div>'; }).join('') + '</div>';
+  h += '<div id="tcChat" class="chat"></div><p id="tcStare" style="margin-top:10px"></p></div>';
+  h += '</div><div class="fr-jos"><div class="compune"><textarea id="tcText" rows="2" placeholder="Scrie-i lui Claudiu ce ai nevoie sau atașează documentul" aria-label="Mesaj pentru Claudiu"></textarea><div id="frAtas" class="atas-l" style="padding:0 10px"></div><div class="bara"><label class="ib" for="frFis" title="Atașează fișiere" aria-label="Atașează fișiere">' + ic('clips') + '</label><input type="file" id="frFis" class="sr" multiple><button class="btn ghost mic" id="frNota" title="Scrie doar în istoric, fără Claudiu">Doar notă</button>' + (S.rol === 'tamara' ? '<button class="btn ghost mic" id="dSebi">Și lui Sebi</button>' : '') + '<div class="sp"></div><button class="btn ghost mic" id="tcStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="tcTrimite">' + ic('trimite') + 'Trimite</button></div></div>' +
+    '<button class="btn fr-gata' + (facut ? ' sec' : '') + '" id="frGata">' + ic('bifa') + (facut ? 'Redeschide taskul' : 'Gata') + '</button></div>';
   deschideDrawer(h);
   var dr = $('drawer');
-  var sch = async function (o, msg) { try { await api('task_schimba', Object.assign({ id: id }, o)); toast(msg); deschideTask(id); reimprospateaza(); } catch (e) { toast(e.message, { err: true }); } };
-  dr.querySelectorAll('.seg button').forEach(function (b) { b.onclick = function () { if (b.classList.contains('activ')) return; dr.querySelectorAll('.seg button').forEach(function (x) { x.classList.toggle('activ', x === b); }); sch({ stare: b.dataset.stare }, 'Stare: ' + b.dataset.stare + '.'); }; });
-  $('dSalvT').onclick = function () { sch({ termen: dinInputData($('dTermen').value) }, 'Termen salvat.'); };
-  $('dAmana').onclick = function () { var b = t.Termen ? new Date(inInputData(t.Termen)) : new Date(); b.setDate(b.getDate() + 7); sch({ termen: dinInputData(b.toISOString().slice(0, 10)), stare: 'amânat' }, 'Amânat cu 7 zile.'); };
-  $('dNotaB').onclick = function () { if ($('dNota').value.trim()) sch({ nota: $('dNota').value }, 'Notă adăugată.'); };
-  if ($('dSebi')) $('dSebi').onclick = function () { sch({ sebi_stie: true, nota: $('dNota').value }, 'Trimis lui Sebi în Cockpit.'); };
-  $('dSterge').onclick = function () { if (confirm('Ștergi taskul ' + id + '? Rămâne în jurnal.')) { sch({ stare: 'șters' }, 'Taskul a fost șters.'); inchide(); } };
-  dr.querySelectorAll('.tabs button').forEach(function (b) { b.onclick = function () {
-    dr.querySelectorAll('.tabs button').forEach(function (x) { x.classList.toggle('activ', x === b); x.setAttribute('aria-selected', x === b); });
-    $('pIst').hidden = b.dataset.tab !== 'ist'; $('pClaude').hidden = b.dataset.tab !== 'claude';
-    if (b.dataset.tab === 'claude' && TC.task !== id) pornesteClaudeTask(id);
-    if (b.dataset.tab === 'claude') setTimeout(function () { $('tcText').focus(); }, 50);
-  }; });
+  var sch = async function (o, msg) { try { await api('task_schimba', Object.assign({ id: id }, o)); toast(msg); reimprospateaza(); return true; } catch (e) { toast(e.message, { err: true }); return false; } };
+  dr.querySelectorAll('[data-muta]').forEach(function (b) { b.onclick = async function () { var dt = b.dataset.muta === 'luni' ? lunaViitoare() : dataPlus(1); if (await sch({ termen: ziRo(dt) }, 'Mutat pe ' + ziRo(dt) + '.')) deschideTask(id); }; });
+  $('frAlta').onchange = async function () { if (!this.value) return; if (await sch({ termen: dinInputData(this.value) }, 'Mutat pe ' + dinInputData(this.value) + '.')) deschideTask(id); };
+  var editez = function (da) { $('frForm').hidden = !da; $('frMod').setAttribute('aria-expanded', da); dr.classList.toggle('editez', da); if (da) $('frForm').scrollIntoView({ block: 'start', behavior: 'smooth' }); };
+  $('frMod').onclick = function () { editez($('frForm').hidden); };
+  $('mRenunta').onclick = function () { editez(false); };
+  $('frForm').onsubmit = async function (ev) {
+    ev.preventDefault(); var o = {};
+    if ($('mTitlu').value.trim() && $('mTitlu').value.trim() !== t.Titlu) o.titlu = $('mTitlu').value.trim();
+    if ($('mDet').value !== (t.Detalii || '')) o.detalii = $('mDet').value;
+    var tn = dinInputData($('mTermen').value); if (tn !== (t.Termen || '')) o.termen = tn;
+    if ($('mStare').value !== t.Stare) o.stare = $('mStare').value;
+    if ($('mPrio').value !== t.Prioritate) o.prioritate = $('mPrio').value;
+    if ($('mPentru') && $('mPentru').value !== t.Pentru) o.pentru = $('mPentru').value;
+    if (!Object.keys(o).length) { editez(false); return; }
+    if (await sch(o, 'Am salvat modificările.')) deschideTask(id);
+  };
+  $('dSterge').onclick = async function () { if (confirm('Ștergi taskul ' + id + '? Rămâne în jurnal.')) { if (await sch({ stare: 'șters' }, 'Taskul a fost șters.')) inchide(); } };
+  $('frGata').onclick = async function () { var nou = facut ? 'deschis' : 'făcut'; if (await sch({ stare: nou }, nou === 'făcut' ? 'Gata: taskul ' + id + ' e făcut.' : 'Taskul e redeschis.')) { if (nou === 'făcut') inchide(); else deschideTask(id); } };
+  var desAtas = function () { $('frAtas').innerHTML = FT.fis.map(function (f, i) { return '<span class="fis">' + esc(f.name) + '<button type="button" data-i="' + i + '" aria-label="Scoate ' + esc(f.name) + '">' + ic('x') + '</button></span>'; }).join(''); $('frAtas').querySelectorAll('button').forEach(function (b) { b.onclick = function () { FT.fis.splice(Number(b.dataset.i), 1); desAtas(); }; }); };
+  $('frFis').onchange = function () { Array.from(this.files).forEach(function (f) { if (FT.fis.length < 5) FT.fis.push(f); }); this.value = ''; desAtas(); };
+  var doarNota = async function (sebi) {
+    var txt = $('tcText').value.trim(); if (!txt && !FT.fis.length) return;
+    try {
+      if (FT.fis.length) { await urcaPeTask(id, FT.fis); FT.fis = []; }
+      if (txt) await api('task_schimba', Object.assign({ id: id, nota: txt }, sebi ? { sebi_stie: true } : {}));
+      else if (sebi) await api('task_schimba', { id: id, sebi_stie: true });
+      toast(sebi ? 'Trimis lui Sebi în Cockpit.' : 'Am adăugat în istoric.'); deschideTask(id);
+    } catch (e) { toast(e.message, { err: true }); }
+  };
+  $('frNota').onclick = function () { doarNota(false); };
+  if ($('dSebi')) $('dSebi').onclick = function () { doarNota(true); };
+  $('tcText').oninput = function () { this.style.height = 'auto'; this.style.height = Math.min(200, this.scrollHeight) + 'px'; };
+  pornesteClaudeTask(id);
 }
 function zileDin(s) { var v = inInputData(s); if (!v) return null; var a = new Date(); a.setHours(0, 0, 0, 0); return Math.round((new Date(v + 'T00:00:00') - a) / 864e5); }
 
-// ---------- Claude pe un task ----------
+// ---------- Claudiu pe un task ----------
 var TC = { task: null, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
 async function pornesteClaudeTask(id) {
   clearTimeout(TC.timer); TC = { task: id, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
   $('tcTrimite').onclick = trimiteTC;
   $('tcText').onkeydown = function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteTC(); };
   $('tcStop').onclick = async function () { if (TC.sid) { try { await api('asistent_opreste', { sid: TC.sid }); toast('Am oprit răspunsul.'); } catch (e) { toast(e.message, { err: true }); } } };
-  $('tcChat').innerHTML = '<div class="sk" style="height:16px;width:60%"></div>';
   try {
     var r = await api('asistent_task', { task: id });
     if (TC.task !== id) return;
-    if (!r.pornit) { $('tcChat').innerHTML = '<p class="mic-t">Asistentul nu e pornit încă.</p>'; $('tcTrimite').disabled = true; return; }
+    if (!r.pornit) { $('tcStare').innerHTML = '<span class="mic-t">Claudiu nu e pornit încă.</span>'; $('tcTrimite').disabled = true; return; }
     TC.sid = r.sid;
     if (TC.sid) sondeazaTC(); else randeazaTC();
-  } catch (e) { $('tcChat').innerHTML = '<p class="err">' + esc(e.message) + '</p>'; }
+  } catch (e) { $('tcStare').innerHTML = '<span class="err">' + esc(e.message) + '</span>'; }
 }
 async function trimiteTC() {
-  var text = $('tcText').value.trim(); if (!text || !TC.task) return;
-  $('tcTrimite').disabled = true;
+  var text = $('tcText').value.trim(); if ((!text && !FT.fis.length) || !TC.task) return;
+  if (!text) text = 'Am atașat ' + (FT.fis.length === 1 ? 'un document' : FT.fis.length + ' documente') + '. Procesează-le pentru acest task.';
+  $('tcTrimite').disabled = true; $('tcStare').innerHTML = '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Trimit</span>';
   try {
-    var r = await api('asistent_trimite', { task: TC.task, sid: TC.sid, text: text });
-    TC.sid = r.sid; $('tcText').value = '';
-    TC.ev['tmp'] = { t: 'user.message', text: text }; if (TC.ordine.indexOf('tmp') < 0) TC.ordine.push('tmp'); randeazaTC(true);
+    var atas = [];
+    if (FT.fis.length) { atas = await urcaPeTask(TC.task, FT.fis); FT.fis = []; $('frAtas').innerHTML = ''; }
+    var spre = text + (atas.length ? '\n[Le-am urcat deja în Drive (TEG Finance › _Urcate din platformă): ' + atas.map(function (a) { return a.nume + ' ' + a.url; }).join('; ') + ']' : '');
+    var r = await api('asistent_trimite', { task: TC.task, sid: TC.sid, text: spre, atasamente: atas.map(function (a) { return { nume: a.nume, mime: a.mime, date: a.date }; }) });
+    TC.sid = r.sid; $('tcText').value = ''; $('tcText').style.height = '';
+    TC.ev['tmp'] = { t: 'user.message', text: text + (atas.length ? '\n' + atas.map(function (a) { return 'Atașat: ' + a.nume; }).join('\n') : '') }; if (TC.ordine.indexOf('tmp') < 0) TC.ordine.push('tmp'); randeazaTC(true);
     sondeazaTC();
   } catch (e) { $('tcStare').innerHTML = '<span class="err">' + esc(e.message) + '</span>'; }
   $('tcTrimite').disabled = false;
@@ -903,8 +987,8 @@ function randeazaTC(lucreaza) {
   var c = $('tcChat'); if (!c) return;
   $('tcStop').hidden = !lucreaza;
   $('tcStare').innerHTML = lucreaza ? '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Claudiu lucrează</span>' : '';
-  c.innerHTML = TC.ordine.length ? mesajeHtml(TC) : '<p class="mic-t">Încă nicio întrebare pe acest task.</p>';
-  var corp = c.closest('.dr-corp'); if (corp) corp.scrollTop = corp.scrollHeight;
+  c.innerHTML = TC.ordine.length ? mesajeHtml(TC) : '';
+  var corp = c.closest('.dr-corp'); if (corp && TC.ordine.length) corp.scrollTop = corp.scrollHeight;
 }
 function mesajeHtml(st) {
   var h = st.ordine.map(function (id) {
