@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NmgbB2Okyz5vILULXvww+dd5zWy2MuIz4wejTyodVRg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-QxSE3uMUKi+YtPGyCqOlENadGdZV+v/cxYxy/yJC4ck='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
 <meta name="theme-color" content="#EDF1EC">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -243,6 +243,20 @@ table.nw td{white-space:nowrap}
 .lk .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--mossbg);color:var(--moss);flex:none}
 .lk b{display:block;font-weight:600}
 .lk span{font-size:12.5px;color:var(--ink3)}
+/* link-uri utile: pătrate ca pe ecranul unui telefon, titlul fișierului e lucrul cel mai vizibil */
+.plac{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.pl{aspect-ratio:1/1;display:flex;flex-direction:column;justify-content:space-between;padding:16px;border-radius:22px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);box-shadow:var(--sh);transition:transform .18s var(--ease),box-shadow .18s,border-color .18s}
+.pl:hover{transform:translateY(-3px) scale(1.015);border-color:var(--moss);color:var(--ink)}
+.pl:active{transform:scale(.97)}
+.pl .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff}
+.pl .ic svg{width:24px;height:24px;stroke-width:2}
+.pl .ic.foaie{background:linear-gradient(145deg,#1FA463,#137A45)}
+.pl .ic.dosar{background:linear-gradient(145deg,#3B82C4,#0A4A7C)}
+.pl .ic.ext{background:linear-gradient(145deg,#8A94A0,#5B6570)}
+.pl .ic.doc{background:linear-gradient(145deg,#E0A21B,#B07A06)}
+.pl b{font-size:16px;font-weight:700;line-height:1.25;color:var(--moss);letter-spacing:-.01em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.pl span span{display:block;font-size:12.5px;color:var(--ink3);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:860px){.plac{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.pl{border-radius:20px;padding:14px}.pl b{font-size:15px}}
 
 /* urcă */
 .drop{display:grid;place-items:center;text-align:center;gap:8px;padding:40px 20px;border:2px dashed var(--line);border-radius:var(--r3);background:var(--surface);cursor:pointer;transition:border-color .15s,background .15s}
@@ -403,7 +417,7 @@ table.nw td{white-space:nowrap}
  <div class="lg-art">
   <svg class="contur" id="contur" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
   <div class="marca">TEG<span>Ecosistem</span></div>
-  <p class="jos">Taskurile, termenele, actele firmelor și asistentul Claude ale echipei TEG, într-un singur loc.</p>
+  <p class="jos">Taskurile, termenele, actele firmelor și asistentul Claudiu ale echipei TEG, într-un singur loc.</p>
  </div>
  <div class="lg-form">
   <form id="fLogin" autocomplete="on">
@@ -443,6 +457,7 @@ table.nw td{white-space:nowrap}
 
 <script>
 'use strict';
+var VER = '0.4.2';
 if (window.top !== window.self) { document.documentElement.innerHTML = ''; throw new Error('încadrat'); }
 var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
 var S = { sesiune: null };
@@ -587,7 +602,7 @@ function deseneazaContur() {
 var NAV = [
   { p: 'azi', t: 'Azi', i: 'azi' }, { p: 'taskuri', t: 'Taskuri', i: 'taskuri' }, { p: 'clarificat', t: 'De clarificat', i: 'clarificat' },
   { p: 'termene', t: 'Termene și expirări', i: 'termene' }, { p: 'firme', t: 'Firme', i: 'firme' },
-  { gr: 'Lucru' }, { p: 'asistent', t: 'Asistent Claude', i: 'asistent' }, { p: 'urca', t: 'Urcă document', i: 'urca' }, { p: 'linkuri', t: 'Link-uri utile', i: 'linkuri' },
+  { gr: 'Lucru' }, { p: 'asistent', t: 'Asistent Claudiu', i: 'asistent' }, { p: 'urca', t: 'Urcă document', i: 'urca' }, { p: 'linkuri', t: 'Link-uri utile', i: 'linkuri' },
   { p: 'bot', t: 'Bot WhatsApp', i: 'bot' }, { ext: 'https://smm2424.github.io/oportunitati/contracte/', t: 'Contracte', i: 'contracte' },
   { gr: 'Cont' }, { p: 'jurnal', t: 'Jurnal', i: 'jurnal' }, { p: 'chei', t: 'Parole', i: 'chei' }
 ];
@@ -624,7 +639,7 @@ var expTimer = null;
 function porneste() {
   $('login').hidden = true; $('app').hidden = false;
   construiesteNav();
-  $('euNume').textContent = S.nume || ''; $('euRol').textContent = S.rol === 'asociat' ? 'acces complet' : 'acces Tamara';
+  $('euNume').textContent = S.nume || ''; $('euRol').textContent = (S.rol === 'asociat' ? 'acces complet' : 'acces Tamara') + ', v' + VER;
   $('av').textContent = (S.nume || '?').charAt(0).toUpperCase();
   clearTimeout(expTimer); if (S.exp) expTimer = setTimeout(function () { iesire(true); toast('Sesiunea de 12 ore s-a încheiat. Intră din nou.'); }, Math.max(0, S.exp - Date.now()));
   if (!S.id) api('eu').then(function (r) { S.id = r.id; S.nume = r.nume; localStorage.setItem('eco_sesiune', JSON.stringify(S)); $('euNume').textContent = S.nume; }).catch(function () { });
@@ -724,7 +739,7 @@ function randTask(t) {
   var facut = t.Stare === 'făcut';
   return '<div class="rt' + (facut ? ' facut' : '') + '" data-id="' + esc(t.ID) + '" role="button" tabindex="0">' +
     '<button class="chk" type="button" data-bifa="' + esc(t.ID) + '" data-stare="' + esc(t.Stare) + '" aria-label="' + (facut ? 'Redeschide' : 'Marchează ca făcut') + ': ' + esc(t.Titlu) + '">' + ic('bifa') + '</button>' +
-    '<div class="corp"><div class="t">' + esc(t.Titlu) + '</div><div class="m"><span class="id">' + esc(t.ID) + '</span><span>pentru ' + esc(t.Pentru) + '</span>' + (t.Stare && t.Stare !== 'deschis' ? '<span>' + esc(t.Stare) + '</span>' : '') + (/urgent/i.test(t.Prioritate || '') ? '<span class="urg">urgent</span>' : '') + (t.Sursa === 'asistent' ? '<span>creat de Claude</span>' : '') + '</div></div>' +
+    '<div class="corp"><div class="t">' + esc(t.Titlu) + '</div><div class="m"><span class="id">' + esc(t.ID) + '</span><span>pentru ' + esc(t.Pentru) + '</span>' + (t.Stare && t.Stare !== 'deschis' ? '<span>' + esc(t.Stare) + '</span>' : '') + (/urgent/i.test(t.Prioritate || '') ? '<span class="urg">urgent</span>' : '') + (t.Sursa === 'asistent' ? '<span>creat de Claudiu</span>' : '') + '</div></div>' +
     '<div>' + (facut ? '<span class="pill ok">făcut</span>' : zilePill(t.zile)) + '</div></div>';
 }
 function legaTaskuri(m) {
@@ -755,7 +770,7 @@ PAGINI.taskuri = function (m) {
       else if (t.zile < 0) gr.intarziate.push(t); else if (t.zile === 0) gr.azi.push(t); else if (t.zile <= 7) gr.sapt.push(t); else gr.tarziu.push(t);
     });
     var F = [['toate', 'Toate', L.length - gr.facute.length], ['intarziate', 'Întârziate', gr.intarziate.length], ['azi', 'Azi', gr.azi.length], ['sapt', 'În 7 zile', gr.sapt.length], ['fara', 'Fără termen', gr.fara.length]];
-    var h = '<div class="cap"><div><h1>Taskuri</h1><p>Ce e de făcut în TEG, cu termene. Bifează cercul ca să închizi un task; deschide-l ca să vezi istoricul sau să-l întrebi pe Claude.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="tQ" placeholder="Caută în taskuri" value="' + esc(TS.q) + '" aria-label="Caută în taskuri"></div><button class="btn sec" id="tgToate">' + (TS.toate ? 'Ascunde ce e făcut' : 'Arată și ce e făcut') + '</button><button class="btn" id="tNou">' + ic('plus') + 'Task nou</button></div></div>';
+    var h = '<div class="cap"><div><h1>Taskuri</h1><p>Ce e de făcut în TEG, cu termene. Bifează cercul ca să închizi un task; deschide-l ca să vezi istoricul sau să-l întrebi pe Claudiu.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="tQ" placeholder="Caută în taskuri" value="' + esc(TS.q) + '" aria-label="Caută în taskuri"></div><button class="btn sec" id="tgToate">' + (TS.toate ? 'Ascunde ce e făcut' : 'Arată și ce e făcut') + '</button><button class="btn" id="tNou">' + ic('plus') + 'Task nou</button></div></div>';
     h += '<div class="filtre" role="tablist">' + F.map(function (f) { return '<button type="button" role="tab" data-f="' + f[0] + '" class="' + (TS.filtru === f[0] ? 'activ' : '') + '" aria-selected="' + (TS.filtru === f[0]) + '">' + f[1] + ' <span>' + f[2] + '</span></button>'; }).join('') + '</div><div id="tLista"></div>';
     m.innerHTML = h;
     var deseneaza = function () {
@@ -812,11 +827,11 @@ async function deschideTask(id) {
   h += '<dl class="meta" style="margin-top:18px"><div><dt>Pentru</dt><dd>' + esc(t.Pentru) + '</dd></div><div><dt>Termen</dt><dd>' + (t.Termen ? esc(t.Termen) + ' ' + zilePill(d.task.zile !== undefined ? d.task.zile : zileDin(t.Termen)) : 'fără termen') + '</dd></div><div><dt>Creat</dt><dd>' + esc(t['Creat de']) + ', ' + esc(t['Creat la']) + '</dd></div><div><dt>Sursa</dt><dd>' + esc(t.Sursa || '-') + '</dd></div></dl>';
   h += '<div class="rand" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input id="dTermen" type="date" style="max-width:180px" value="' + inInputData(t.Termen) + '" aria-label="Termen nou"><button class="btn sec mic" id="dSalvT">Salvează termenul</button><button class="btn ghost mic" id="dAmana">Amână 7 zile</button></div>';
   if (t.Detalii) h += '<div class="detalii">' + esc(t.Detalii) + '</div>';
-  h += '<div class="tabs" role="tablist"><button type="button" role="tab" class="activ" data-tab="ist">Istoric <span class="mic-t">' + d.fir.length + '</span></button><button type="button" role="tab" data-tab="claude">Cere lui Claude</button></div>';
+  h += '<div class="tabs" role="tablist"><button type="button" role="tab" class="activ" data-tab="ist">Istoric <span class="mic-t">' + d.fir.length + '</span></button><button type="button" role="tab" data-tab="claude">Cere lui Claudiu</button></div>';
   h += '<div id="pIst">' + (d.fir.length ? d.fir.map(function (f) { return '<div class="fir' + (f.tip === 'notă' ? ' fn' : '') + '"><div class="c"><b>' + esc(f.cine) + '</b>, ' + esc(f.cand) + (f.tip && f.tip !== 'sistem' ? ', ' + esc(f.tip) : '') + '</div><div class="x">' + esc(f.text) + '</div></div>'; }).join('') : '<p class="mic-t">Nimic încă.</p>') +
     '<div class="compune"><textarea id="dNota" rows="2" placeholder="Ce s-a întâmplat, ce lipsește" aria-label="Notă"></textarea><div class="bara"><div class="sp"></div>' + (S.rol === 'tamara' ? '<button class="btn sec mic" id="dSebi">Trimite și lui Sebi</button>' : '') + '<button class="btn mic" id="dNotaB">Adaugă nota</button></div></div></div>';
-  h += '<div id="pClaude" hidden><p class="mic-t" style="margin-bottom:12px">Conversația ta cu Claude despre acest task. Claude vede taskul și istoricul lui și caută în Drive cu accesul contului tău.</p><div id="tcChat" class="chat"></div><p id="tcStare" style="margin-top:10px"></p>' +
-    '<div class="compune"><textarea id="tcText" rows="2" placeholder="Ex.: Ce mai lipsește ca să închid taskul? Găsește factura și spune-mi suma." aria-label="Mesaj pentru Claude"></textarea><div class="bara"><span class="mic-t">Ctrl + Enter trimite</span><div class="sp"></div><button class="btn ghost mic" id="tcStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="tcTrimite">' + ic('trimite') + 'Trimite</button></div></div></div>';
+  h += '<div id="pClaude" hidden><p class="mic-t" style="margin-bottom:12px">Conversația ta cu Claudiu despre acest task. Claudiu vede taskul și istoricul lui și caută în Drive cu accesul contului tău.</p><div id="tcChat" class="chat"></div><p id="tcStare" style="margin-top:10px"></p>' +
+    '<div class="compune"><textarea id="tcText" rows="2" placeholder="Ex.: Ce mai lipsește ca să închid taskul? Găsește factura și spune-mi suma." aria-label="Mesaj pentru Claudiu"></textarea><div class="bara"><span class="mic-t">Ctrl + Enter trimite</span><div class="sp"></div><button class="btn ghost mic" id="tcStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="tcTrimite">' + ic('trimite') + 'Trimite</button></div></div></div>';
   h += '</div><div class="dr-jos"><span class="mic-t">Actualizat ' + esc(t['Actualizat la'] || '') + '</span><button class="btn rosu mic" id="dSterge">Șterge taskul</button></div>';
   if (TC.task !== null && TC.task !== id) { clearTimeout(TC.timer); }
   deschideDrawer(h);
@@ -887,7 +902,7 @@ function adaugaEvenimente(st, r) {
 function randeazaTC(lucreaza) {
   var c = $('tcChat'); if (!c) return;
   $('tcStop').hidden = !lucreaza;
-  $('tcStare').innerHTML = lucreaza ? '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Claude lucrează</span>' : '';
+  $('tcStare').innerHTML = lucreaza ? '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Claudiu lucrează</span>' : '';
   c.innerHTML = TC.ordine.length ? mesajeHtml(TC) : '<p class="mic-t">Încă nicio întrebare pe acest task.</p>';
   var corp = c.closest('.dr-corp'); if (corp) corp.scrollTop = corp.scrollHeight;
 }
@@ -972,21 +987,34 @@ PAGINI.termene = function (m) {
 };
 
 // ---------- Firme ----------
+// Pe pagina principală: firmele active / importante. Restul (decizia lui Sebastian, 26.11.2026) stau sub butonul „Alte firme și asociații”.
+var FIRME_SECUNDARE = ['afra', 'inima iti vorbeste', 'fast green management', 'invending machine', 'padurea bistra', 'fitbox'];
+function eSecundara(nume) { var n = String(nume || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); return FIRME_SECUNDARE.some(function (x) { return n.indexOf(x) >= 0; }); }
+var FS = { alte: false };
 PAGINI.firme = function (m) {
   return incarca(m, 'firme', 'firme', {}, function (d, m) {
-    var nLipsa = d.firme.filter(function (f) { return f.lipsa.length; }).length;
-    var h = '<div class="cap"><div><h1>Firme și asociații</h1><p>Actele la zi din Acte firme (rădăcina fiecărei firme) și ce lipsește din setul standard. ' + d.firme.length + ' entități' + (nLipsa ? ', ' + nLipsa + ' cu acte lipsă' : '') + '.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="fQ" placeholder="Caută o firmă sau un act" aria-label="Caută o firmă"></div></div></div><div class="firme" id="fL"></div>';
+    var princ = d.firme.filter(function (f) { return !eSecundara(f.firma); }), alte = d.firme.filter(function (f) { return eSecundara(f.firma); });
+    var nLipsa = princ.filter(function (f) { return f.lipsa.length; }).length;
+    var h = '<div class="cap"><div><h1>Firme și asociații</h1><p>Actele la zi din Acte firme (rădăcina fiecărei firme) și ce lipsește din setul standard. ' + princ.length + ' entități active' + (nLipsa ? ', ' + nLipsa + ' cu acte lipsă' : '') + '.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="fQ" placeholder="Caută o firmă sau un act" aria-label="Caută o firmă"></div></div></div>';
+    h += '<div class="firme" id="fL"></div>';
+    h += '<div class="sectiune" style="text-align:center"><button class="btn sec" id="fAlte" type="button" aria-expanded="' + FS.alte + '">' + (FS.alte ? 'Ascunde celelalte firme și asociații' : 'Alte firme și asociații (' + alte.length + ')') + '</button></div><div class="firme" id="fA" style="margin-top:18px"' + (FS.alte ? '' : ' hidden') + '></div>';
     m.innerHTML = h;
-    var des = function (q) {
-      var l = d.firme.filter(function (f) { return filtreazaText(q, f.firma + ' ' + f.acte.map(function (a) { return a.tip; }).join(' ')); });
-      $('fL').innerHTML = l.length ? l.map(function (f) {
-        var o = '<div class="panou firma' + (f.lipsa.length ? ' are-lipsa' : '') + '"><div class="fc"><h3>' + esc(f.firma) + '</h3><a class="ib" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(f.url)) + '" title="Deschide folderul" aria-label="Deschide folderul ' + esc(f.firma) + '">' + ic('dosar') + '</a></div>';
-        o += '<ul>' + f.acte.filter(function (a) { return a.tip; }).sort(function (x, y) { return x.nume < y.nume ? -1 : 1; }).map(function (a) { var ex = (/\.([a-z0-9]+)$/i.exec(a.nume) || [])[1]; return '<li><a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(a.url)) + '">' + esc(a.tip) + '</a>' + (ex && ex.toLowerCase() !== 'pdf' ? '<span class="pill">' + esc(ex.toLowerCase()) + '</span>' : '') + (a.emis ? '<span class="mic-t">emis ' + esc(a.emis) + '</span>' : '') + (a.expira ? '<span class="pill warn">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
-        if (f.lipsa.length) o += '<div class="lipsa"><b>Lipsă:</b> ' + f.lipsa.map(esc).join(', ') + '</div>';
-        return o + '</div>';
-      }).join('') : '<div class="panou gol"><b>Nicio firmă găsită</b>Încearcă alt cuvânt.</div>';
+    var panou = function (f) {
+      var o = '<div class="panou firma' + (f.lipsa.length ? ' are-lipsa' : '') + '"><div class="fc"><h3>' + esc(f.firma) + '</h3><a class="ib" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(f.url)) + '" title="Deschide folderul" aria-label="Deschide folderul ' + esc(f.firma) + '">' + ic('dosar') + '</a></div>';
+      o += '<ul>' + f.acte.filter(function (a) { return a.tip; }).sort(function (x, y) { return x.nume < y.nume ? -1 : 1; }).map(function (a) { var ex = (/\.([a-z0-9]+)$/i.exec(a.nume) || [])[1]; return '<li><a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(a.url)) + '">' + esc(a.tip) + '</a>' + (ex && ex.toLowerCase() !== 'pdf' ? '<span class="pill">' + esc(ex.toLowerCase()) + '</span>' : '') + (a.emis ? '<span class="mic-t">emis ' + esc(a.emis) + '</span>' : '') + (a.expira ? '<span class="pill warn">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
+      if (f.lipsa.length) o += '<div class="lipsa"><b>Lipsă:</b> ' + f.lipsa.map(esc).join(', ') + '</div>';
+      return o + '</div>';
     };
-    des(''); $('fQ').oninput = function () { des(this.value); };
+    var des = function (q) {
+      var potr = function (f) { return filtreazaText(q, f.firma + ' ' + f.acte.map(function (a) { return a.tip; }).join(' ')); };
+      var lp = princ.filter(potr), la = alte.filter(potr);
+      $('fL').innerHTML = lp.length ? lp.map(panou).join('') : (q ? '<div class="panou gol"><b>Nicio firmă activă găsită</b>' + (la.length ? 'Rezultatele sunt la „Alte firme și asociații”.' : 'Încearcă alt cuvânt.') + '</div>' : '');
+      $('fA').innerHTML = la.map(panou).join('');
+      if (q && la.length && !FS.alte) { $('fA').hidden = false; }
+    };
+    des('');
+    $('fQ').oninput = function () { des(this.value); };
+    $('fAlte').onclick = function () { FS.alte = !FS.alte; $('fA').hidden = !FS.alte; this.setAttribute('aria-expanded', FS.alte); this.textContent = FS.alte ? 'Ascunde celelalte firme și asociații' : 'Alte firme și asociații (' + alte.length + ')'; if (FS.alte) $('fA').scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' }); };
   });
 };
 
@@ -997,7 +1025,7 @@ PAGINI.linkuri = function (m) {
     m.innerHTML = h;
     var des = function (q) {
       var gr = {}; d.linkuri.forEach(function (l) { if (filtreazaText(q, l.t + ' ' + l.g)) (gr[l.g] = gr[l.g] || []).push(l); });
-      $('lL').innerHTML = Object.keys(gr).map(function (g) { return '<div class="sectiune" style="margin-top:24px"><h2 style="font-size:16px">' + esc(g) + '</h2><div class="linkuri">' + gr[g].map(function (l) { var u = urlSigur(l.u), dom = domeniu(u); return '<a class="lk" target="_blank" rel="noopener noreferrer" href="' + esc(u) + '"><span class="ic">' + ic(/spreadsheets/.test(u) ? 'foaie' : /folders|drive\.google/.test(u) ? 'dosar' : 'ext') + '</span><span style="min-width:0"><b>' + esc(l.t) + '</b><span>' + esc(/spreadsheets/.test(u) ? 'Google Sheets' : /folders/.test(u) ? 'Folder Drive' : dom) + '</span></span></a>'; }).join('') + '</div></div>'; }).join('') || '<div class="panou gol"><b>Niciun link găsit</b>Încearcă alt cuvânt.</div>';
+      $('lL').innerHTML = Object.keys(gr).map(function (g) { return '<div class="sectiune" style="margin-top:26px"><h2 style="font-size:16px">' + esc(g) + '</h2><div class="plac">' + gr[g].map(function (l) { var u = urlSigur(l.u), dom = domeniu(u), tip = /spreadsheets/.test(u) ? 'foaie' : /folders/.test(u) ? 'dosar' : /document|file\/d|presentation/.test(u) ? 'doc' : 'ext'; return '<a class="pl" target="_blank" rel="noopener noreferrer" href="' + esc(u) + '"><span class="ic ' + tip + '">' + ic(tip === 'doc' ? 'contracte' : tip) + '</span><span style="min-width:0"><b>' + esc(l.t) + '</b><span>' + esc(tip === 'foaie' ? 'Google Sheets' : tip === 'dosar' ? 'Folder Drive' : tip === 'doc' ? 'Document' : dom) + '</span></span></a>'; }).join('') + '</div></div>'; }).join('') || '<div class="panou gol"><b>Niciun link găsit</b>Încearcă alt cuvânt.</div>';
     };
     des(''); $('lQ').oninput = function () { des(this.value); };
   });
@@ -1036,10 +1064,10 @@ var SUGESTII = {
 };
 PAGINI.asistent = async function (m) {
   clearTimeout(AS.timer);
-  m.innerHTML = '<div class="cap" style="margin-bottom:16px"><div><h1>Asistent Claude</h1><p>' + (S.rol === 'asociat' ? 'Vede tot ecosistemul.' : 'Vede TEG Finance, TEG Public Funding și documentele primite pe nume.') + ' Face Excel-uri (ca foi Google), PDF-uri și rapoarte și primește atașamente.</p></div></div>' +
+  m.innerHTML = '<div class="cap" style="margin-bottom:16px"><div><h1>Asistent Claudiu</h1><p>' + (S.rol === 'asociat' ? 'Vede tot ecosistemul.' : 'Vede TEG Finance, TEG Public Funding și documentele primite pe nume.') + ' Face Excel-uri (ca foi Google), PDF-uri și rapoarte și primește atașamente.</p></div></div>' +
     '<div class="as"><div class="panou as-ist"><div style="padding:10px"><button class="btn sec" id="asNou" style="width:100%;justify-content:center">' + ic('plus') + 'Conversație nouă</button></div><div class="lst" id="asIst"><div class="sk" style="height:40px;margin:6px"></div></div><div class="cost" id="asCost" hidden></div></div>' +
     '<div class="panou as-main"><div class="as-chat" id="asChat"></div><p id="asStare" style="padding:0 28px 8px"></p>' +
-    '<div class="compune"><textarea id="asText" rows="2" placeholder="Scrie ce ai nevoie" aria-label="Mesaj pentru Claude"></textarea><div id="asAtas" style="display:flex;gap:6px;flex-wrap:wrap;padding:0 10px"></div><div class="bara"><label class="btn ghost mic" for="asFis" style="margin:0" title="Atașează fișiere">' + ic('clips') + 'Atașează</label><input type="file" id="asFis" class="sr" multiple><span class="mic-t">Ctrl + Enter trimite</span><div class="sp"></div><button class="btn ghost mic" id="asStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="asTrimite">' + ic('trimite') + 'Trimite</button></div></div></div></div>';
+    '<div class="compune"><textarea id="asText" rows="2" placeholder="Scrie ce ai nevoie" aria-label="Mesaj pentru Claudiu"></textarea><div id="asAtas" style="display:flex;gap:6px;flex-wrap:wrap;padding:0 10px"></div><div class="bara"><label class="btn ghost mic" for="asFis" style="margin:0" title="Atașează fișiere">' + ic('clips') + 'Atașează</label><input type="file" id="asFis" class="sr" multiple><span class="mic-t">Ctrl + Enter trimite</span><div class="sp"></div><button class="btn ghost mic" id="asStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="asTrimite">' + ic('trimite') + 'Trimite</button></div></div></div></div>';
   $('asNou').onclick = function () { clearTimeout(AS.timer); AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null, fis: [] }; randeazaChat(); marcheazaConv(); $('asText').focus(); };
   $('asTrimite').onclick = trimiteAs;
   $('asStop').onclick = async function () { if (AS.sid) { try { await api('asistent_opreste', { sid: AS.sid }); toast('Am oprit răspunsul.'); } catch (e) { toast(e.message, { err: true }); } } };
@@ -1097,7 +1125,7 @@ async function sondeaza() {
 function randeazaChat(lucreaza) {
   var c = $('asChat'); if (!c) return;
   $('asStop').hidden = !lucreaza;
-  $('asStare').innerHTML = lucreaza ? '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Claude lucrează</span>' : '';
+  $('asStare').innerHTML = lucreaza ? '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Claudiu lucrează</span>' : '';
   if (!AS.sid && !AS.ordine.length) {
     var sg = SUGESTII[S.rol] || SUGESTII.asociat;
     c.innerHTML = '<div class="as-gol"><h2>Cu ce te ajut?</h2><p class="muted">Întreabă de facturi, plăți, acte, termene sau cere un Excel ori un PDF. Răspunsul spune de unde a luat fiecare cifră.</p><div class="sugestii">' + sg.map(function (s) { return '<button type="button">' + esc(s) + '</button>'; }).join('') + '</div></div>';
@@ -1163,7 +1191,7 @@ function deschidePaleta() {
   var tk = (citesteC('taskuri_deschise') || citesteC('taskuri_toate') || { d: { taskuri: [] } }).d.taskuri;
   var actiuni = [
     { g: 'Acțiuni', t: 'Task nou', i: 'plus', f: function () { mergi('taskuri'); setTimeout(formTaskNou, 60); } },
-    { g: 'Acțiuni', t: 'Întreabă-l pe Claude', i: 'asistent', f: function () { location.hash = 'asistent'; } },
+    { g: 'Acțiuni', t: 'Întreabă-l pe Claudiu', i: 'asistent', f: function () { location.hash = 'asistent'; } },
     { g: 'Acțiuni', t: 'Urcă un document', i: 'urca', f: function () { location.hash = 'urca'; } },
     { g: 'Acțiuni', t: 'Schimbă tema', i: 'luna', f: function () { $('btnTema').click(); } },
     { g: 'Acțiuni', t: 'Ieșire', i: 'iesire', f: function () { iesire(); } }
@@ -1188,6 +1216,14 @@ function deschidePaleta() {
 }
 function inchidePaleta() { var p = $('paleta'); if (p) p.remove(); }
 
+// ---------- versiunea nouă: dacă pe server e alta decât cea din memoria browserului, pagina se reîncarcă o dată ----------
+(function () {
+  try { if (sessionStorage.getItem('eco_ver_inc') === VER) return; } catch (e) { }
+  fetch(location.pathname + '?_v=' + Date.now(), { cache: 'no-store', credentials: 'omit' }).then(function (r) { return r.text(); }).then(function (t) {
+    var m = /var VER = '([^']+)'/.exec(t);
+    if (m && m[1] !== VER) { try { if (sessionStorage.getItem('eco_ver_inc') === m[1]) return; sessionStorage.setItem('eco_ver_inc', m[1]); } catch (e) { } location.replace(location.pathname + '?v=' + encodeURIComponent(m[1]) + location.hash); }
+  }).catch(function () { });
+})();
 // ---------- pornire ----------
 if (S.sesiune) porneste(); else { $('login').hidden = false; deseneazaContur(); setTimeout(function () { $('cheie').focus(); }, 50); }
 </script>
