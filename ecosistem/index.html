@@ -4,259 +4,858 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ROLzNXCOFNGB9pmVI3ePpLsQ/uuziRYIIov2G9eLn0s='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta name="theme-color" content="#EDF1EC">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://script.google.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#03120a;--bg2:#061a0f;--panel:#0a2214;--panel2:#0c2818;--line:#163d26;--tx:#eafbe9;--tx2:#9fc4a6;--g:#1BCC2D;--neon:#9BFF4F;--blue:#0A4A7C;--warn:#ffcf4a;--hot:#ff8a4a;--r:20px}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
-a{color:var(--neon)}
-h1,h2,h3{font-family:"Space Grotesk",Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;margin:0 0 .6em;letter-spacing:.01em}
-h1{font-size:28px}h2{font-size:21px}h3{font-size:16px}
-button,input,select,textarea{font:inherit;color:inherit}
-.btn{background:var(--g);color:#02140a;border:0;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer}
-.btn:hover{background:var(--neon)}
-.btn.sec{background:transparent;color:var(--tx);border:1px solid var(--line)}
-.btn.sec:hover{border-color:var(--g)}
-.btn.mic{padding:6px 10px;font-size:13px}
-.btn.rosu{background:transparent;border:1px solid #6b2a1a;color:var(--hot)}
-input,select,textarea{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g)}
-label{display:block;font-size:13px;color:var(--tx2);margin:10px 0 4px}
-#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(1200px 600px at 20% -10%,#0f3a1d 0,transparent 60%),var(--bg)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
-#login .card{max-width:420px;width:100%}
-.logo{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:13px;letter-spacing:.25em;color:var(--neon)}
-#app{display:none;min-height:100vh}
-nav{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--bg2);border-right:1px solid var(--line);padding:18px 12px;overflow:auto}
-nav .logo{padding:0 10px 14px}
-nav a{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:12px;color:var(--tx);text-decoration:none;margin:2px 0;cursor:pointer}
-nav a:hover{background:var(--panel)}
-nav a.activ{background:var(--panel2);color:var(--neon)}
-nav .sep{height:1px;background:var(--line);margin:10px 6px}
-nav .eu{font-size:13px;color:var(--tx2);padding:8px 12px}
-main{margin-left:230px;padding:26px 30px 80px;max-width:1300px}
-.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-.kpi .n{font-family:"Space Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:34px;font-weight:700}
-.kpi .l{color:var(--tx2);font-size:13px}
-.kpi.warn .n{color:var(--warn)}.kpi.hot .n{color:var(--hot)}.kpi.ok .n{color:var(--neon)}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
-th{color:var(--tx2);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;position:sticky;top:0;background:var(--panel)}
-tr:hover td{background:rgba(27,204,45,.04)}
-.tabwrap{overflow:auto;max-height:70vh;border-radius:14px;border:1px solid var(--line)}
-.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--panel2);border:1px solid var(--line)}
-.pill.hot{color:var(--hot);border-color:#6b2a1a}.pill.warn{color:var(--warn);border-color:#5e4b12}.pill.ok{color:var(--neon);border-color:#245a2a}
-.rand{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.spatiu{height:16px}
-.muted{color:var(--tx2)}
-.task{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:14px;margin:8px 0;background:var(--panel);cursor:pointer}
-.task:hover{border-color:var(--g)}
-.task .t{font-weight:600}
-.task .m{font-size:12px;color:var(--tx2)}
-.link{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);text-decoration:none;color:var(--tx)}
-.link:hover{border-color:var(--g);color:var(--neon)}
-.grupt{margin:22px 0 8px;color:var(--tx2);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
-#drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg2);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .2s;z-index:20;overflow:auto;padding:22px}
-#drawer.deschis{transform:none}
-.fir{border-left:2px solid var(--line);padding-left:12px;margin:10px 0}
-.fir .c{font-size:12px;color:var(--tx2)}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--g);padding:10px 16px;border-radius:12px;display:none;z-index:30}
-.cheie{font-family:ui-monospace,monospace;font-size:17px;background:var(--bg);padding:12px;border-radius:12px;border:1px dashed var(--g);word-break:break-all}
-.firma{margin-bottom:14px}
-.firma ul{margin:6px 0 0;padding-left:18px}
-.firma li{margin:3px 0}
-.burger{display:none}
-@media (max-width:860px){
- nav{transform:translateX(-100%);transition:transform .2s;z-index:25;width:260px}
- nav.deschis{transform:none}
- main{margin-left:0;padding:70px 16px 80px}
- .burger{display:block;position:fixed;top:12px;left:12px;z-index:26}
+:root{
+ --bg:#EDF1EC;--surface:#FFFFFF;--surface2:#F4F7F3;--sunk:#E4EAE3;--ink:#14231A;--ink2:#4E5F54;--ink3:#7A8A7F;--line:#D5DDD4;--line2:#E6ECE5;
+ --moss:#17773A;--moss2:#0F5E2C;--mossbg:#E2F1E6;--lime:#9BFF4F;--amber:#9A6700;--amberbg:#FFF2CF;--rust:#B23A10;--rustbg:#FCE7DE;--blue:#0A4A7C;--bluebg:#E1ECF6;
+ --onmoss:#fff;--sh:0 1px 2px rgba(20,35,26,.06),0 8px 24px -12px rgba(20,35,26,.18);--sh2:0 24px 60px -20px rgba(10,25,15,.45);
+ --r1:8px;--r2:12px;--r3:18px;--ease:cubic-bezier(.2,.8,.2,1);--side:244px;--top:60px;
+ color-scheme:light;
 }
+:root[data-tema="intunecat"]{
+ --bg:#0C1410;--surface:#121C16;--surface2:#16221B;--sunk:#0A110D;--ink:#E3ECE5;--ink2:#A3B5A8;--ink3:#73867A;--line:#243429;--line2:#1C2A21;
+ --moss:#45C46B;--moss2:#6BDA89;--mossbg:#173322;--amber:#F2C14E;--amberbg:#2F2610;--rust:#FF8A5C;--rustbg:#3A1C12;--blue:#7DB7E8;--bluebg:#11263A;
+ --onmoss:#06120A;--sh:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.6);--sh2:0 24px 60px -20px rgba(0,0,0,.8);
+ color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+a{color:var(--moss);text-underline-offset:2px}
+a:hover{color:var(--moss2)}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+h1{font-size:30px;font-weight:800;letter-spacing:-.025em}
+h2{font-size:19px}
+h3{font-size:15px}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--moss);outline-offset:2px;border-radius:6px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* butoane și câmpuri */
+.btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:10px;border:1px solid transparent;background:var(--moss);color:var(--onmoss);font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s,transform .1s,box-shadow .15s;text-decoration:none}
+.btn:hover{background:var(--moss2);color:var(--onmoss)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.sec{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn.sec:hover{border-color:var(--ink3);background:var(--surface2)}
+.btn.ghost{background:transparent;color:var(--ink2);border-color:transparent}
+.btn.ghost:hover{background:var(--sunk);color:var(--ink)}
+.btn.rosu{background:transparent;color:var(--rust);border-color:transparent}
+.btn.rosu:hover{background:var(--rustbg)}
+.btn.mic{height:32px;padding:0 12px;font-size:13.5px;border-radius:8px}
+.ib{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:10px;border:0;background:transparent;color:var(--ink2);cursor:pointer;transition:background .15s,color .15s}
+.ib:hover{background:var(--sunk);color:var(--ink)}
+input,select,textarea{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;transition:border-color .15s,box-shadow .15s}
+textarea{resize:vertical;line-height:1.45}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--moss);box-shadow:0 0 0 3px var(--mossbg)}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:14px 0 6px}
+.camp-cautare{position:relative;max-width:280px;width:100%}
+.camp-cautare svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink3)}
+.camp-cautare input{padding-left:34px;height:38px}
+
+/* etichete de stare */
+.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--sunk);color:var(--ink2);white-space:nowrap}
+.pill.ok{background:var(--mossbg);color:var(--moss)}
+.pill.warn{background:var(--amberbg);color:var(--amber)}
+.pill.hot{background:var(--rustbg);color:var(--rust)}
+.pill.info{background:var(--bluebg);color:var(--blue)}
+.pill .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+.id{font-size:12px;font-weight:600;color:var(--ink3);letter-spacing:.02em}
+.muted{color:var(--ink2)}
+.mic-t{font-size:13px;color:var(--ink3)}
+
+/* intrarea */
+#login{position:fixed;inset:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);background:var(--bg);z-index:50}
+.lg-art{position:relative;overflow:hidden;background:#0E2417;color:#EAF5EC;display:flex;flex-direction:column;justify-content:space-between;padding:44px 52px}
+.lg-art svg.contur{position:absolute;inset:-10%;width:120%;height:120%;opacity:.55}
+.lg-art .marca{position:relative;font-weight:800;font-size:clamp(88px,13vw,190px);line-height:.85;letter-spacing:-.06em;color:#EAF5EC}
+.lg-art .marca span{display:block;font-size:.2em;letter-spacing:-.01em;font-weight:600;color:var(--lime);margin-top:18px}
+.lg-art .jos{position:relative;max-width:420px;color:#B8D0BE;font-size:15.5px}
+.lg-form{display:flex;align-items:center;justify-content:center;padding:32px}
+.lg-form form{width:100%;max-width:360px}
+.lg-form h1{margin-bottom:8px}
+.lg-form .btn{width:100%;justify-content:center;height:44px;margin-top:18px}
+#loginErr{min-height:22px;margin-top:12px;color:var(--rust);font-size:14px}
+.scutura{animation:scutura .4s var(--ease)}
+@keyframes scutura{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+
+/* cadrul aplicației */
+#app{min-height:100vh}
+#side{position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:30;transition:transform .25s var(--ease)}
+.brand{display:flex;align-items:baseline;gap:8px;padding:20px 20px 16px;text-decoration:none;color:var(--ink)}
+.brand b{font-size:22px;font-weight:800;letter-spacing:-.04em}
+.brand i{font-style:normal;font-size:13.5px;color:var(--ink2);font-weight:500}
+.brand .pct{width:8px;height:8px;border-radius:2px;background:var(--lime);box-shadow:0 0 0 1px rgba(20,35,26,.25);align-self:center}
+#nav{flex:1;overflow:auto;padding:4px 12px 12px}
+#nav .gr{font-size:12px;color:var(--ink3);font-weight:600;padding:14px 10px 6px}
+#nav a{position:relative;display:flex;align-items:center;gap:11px;height:38px;padding:0 10px;border-radius:9px;color:var(--ink2);text-decoration:none;font-weight:500;cursor:pointer;transition:background .15s,color .15s}
+#nav a:hover{background:var(--surface2);color:var(--ink)}
+#nav a.activ{background:var(--mossbg);color:var(--moss);font-weight:600}
+#nav a.activ::before{content:"";position:absolute;left:-12px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--moss)}
+#nav a .nr{margin-left:auto;font-size:12px;font-weight:700;min-width:22px;height:20px;padding:0 6px;border-radius:999px;display:grid;place-items:center;background:var(--sunk);color:var(--ink2)}
+#nav a .nr.hot{background:var(--rustbg);color:var(--rust)}
+#nav a .ext{margin-left:auto;color:var(--ink3)}
+.side-jos{border-top:1px solid var(--line2);padding:12px;display:flex;align-items:center;gap:10px}
+.av{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--ink);color:var(--bg);flex:none}
+.side-jos .cine{flex:1;min-width:0;line-height:1.25}
+.side-jos .cine b{display:block;font-size:14px}
+.side-jos .cine span{font-size:12.5px;color:var(--ink3);white-space:nowrap}
+#top{position:sticky;top:0;z-index:20;height:var(--top);margin-left:var(--side);display:flex;align-items:center;gap:12px;padding:0 28px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+#top.umbra{border-bottom-color:var(--line)}
+#top .titlu{font-weight:700;font-size:15px;opacity:0;transition:opacity .2s}
+#top.umbra .titlu{opacity:1}
+#top .sp{flex:1}
+#cmdBtn{display:inline-flex;align-items:center;gap:10px;height:36px;padding:0 10px 0 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink3);cursor:pointer;min-width:250px;font-size:14px}
+#cmdBtn:hover{border-color:var(--ink3);color:var(--ink2)}
+#cmdBtn kbd{margin-left:auto;font:600 11.5px/1 inherit;padding:4px 6px;border-radius:6px;background:var(--sunk);color:var(--ink2)}
+#sync{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ink3);white-space:nowrap}
+#sync .rot{animation:rot 1s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+#burger{display:none}
+main{margin-left:var(--side);padding:12px 40px 90px;max-width:1320px}
+.pagina{animation:intra .28s var(--ease)}
+@keyframes intra{from{opacity:0;transform:translateY(6px)}}
+.cap{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:14px 0 24px}
+.cap p{margin-top:6px;color:var(--ink2);max-width:72ch}
+.cap .act{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sectiune{margin-top:34px}
+.sectiune>h2{margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sectiune>h2 .nr{font-size:13px;color:var(--ink3);font-weight:600}
+.panou{background:var(--surface);border:1px solid var(--line);border-radius:var(--r2)}
+.panou.pad{padding:20px}
+.coloane{display:grid;gap:20px;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+.gol{padding:34px 20px;text-align:center;color:var(--ink2)}
+.gol b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+.nota{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r1);background:var(--bluebg);color:var(--blue);font-size:14px}
+.nota.warn{background:var(--amberbg);color:var(--amber)}
+
+/* schelet de încărcare */
+.sk{background:linear-gradient(90deg,var(--sunk) 0,var(--surface2) 40%,var(--sunk) 80%);background-size:300% 100%;animation:sk 1.3s ease-in-out infinite;border-radius:8px}
+@keyframes sk{from{background-position:100% 0}to{background-position:0 0}}
+
+/* Azi */
+.salut h1{font-size:clamp(30px,3.4vw,40px)}
+.salut .zi{color:var(--ink2);margin-top:6px;font-size:16px}
+.rezumat{display:flex;flex-wrap:wrap;margin:22px 0 0;border:1px solid var(--line);border-radius:var(--r2);background:var(--surface);overflow:hidden}
+.rezumat a{flex:1 1 160px;padding:16px 20px;text-decoration:none;color:var(--ink);border-right:1px solid var(--line2);transition:background .15s}
+.rezumat a:last-child{border-right:0}
+.rezumat a:hover{background:var(--surface2)}
+.rezumat b{display:block;font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.rezumat span{font-size:13.5px;color:var(--ink2)}
+.rezumat a.hot b{color:var(--rust)}.rezumat a.warn b{color:var(--amber)}
+
+/* panglica de termene: momentul memorabil al paginii */
+.rb{overflow:hidden;margin-top:20px;padding:20px 20px 16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r3)}
+.rb-cap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:30px}
+.rb-leg{display:flex;gap:14px;font-size:13px;color:var(--ink2)}
+.rb-leg span{display:inline-flex;align-items:center;gap:6px}
+.rb-leg i{width:10px;height:10px;border-radius:3px;background:var(--moss)}
+.rb-leg i.auto{background:var(--amber)}
+.rb-leg i.urg{background:var(--rust)}
+.rb-corp{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px}
+.rb-intarz{min-width:0;border-right:1px dashed var(--line);padding-right:14px}
+.rb-intarz b{display:block;font-size:34px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--rust)}
+.rb-intarz b.zero{color:var(--ink3)}
+.rb-intarz span{font-size:13px;color:var(--ink2)}
+.rb-intarz button{display:block;width:100%;text-align:left;margin-top:8px;padding:6px 8px;border:0;border-radius:7px;background:var(--rustbg);color:var(--rust);font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb-pista{position:relative;min-height:150px}
+.rb-zile{position:absolute;inset:0;display:grid;grid-template-columns:repeat(31,1fr)}
+.rb-zile div{border-left:1px solid var(--line2);position:relative}
+.rb-zile div.we{background:var(--surface2)}
+.rb-zile div.luni{border-left-color:var(--line)}
+.rb-zile em{position:absolute;bottom:-2px;left:4px;font-style:normal;font-size:11.5px;color:var(--ink3);white-space:nowrap}
+.rb-azi{position:absolute;top:-6px;bottom:18px;left:0;width:2px;background:var(--ink);transform-origin:top}
+.rb-azi::after{content:"azi";position:absolute;top:-16px;left:-4px;font-size:11.5px;font-weight:700;color:var(--ink)}
+.mk{position:absolute;height:26px;line-height:26px;max-width:190px;display:block;padding:0 9px 0 10px;text-align:left;border-radius:7px;border:0;background:var(--mossbg);color:var(--moss);font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:inset 3px 0 0 var(--moss);transition:transform .15s var(--ease),box-shadow .15s}
+.mk:hover,.mk:focus-visible{transform:translateY(-2px);z-index:2;max-width:none}
+.mk.auto{background:var(--amberbg);color:var(--amber);box-shadow:inset 3px 0 0 var(--amber)}
+.mk.urg{background:var(--rustbg);color:var(--rust);box-shadow:inset 3px 0 0 var(--rust)}
+.rb.anim .rb-azi{animation:creste .7s var(--ease) both}
+.rb.anim .mk{animation:cade .45s var(--ease) both;animation-delay:calc(.35s + var(--k,0) * 45ms)}
+@keyframes creste{from{transform:scaleY(0)}}
+@keyframes cade{from{opacity:0;transform:translateY(-10px)}}
+
+/* liste de taskuri */
+.filtre{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.filtre button{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:13.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .15s}
+.filtre button span{font-size:12px;color:var(--ink3)}
+.filtre button:hover{border-color:var(--ink3)}
+.filtre button.activ{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filtre button.activ span{color:inherit;opacity:.7}
+.grup{margin-bottom:22px}
+.grup h3{font-size:13.5px;color:var(--ink2);margin:0 0 8px 4px;display:flex;gap:8px;align-items:center}
+.grup h3.hot{color:var(--rust)}
+.lista{background:var(--surface);border:1px solid var(--line);border-radius:var(--r2);overflow:hidden}
+.rt{display:flex;align-items:center;gap:14px;padding:12px 16px;border-top:1px solid var(--line2);cursor:pointer;transition:background .12s}
+.rt:first-child{border-top:0}
+.rt:hover{background:var(--surface2)}
+.rt .chk{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:var(--surface);flex:none;cursor:pointer;display:grid;place-items:center;color:transparent;transition:all .15s}
+.rt .chk:hover{border-color:var(--moss);color:var(--moss)}
+.rt .chk svg{width:13px;height:13px;stroke-width:3}
+.rt .corp{flex:1;min-width:0}
+.rt .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rt .m{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--ink3);margin-top:2px}
+.rt .urg{color:var(--rust);font-weight:600}
+.rt.facut .t{text-decoration:line-through;color:var(--ink3)}
+.rt.facut .chk{background:var(--moss);border-color:var(--moss);color:#fff;animation:bifa .35s var(--ease)}
+@keyframes bifa{40%{transform:scale(1.25)}}
+
+/* tabele */
+.tabwrap{overflow:auto;max-height:72vh;border:1px solid var(--line);border-radius:var(--r2);background:var(--surface)}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+th{position:sticky;top:0;z-index:1;background:var(--surface2);text-align:left;font-size:12.5px;font-weight:600;color:var(--ink2);padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tbody tr{transition:background .12s}
+tbody tr:hover td{background:var(--surface2)}
+td.nr,th.nr{text-align:right;white-space:nowrap}
+table.nw td{white-space:nowrap}
+
+/* firme */
+.firme{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+.firma{padding:18px 18px 14px}
+.firma .fc{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
+.firma ul{list-style:none;margin:0;padding:0}
+.firma li{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;border-top:1px solid var(--line2);font-size:14px}
+.firma li:first-child{border-top:0}
+.firma li a{font-weight:600;text-decoration:none}
+.firma li a:hover{text-decoration:underline}
+.firma .lipsa{margin-top:10px;padding:10px 12px;border-radius:var(--r1);background:var(--rustbg);color:var(--rust);font-size:13.5px}
+.firma.are-lipsa{box-shadow:inset 0 3px 0 var(--rust)}
+
+/* link-uri */
+.linkuri{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.lk{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r2);border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s var(--ease)}
+.lk:hover{border-color:var(--moss);color:var(--ink);transform:translateY(-1px)}
+.lk .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--mossbg);color:var(--moss);flex:none}
+.lk b{display:block;font-weight:600}
+.lk span{font-size:12.5px;color:var(--ink3)}
+
+/* urcă */
+.drop{display:grid;place-items:center;text-align:center;gap:8px;padding:40px 20px;border:2px dashed var(--line);border-radius:var(--r3);background:var(--surface);cursor:pointer;transition:border-color .15s,background .15s}
+.drop:hover,.drop.peste{border-color:var(--moss);background:var(--mossbg)}
+.drop .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--mossbg);color:var(--moss)}
+.fis{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:var(--sunk);font-size:13.5px;font-weight:600}
+.fis button{border:0;background:none;cursor:pointer;color:var(--ink3);padding:0;display:grid}
+
+/* fișa taskului (panou lateral) */
+#scrim{position:fixed;inset:0;background:rgba(8,18,12,.38);opacity:0;pointer-events:none;transition:opacity .25s;z-index:39}
+#scrim.on{opacity:1;pointer-events:auto}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(600px,100%);background:var(--surface);box-shadow:var(--sh2);transform:translateX(104%);transition:transform .32s var(--ease);z-index:40;display:flex;flex-direction:column}
+#drawer.deschis{transform:none}
+.dr-cap{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line2)}
+.dr-cap .sp{flex:1}
+.dr-corp{flex:1;overflow:auto;padding:22px 24px 30px}
+.dr-corp h2{font-size:22px;letter-spacing:-.02em;margin-bottom:14px}
+.meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px;margin:0 0 18px;padding:0}
+.meta div{min-width:0}
+.meta dt{font-size:12.5px;color:var(--ink3);font-weight:600}
+.meta dd{margin:2px 0 0;font-weight:500;overflow-wrap:anywhere}
+.seg{display:inline-flex;padding:3px;border-radius:11px;background:var(--sunk);gap:2px;flex-wrap:wrap}
+.seg button{height:32px;padding:0 13px;border:0;border-radius:8px;background:transparent;color:var(--ink2);font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s,color .15s}
+.seg button:hover{color:var(--ink)}
+.seg button.activ{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.detalii{white-space:pre-wrap;padding:14px 16px;border-radius:var(--r2);background:var(--surface2);border:1px solid var(--line2);margin:16px 0 4px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:26px 0 16px}
+.tabs button{position:relative;height:40px;padding:0 12px;border:0;background:none;color:var(--ink2);font-weight:600;cursor:pointer}
+.tabs button.activ{color:var(--ink)}
+.tabs button.activ::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2px;border-radius:2px;background:var(--moss)}
+.fir{position:relative;padding:0 0 16px 22px}
+.fir::before{content:"";position:absolute;left:5px;top:8px;bottom:-2px;width:2px;background:var(--line2)}
+.fir:last-child::before{display:none}
+.fir::after{content:"";position:absolute;left:1px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--ink3)}
+.fir.fn::after{border-color:var(--moss);background:var(--moss)}
+.fir .c{font-size:12.5px;color:var(--ink3)}
+.fir .c b{color:var(--ink2)}
+.fir .x{white-space:pre-wrap;margin-top:2px}
+.compune{margin-top:8px;border:1px solid var(--line);border-radius:var(--r2);background:var(--surface);transition:border-color .15s,box-shadow .15s}
+.compune:focus-within{border-color:var(--moss);box-shadow:0 0 0 3px var(--mossbg)}
+.compune textarea{border:0;box-shadow:none;background:transparent;resize:none;min-height:64px;max-height:240px}
+.compune textarea:focus{box-shadow:none}
+.compune .bara{display:flex;align-items:center;gap:8px;padding:6px 8px 8px;flex-wrap:wrap}
+.compune .bara .sp{flex:1}
+.dr-jos{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid var(--line2)}
+
+/* conversații cu Claude */
+.chat{display:flex;flex-direction:column;gap:14px}
+.msg-eu{align-self:flex-end;max-width:84%;padding:10px 14px;border-radius:14px 14px 4px 14px;background:var(--ink);color:var(--bg);white-space:pre-wrap;overflow-wrap:anywhere}
+.msg-ai{max-width:100%;overflow-wrap:anywhere}
+.msg-ai p{margin:6px 0}
+.msg-ai ul,.msg-ai ol{margin:6px 0;padding-left:22px}
+.msg-ai li{margin:3px 0}
+.msg-ai h4{font-size:15px;margin:14px 0 4px}
+.msg-ai code{font-size:.92em;padding:1px 5px;border-radius:5px;background:var(--sunk)}
+.msg-ai pre{margin:8px 0;padding:12px;border-radius:10px;background:var(--sunk);overflow:auto;font-size:13px}
+.msg-ai pre code{padding:0;background:none}
+.msg-ai .tabwrap{max-height:none;margin:8px 0}
+.msg-ai .dom{font-size:11.5px;color:var(--ink3);margin-left:4px}
+.pas{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink3)}
+.pas::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ink3)}
+.lucreaza{display:inline-flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink2)}
+.puncte{display:inline-flex;gap:4px}
+.puncte i{width:6px;height:6px;border-radius:50%;background:var(--moss);animation:punct 1.2s infinite ease-in-out}
+.puncte i:nth-child(2){animation-delay:.15s}.puncte i:nth-child(3){animation-delay:.3s}
+@keyframes punct{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.err{color:var(--rust)}
+.as{display:grid;grid-template-columns:270px minmax(0,1fr);gap:20px;height:calc(100vh - var(--top) - 120px);min-height:480px}
+.as-ist{display:flex;flex-direction:column;overflow:hidden}
+.as-ist .lst{flex:1;overflow:auto;padding:6px}
+.as-ist .lst button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;border-radius:9px;background:none;cursor:pointer;color:var(--ink)}
+.as-ist .lst button:hover{background:var(--surface2)}
+.as-ist .lst button.activ{background:var(--mossbg)}
+.as-ist .lst b{display:block;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.as-ist .lst span{font-size:12px;color:var(--ink3)}
+.as-ist .cost{padding:12px 14px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+.as-ist .cost .bara-c{height:5px;border-radius:5px;background:var(--sunk);margin-top:6px;overflow:hidden}
+.as-ist .cost .bara-c i{display:block;height:100%;background:var(--moss);border-radius:5px}
+.as-main{display:flex;flex-direction:column;overflow:hidden}
+.as-chat{flex:1;overflow:auto;padding:24px 28px}
+.as-main .compune{margin:0 16px 16px}
+.sugestii{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.sugestii button{text-align:left;padding:12px 14px;border-radius:var(--r2);border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:14px;color:var(--ink);transition:border-color .15s,background .15s}
+.sugestii button:hover{border-color:var(--moss);background:var(--surface2)}
+.as-gol{max-width:560px;margin:8vh auto 0}
+.as-gol h2{font-size:24px;letter-spacing:-.02em;margin-bottom:6px}
+
+/* bot */
+.reguli{display:grid;grid-template-columns:minmax(0,1fr)}
+.reguli div{display:grid;grid-template-columns:220px minmax(0,1fr);gap:20px;padding:14px 20px;border-top:1px solid var(--line2)}
+.reguli div:first-child{border-top:0}
+.reguli b{font-weight:600}
+.reguli p{color:var(--ink2)}
+
+/* paleta de comenzi */
+#paleta{position:fixed;inset:0;z-index:60;display:grid;place-items:start center;padding-top:12vh;background:rgba(8,18,12,.38);animation:fade .15s}
+@keyframes fade{from{opacity:0}}
+.pal{width:min(620px,92vw);background:var(--surface);border-radius:16px;box-shadow:var(--sh2);overflow:hidden;animation:pal .2s var(--ease)}
+@keyframes pal{from{opacity:0;transform:translateY(-8px) scale(.98)}}
+.pal-in{display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--line2)}
+.pal-in input{border:0;box-shadow:none;height:54px;font-size:16px;padding:0;background:transparent}
+.pal-in input:focus{box-shadow:none}
+.pal-l{max-height:52vh;overflow:auto;padding:6px}
+.pal-l .gr{font-size:12px;font-weight:600;color:var(--ink3);padding:10px 10px 4px}
+.pal-l button{display:flex;width:100%;align-items:center;gap:12px;padding:10px;border:0;border-radius:9px;background:none;text-align:left;cursor:pointer;color:var(--ink)}
+.pal-l button .s{margin-left:auto;font-size:12.5px;color:var(--ink3)}
+.pal-l button.sel{background:var(--mossbg)}
+.pal-l .nimic{padding:20px;color:var(--ink3);text-align:center}
+
+/* notificări */
+#toasts{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:70;align-items:center;pointer-events:none}
+.toast{pointer-events:auto;display:flex;align-items:center;gap:14px;padding:11px 14px 11px 16px;border-radius:12px;background:var(--ink);color:var(--bg);box-shadow:var(--sh2);font-size:14px;font-weight:500;animation:urca .3s var(--ease)}
+.toast.err{background:var(--rust);color:#fff}
+.toast button{border:0;background:transparent;color:var(--lime);font-weight:700;cursor:pointer;padding:0}
+.toast.pleaca{animation:coboara .25s var(--ease) forwards}
+@keyframes urca{from{opacity:0;transform:translateY(12px)}}
+@keyframes coboara{to{opacity:0;transform:translateY(12px)}}
+
+/* ecrane mici */
+@media (max-width:1100px){.coloane{grid-template-columns:minmax(0,1fr)}.as{grid-template-columns:220px minmax(0,1fr)}}
+@media (max-width:860px){
+ #login{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+ .lg-art{padding:28px;min-height:220px}
+ .lg-art .marca{font-size:96px}
+ .lg-art .jos{display:none}
+ #side{transform:translateX(-102%);box-shadow:var(--sh2)}
+ #side.deschis{transform:none}
+ #top,main{margin-left:0}
+ #top{padding:0 14px}
+ #top .titlu{opacity:1}
+ #burger{display:inline-grid}
+ #cmdBtn{min-width:0;padding:0 10px}
+ #cmdBtn .t,#cmdBtn kbd,#sync .t{display:none}
+ main{padding:8px 16px 90px}
+ h1{font-size:26px}
+ .rb-corp{grid-template-columns:1fr}
+ .rb-intarz{border-right:0;border-bottom:1px dashed var(--line);padding:0 0 12px}
+ .rb-pista{overflow-x:auto}
+ .as{grid-template-columns:1fr;height:auto}
+ .as-ist{max-height:220px}
+ .as-main{height:70vh}
+ .sugestii{grid-template-columns:1fr}
+ .reguli div{grid-template-columns:1fr;gap:4px}
+ .rt .t{white-space:normal}
+ .rezumat a{flex:1 1 50%;border-bottom:1px solid var(--line2)}
+ .meta{grid-template-columns:1fr 1fr}
+ .dr-corp{padding:18px 16px 24px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<section id="login">
- <div class="card">
-  <div class="logo">ECOSISTEM TEG</div>
-  <div class="spatiu"></div>
-  <h1>Intră</h1>
-  <p class="muted">Contul Admin vede tot ecosistemul; contul Tamara are accesul stabilit pentru Tamara.</p>
-  <label for="cheie">Parola</label>
-  <input id="cheie" type="password" autocomplete="current-password" placeholder="Parola ta">
-  <div class="spatiu"></div>
-  <button class="btn" id="btnLogin" style="width:100%">Intră</button>
-  <p id="loginErr" class="muted" style="color:var(--hot)"></p>
+
+<section id="login" hidden>
+ <div class="lg-art">
+  <svg class="contur" id="contur" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  <div class="marca">TEG<span>Ecosistem</span></div>
+  <p class="jos">Taskurile, termenele, actele firmelor și asistentul Claude ale echipei TEG, într-un singur loc.</p>
+ </div>
+ <div class="lg-form">
+  <form id="fLogin" autocomplete="on">
+   <h1>Intră</h1>
+   <p class="muted">Admin vede tot ecosistemul. Contul Tamara are accesul stabilit pentru ea.</p>
+   <label for="cheie">Parola</label>
+   <input id="cheie" type="password" autocomplete="current-password" required>
+   <button class="btn" id="btnLogin" type="submit">Intră</button>
+   <p id="loginErr" role="alert"></p>
+  </form>
  </div>
 </section>
 
-<button class="btn sec mic burger" id="burger">Meniu</button>
-<div id="app">
- <nav id="nav">
-  <div class="logo">ECOSISTEM TEG</div>
-  <a data-p="azi">Azi</a>
-  <a data-p="taskuri">Taskuri</a>
-  <a data-p="clarificat">De clarificat</a>
-  <a data-p="termene">Termene și expirări</a>
-  <a data-p="firme">Firme</a>
-  <a data-p="linkuri">Link-uri utile</a>
-  <a data-p="urca">Urcă document</a>
-  <a data-p="asistent">Asistent</a>
-  <a data-p="bot">Bot WhatsApp</a>
-  <a href="https://smm2424.github.io/oportunitati/contracte/" target="_blank" rel="noopener">Contracte ↗</a>
-  <div class="sep"></div>
-  <a data-p="jurnal">Jurnal</a>
-  <a data-p="chei">Parole</a>
-  <div class="sep"></div>
-  <div class="eu" id="eu"></div>
-  <a id="iesire">Ieșire</a>
- </nav>
+<div id="app" hidden>
+ <aside id="side">
+  <a class="brand" href="#azi"><b>TEG</b><i>Ecosistem</i></a>
+  <nav id="nav" aria-label="Meniu"></nav>
+  <div class="side-jos">
+   <div class="av" id="av"></div>
+   <div class="cine"><b id="euNume"></b><span id="euRol"></span></div>
+   <button class="ib" id="btnTema" aria-label="Schimbă tema" title="Schimbă tema"></button>
+   <button class="ib" id="btnIesire" aria-label="Ieșire" title="Ieșire"></button>
+  </div>
+ </aside>
+ <header id="top">
+  <button class="ib" id="burger" aria-label="Meniu"></button>
+  <div class="titlu" id="topTitlu"></div>
+  <div class="sp"></div>
+  <span id="sync" aria-live="polite"></span>
+  <button id="cmdBtn" type="button"><span id="cmdIc"></span><span class="t">Caută sau sari la...</span><kbd>Ctrl K</kbd></button>
+ </header>
  <main id="main"></main>
 </div>
-<aside id="drawer"></aside>
-<div id="toast"></div>
+<div id="scrim"></div>
+<aside id="drawer" aria-label="Fișa taskului" role="dialog" aria-modal="true"></aside>
+<div id="toasts" aria-live="polite"></div>
 
 <script>
+'use strict';
+if (window.top !== window.self) { document.documentElement.innerHTML = ''; throw new Error('încadrat'); }
 var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
-var S = { sesiune: null, nume: '', rol: '' };
-try { var s0 = JSON.parse(localStorage.getItem('eco_sesiune') || 'null'); if (s0 && s0.exp > Date.now()) S = s0; } catch (e) {}
+var S = { sesiune: null };
+try { var s0 = JSON.parse(localStorage.getItem('eco_sesiune') || 'null'); if (s0 && s0.sesiune && s0.exp > Date.now()) S = s0; else localStorage.removeItem('eco_sesiune'); } catch (e) { }
 
-function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
+// ---------- utilitare ----------
 function $(id) { return document.getElementById(id); }
-function toast(t) { var e = $('toast'); e.textContent = t; e.style.display = 'block'; clearTimeout(e._t); e._t = setTimeout(function () { e.style.display = 'none'; }, 3200); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
+function urlSigur(u) { try { var x = new URL(String(u || ''), location.href); if (x.protocol === 'https:' || x.protocol === 'http:') return x.href; } catch (e) { } return '#'; }
+function domeniu(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } }
+function asteapta(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+var MOTION = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var IC = {
+ azi: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ taskuri: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12l3 3 5-6"/>',
+ clarificat: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/>',
+ termene: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M8 14h3"/>',
+ firme: '<path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5M8 10h.01M12 10h.01M16 10h.01"/>',
+ linkuri: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+ urca: '<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>',
+ asistent: '<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
+ bot: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+ contracte: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+ jurnal: '<path d="M4 6h16M4 12h16M4 18h10"/>',
+ chei: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>',
+ iesire: '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>',
+ luna: '<path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/>',
+ soare: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ meniu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+ cauta: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+ x: '<path d="M6 6l12 12M18 6L6 18"/>',
+ ext: '<path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/>',
+ bifa: '<path d="M5 12l5 5 9-10"/>',
+ plus: '<path d="M12 5v14M5 12h14"/>',
+ clips: '<path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 7"/>',
+ trimite: '<path d="M4 12l16-8-6 16-3-7z"/>',
+ stop: '<rect x="6" y="6" width="12" height="12" rx="2"/>',
+ refa: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>',
+ foaie: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/>',
+ dosar: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'
+};
+function ic(n) { return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">' + (IC[n] || '') + '</svg>'; }
+
+function toast(text, opt) {
+  opt = opt || {};
+  var t = document.createElement('div');
+  t.className = 'toast' + (opt.err ? ' err' : '');
+  t.innerHTML = '<span>' + esc(text) + '</span>' + (opt.act ? '<button type="button">' + esc(opt.act) + '</button>' : '');
+  $('toasts').appendChild(t);
+  var gata = function () { if (!t.parentNode) return; t.classList.add('pleaca'); setTimeout(function () { t.remove(); }, 260); };
+  if (opt.act) t.querySelector('button').onclick = function () { gata(); opt.fn(); };
+  setTimeout(gata, opt.ms || (opt.act ? 6000 : 3400));
+}
+
+// ---------- legătura cu serverul ----------
 async function api(act, date) {
   var corp = Object.assign({ act: act, sesiune: S.sesiune }, date || {});
-  var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(corp), redirect: 'follow' });
-  var j = await r.json();
+  var r;
+  try { r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(corp), redirect: 'follow', credentials: 'omit' }); }
+  catch (e) { throw new Error('Fără legătură cu serverul. Verifică internetul și încearcă din nou.'); }
+  var j; try { j = await r.json(); } catch (e) { throw new Error('Serverul a răspuns neașteptat. Încearcă din nou peste un minut.'); }
   if (!j.ok) {
-    if (/^SESIUNE/.test(j.eroare || '')) { iesire(); throw new Error('Sesiunea a expirat. Intră din nou.'); }
+    if (/^SESIUNE/.test(j.eroare || '')) { iesire(true); throw new Error('Sesiunea a expirat. Intră din nou.'); }
     throw new Error(j.eroare || 'Eroare');
   }
   return j;
 }
-function iesire() { localStorage.removeItem('eco_sesiune'); S = { sesiune: null }; $('app').style.display = 'none'; $('burger').style.display = 'none'; $('login').style.display = 'flex'; }
-async function login() {
-  $('loginErr').textContent = '';
-  var cheie = $('cheie').value.trim();
-  if (!cheie) return;
-  $('btnLogin').disabled = true; $('btnLogin').textContent = 'Verific...';
+
+// păstrăm ultima variantă a fiecărei pagini: se afișează instant, apoi se actualizează
+function cheieC(k) { return 'eco_c_' + (S.id || S.rol || 'x') + '_' + k; }
+function citesteC(k) { try { var v = JSON.parse(localStorage.getItem(cheieC(k)) || 'null'); return v && Date.now() - v.t < 7 * 864e5 ? v : null; } catch (e) { return null; } }
+function scrieC(k, d) { try { localStorage.setItem(cheieC(k), JSON.stringify({ t: Date.now(), d: d })); } catch (e) { } }
+function golesteC() { try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf('eco_c_') === 0) localStorage.removeItem(k); }); } catch (e) { } }
+function ora(t) { return new Date(t).toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' }); }
+function sync(stare, t) {
+  var e = $('sync'); if (!e) return;
+  if (stare === 'lucru') e.innerHTML = '<svg class="i rot" viewBox="0 0 24 24" aria-hidden="true">' + IC.refa + '</svg><span class="t">Se actualizează</span>';
+  else if (stare === 'eroare') e.innerHTML = '<span class="t err">Date din ' + ora(t) + ', fără legătură</span>';
+  else e.innerHTML = '<span class="t">Actualizat la ' + ora(t || Date.now()) + '</span>';
+}
+var GEN = 0;
+async function incarca(m, k, act, args, randeaza, schelet) {
+  var g = GEN, c = citesteC(k);
+  if (c) { randeaza(c.d, m, true); } else m.innerHTML = schelet || scheletLista();
+  sync('lucru');
   try {
-    var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ act: 'login', cheie: cheie }) });
+    var d = await api(act, args);
+    if (g !== GEN) return d;
+    scrieC(k, d);
+    if (!c || JSON.stringify(c.d) !== JSON.stringify(d)) { var y = window.scrollY; randeaza(d, m, false); window.scrollTo(0, y); }
+    sync('ok');
+    return d;
+  } catch (e) {
+    if (g !== GEN) return;
+    if (c) { sync('eroare', c.t); toast('Nu am putut actualiza: ' + e.message, { err: true }); } else { sync('ok'); throw e; }
+  }
+}
+function scheletLista() { var h = '<div class="cap"><div class="sk" style="width:240px;height:34px"></div></div><div class="panou">'; for (var i = 0; i < 6; i++) h += '<div style="padding:16px;border-top:1px solid var(--line2);display:flex;gap:14px;align-items:center"><div class="sk" style="width:22px;height:22px;border-radius:50%"></div><div style="flex:1"><div class="sk" style="height:14px;width:' + (40 + (i * 13) % 45) + '%"></div><div class="sk" style="height:10px;width:24%;margin-top:8px"></div></div><div class="sk" style="width:80px;height:22px;border-radius:99px"></div></div>'; return h + '</div>'; }
+
+// ---------- intrare / ieșire ----------
+function iesire(tacut) {
+  localStorage.removeItem('eco_sesiune'); golesteC(); S = { sesiune: null };
+  clearTimeout(AS.timer); clearTimeout(TC.timer);
+  inchide(); $('app').hidden = true; $('login').hidden = false; deseneazaContur();
+  if (!tacut) toast('Ai ieșit din cont.');
+  setTimeout(function () { $('cheie').focus(); }, 50);
+}
+$('fLogin').addEventListener('submit', async function (ev) {
+  ev.preventDefault();
+  var cheie = $('cheie').value; if (!cheie.trim()) return;
+  $('loginErr').textContent = ''; $('btnLogin').disabled = true; $('btnLogin').textContent = 'Verific...';
+  try {
+    var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ act: 'login', cheie: cheie, dispozitiv: (function () { try { return localStorage.getItem('eco_disp') || ''; } catch (e) { return ''; } })() }), credentials: 'omit' });
     var j = await r.json();
-    if (!j.ok) throw new Error(j.eroare);
+    if (!j.ok) throw new Error(j.eroare || 'Nu am putut intra.');
     S = { sesiune: j.sesiune, id: j.id, nume: j.nume, rol: j.rol, exp: j.exp };
     localStorage.setItem('eco_sesiune', JSON.stringify(S));
+    if (j.dispozitiv) { try { localStorage.setItem('eco_disp', j.dispozitiv); } catch (e) { } }
     $('cheie').value = '';
     porneste();
-  } catch (e) { $('loginErr').textContent = e.message; }
+  } catch (e) {
+    $('loginErr').textContent = /ACCES REFUZAT/.test(e.message) ? 'Parola nu e bună. Verifică literele mari și mici.' : /PREA MULTE/.test(e.message) ? 'Prea multe încercări greșite de pe acest browser. Încearcă din nou peste 15 minute.' : e.message;
+    var f = $('fLogin'); f.classList.remove('scutura'); void f.offsetWidth; f.classList.add('scutura');
+  }
   $('btnLogin').disabled = false; $('btnLogin').textContent = 'Intră';
+});
+function deseneazaContur() {
+  var svg = $('contur'); if (!svg || svg.childNodes.length) return;
+  var h = '', cx = 520, cy = 360;
+  for (var k = 0; k < 16; k++) {
+    var R = 40 + k * 34, pts = [];
+    for (var a = 0; a <= 64; a++) {
+      var t = a / 64 * Math.PI * 2, r = R * (1 + 0.09 * Math.sin(3 * t + k * 0.35) + 0.05 * Math.sin(5 * t - k * 0.2) + 0.03 * Math.cos(7 * t + k));
+      pts.push((cx + r * Math.cos(t)).toFixed(1) + ' ' + (cy + r * 0.82 * Math.sin(t)).toFixed(1));
+    }
+    h += '<path d="M' + pts.join(' L') + 'Z" stroke="' + (k % 4 === 3 ? '#9BFF4F' : '#3E6B4C') + '" stroke-opacity="' + (k % 4 === 3 ? 0.55 : 0.6) + '" fill="none" stroke-width="' + (k % 4 === 3 ? 1.4 : 1) + '"/>';
+  }
+  svg.innerHTML = h;
 }
-$('btnLogin').onclick = login;
-$('cheie').addEventListener('keydown', function (e) { if (e.key === 'Enter') login(); });
-$('iesire').onclick = iesire;
-$('burger').onclick = function () { $('nav').classList.toggle('deschis'); };
 
+// ---------- cadrul ----------
+var NAV = [
+  { p: 'azi', t: 'Azi', i: 'azi' }, { p: 'taskuri', t: 'Taskuri', i: 'taskuri' }, { p: 'clarificat', t: 'De clarificat', i: 'clarificat' },
+  { p: 'termene', t: 'Termene și expirări', i: 'termene' }, { p: 'firme', t: 'Firme', i: 'firme' },
+  { gr: 'Lucru' }, { p: 'asistent', t: 'Asistent Claude', i: 'asistent' }, { p: 'urca', t: 'Urcă document', i: 'urca' }, { p: 'linkuri', t: 'Link-uri utile', i: 'linkuri' },
+  { p: 'bot', t: 'Bot WhatsApp', i: 'bot' }, { ext: 'https://smm2424.github.io/oportunitati/contracte/', t: 'Contracte', i: 'contracte' },
+  { gr: 'Cont' }, { p: 'jurnal', t: 'Jurnal', i: 'jurnal' }, { p: 'chei', t: 'Parole', i: 'chei' }
+];
+function titluPagina(p) { var n = NAV.filter(function (x) { return x.p === p; })[0]; return n ? n.t : ''; }
+function construiesteNav() {
+  $('nav').innerHTML = NAV.map(function (n) {
+    if (n.gr) return '<div class="gr">' + esc(n.gr) + '</div>';
+    if (n.ext) return '<a href="' + esc(n.ext) + '" target="_blank" rel="noopener noreferrer">' + ic(n.i) + '<span>' + esc(n.t) + '</span><span class="ext">' + ic('ext').replace('class="i"', 'class="i" style="width:14px;height:14px"') + '</span></a>';
+    return '<a href="#' + n.p + '" data-p="' + n.p + '">' + ic(n.i) + '<span>' + esc(n.t) + '</span><span class="nr" id="nr_' + n.p + '" hidden></span></a>';
+  }).join('');
+}
+function badge(p, n, hot) { var e = $('nr_' + p); if (!e) return; if (!n) { e.hidden = true; return; } e.hidden = false; e.textContent = n; e.classList.toggle('hot', !!hot); }
+function tema(t) {
+  if (t) { try { localStorage.setItem('eco_tema', t); } catch (e) { } }
+  var v = t || (function () { try { return localStorage.getItem('eco_tema'); } catch (e) { return null; } })() || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'intunecat' : 'luminos');
+  document.documentElement.dataset.tema = v;
+  document.querySelector('meta[name=theme-color]').content = v === 'intunecat' ? '#0C1410' : '#EDF1EC';
+  if ($('btnTema')) $('btnTema').innerHTML = ic(v === 'intunecat' ? 'soare' : 'luna');
+  return v;
+}
+tema();
+$('btnTema').onclick = function () { tema(document.documentElement.dataset.tema === 'intunecat' ? 'luminos' : 'intunecat'); };
+$('btnIesire').innerHTML = ic('iesire'); $('btnIesire').onclick = function () { iesire(); };
+$('burger').innerHTML = ic('meniu'); $('burger').onclick = function () { $('side').classList.toggle('deschis'); $('scrim').classList.toggle('on', $('side').classList.contains('deschis')); };
+$('cmdIc').outerHTML = ic('cauta');
+$('cmdBtn').onclick = deschidePaleta;
+$('scrim').onclick = function () { inchide(); $('side').classList.remove('deschis'); };
+window.addEventListener('scroll', function () { $('top').classList.toggle('umbra', window.scrollY > 24); }, { passive: true });
+document.addEventListener('keydown', function (e) {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k' && S.sesiune) { e.preventDefault(); deschidePaleta(); }
+  if (e.key === 'Escape') { if ($('paleta')) inchidePaleta(); else if ($('drawer').classList.contains('deschis')) inchide(); else { $('side').classList.remove('deschis'); $('scrim').classList.remove('on'); } }
+});
+var expTimer = null;
 function porneste() {
-  $('login').style.display = 'none'; $('app').style.display = 'block'; $('burger').style.display = '';
-  $('eu').textContent = S.nume;
-  if (!S.id) api('eu').then(function (r) { S.id = r.id; S.nume = r.nume; localStorage.setItem('eco_sesiune', JSON.stringify(S)); $('eu').textContent = S.nume; }).catch(function () { });
-  document.querySelectorAll('.doar-asociat').forEach(function (e) { e.style.display = S.rol === 'asociat' ? '' : 'none'; });
-  mergi(location.hash.slice(1) || 'azi');
+  $('login').hidden = true; $('app').hidden = false;
+  construiesteNav();
+  $('euNume').textContent = S.nume || ''; $('euRol').textContent = S.rol === 'asociat' ? 'acces complet' : 'acces Tamara';
+  $('av').textContent = (S.nume || '?').charAt(0).toUpperCase();
+  clearTimeout(expTimer); if (S.exp) expTimer = setTimeout(function () { iesire(true); toast('Sesiunea de 12 ore s-a încheiat. Intră din nou.'); }, Math.max(0, S.exp - Date.now()));
+  if (!S.id) api('eu').then(function (r) { S.id = r.id; S.nume = r.nume; localStorage.setItem('eco_sesiune', JSON.stringify(S)); $('euNume').textContent = S.nume; }).catch(function () { });
+  mergi((location.hash || '#azi').slice(1));
+  var c = citesteC('azi'); if (c) aplicaBadge(c.d);
 }
-document.querySelectorAll('nav a[data-p]').forEach(function (a) { a.onclick = function () { mergi(a.dataset.p); $('nav').classList.remove('deschis'); }; });
 window.addEventListener('hashchange', function () { if (S.sesiune) mergi(location.hash.slice(1) || 'azi', true); });
-
 var PAGINI = {};
 async function mergi(p, dinHash) {
   if (!PAGINI[p]) p = 'azi';
-  if (!dinHash) history.replaceState(null, '', '#' + p);
-  document.querySelectorAll('nav a[data-p]').forEach(function (a) { a.classList.toggle('activ', a.dataset.p === p); });
-  var m = $('main'); m.innerHTML = '<p class="muted">Se încarcă...</p>';
-  try { await PAGINI[p](m); } catch (e) { m.innerHTML = '<div class="card"><h3>Nu s-a putut încărca</h3><p class="muted">' + esc(e.message) + '</p></div>'; }
+  if (!dinHash && location.hash.slice(1) !== p) history.replaceState(null, '', '#' + p);
+  GEN++;
+  clearTimeout(AS.timer);
+  document.querySelectorAll('#nav a[data-p]').forEach(function (a) { a.classList.toggle('activ', a.dataset.p === p); if (a.dataset.p === p) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('side').classList.remove('deschis'); if (!$('drawer').classList.contains('deschis')) $('scrim').classList.remove('on');
+  $('topTitlu').textContent = titluPagina(p);
+  document.title = titluPagina(p) + ' - Ecosistem TEG';
+  var m = $('main'); m.className = ''; void m.offsetWidth; m.className = 'pagina';
+  window.scrollTo(0, 0);
+  try { await PAGINI[p](m); }
+  catch (e) { m.innerHTML = '<div class="cap"><div><h1>' + esc(titluPagina(p)) + '</h1></div></div><div class="panou gol"><b>Pagina nu s-a încărcat</b>' + esc(e.message) + '<div style="margin-top:14px"><button class="btn sec mic" id="reincearca">' + ic('refa') + 'Încearcă din nou</button></div></div>'; $('reincearca').onclick = function () { mergi(p); }; }
 }
 function zilePill(z) {
   if (z === null || z === undefined || z === '') return '<span class="pill">fără termen</span>';
   var c = z < 0 ? 'hot' : (z <= 7 ? 'warn' : 'ok');
-  var t = z < 0 ? (-z) + ' zile întârziere' : (z === 0 ? 'azi' : 'în ' + z + ' zile');
-  return '<span class="pill ' + c + '">' + t + '</span>';
+  var t = z < 0 ? (z === -1 ? 'ieri' : (-z) + ' zile întârziere') : (z === 0 ? 'azi' : (z === 1 ? 'mâine' : 'în ' + z + ' zile'));
+  return '<span class="pill ' + c + '"><span class="d"></span>' + t + '</span>';
 }
 function dinInputData(v) { if (!v) return ''; var p = v.split('-'); return p[2] + '.' + p[1] + '.' + p[0]; }
 function inInputData(v) { var m = /(\d{2})\.(\d{2})\.(\d{4})/.exec(v || ''); return m ? m[3] + '-' + m[2] + '-' + m[1] : ''; }
+function filtreazaText(q, s) { q = String(q || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); return !q || String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(q) >= 0; }
 
 // ---------- Azi ----------
-PAGINI.azi = async function (m) {
-  var d = await api('azi');
-  var h = '<h1>Bună, ' + esc(d.nume) + '</h1><p class="muted">' + new Date().toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' }) + '</p>';
-  h += '<div class="grid">';
-  h += '<div class="card kpi ok"><div class="n">' + d.taskuri.deschise + '</div><div class="l">taskuri deschise</div></div>';
-  h += '<div class="card kpi ' + (d.taskuri.intarziate ? 'hot' : 'ok') + '"><div class="n">' + d.taskuri.intarziate + '</div><div class="l">taskuri întârziate</div></div>';
-  h += '<div class="card kpi warn"><div class="n">' + d.taskuri.azi + '</div><div class="l">cu termen azi</div></div>';
-  h += '<div class="card kpi ' + (d.deClarificat ? 'warn' : 'ok') + '"><div class="n">' + (d.deClarificat == null ? '?' : d.deClarificat) + '</div><div class="l">puncte deschise în DE CLARIFICAT</div></div>';
-  h += '</div><div class="spatiu"></div>';
-  h += '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(380px,1fr))">';
-  h += '<div class="card"><h3>Primele taskuri</h3>' + (d.taskuri.primele.length ? d.taskuri.primele.map(taskRand).join('') : '<p class="muted">Nimic deschis.</p>') + '<div class="spatiu"></div><a class="btn sec mic" href="#taskuri">Toate taskurile</a></div>';
-  h += '<div class="card"><h3>Mașini: expiră în 30 de zile sau a expirat</h3>' + (d.termene.length ? '<table><tr><th>Când</th><th>Ce</th><th>Al cui</th><th>Data</th></tr>' + d.termene.map(function (t) { return '<tr><td>' + zilePill(t.zile) + '</td><td>' + esc(t.ce) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') + '</table>' : '<p class="muted">Nimic nu expiră în 30 de zile.</p>') + '<div class="spatiu"></div><a class="btn sec mic" href="#termene">Toate termenele</a></div>';
-  h += '</div>';
-  m.innerHTML = h;
-  m.querySelectorAll('.task').forEach(function (e) { e.onclick = function () { deschideTask(e.dataset.id); }; });
+function salut() { var h = new Date().getHours(); return h < 5 ? 'Noapte bună' : h < 12 ? 'Bună dimineața' : h < 18 ? 'Bună ziua' : 'Bună seara'; }
+function aplicaBadge(d) { if (!d || !d.taskuri) return; badge('taskuri', d.taskuri.deschise, d.taskuri.intarziate > 0); badge('clarificat', d.deClarificat || 0, false); }
+var AZI_ANIM = true;
+PAGINI.azi = function (m) {
+  return incarca(m, 'azi', 'azi', {}, function (d, m, dinCache) {
+    aplicaBadge(d);
+    var tk = d.taskuri, zi = new Date().toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    var h = '<div class="salut"><h1>' + salut() + '.</h1><p class="zi">' + esc(zi.charAt(0).toUpperCase() + zi.slice(1)) + '</p></div>';
+    h += '<div class="rezumat">' +
+      '<a href="#taskuri"><b>' + tk.deschise + '</b><span>taskuri deschise</span></a>' +
+      '<a href="#taskuri" class="' + (tk.intarziate ? 'hot' : '') + '"><b>' + tk.intarziate + '</b><span>întârziate</span></a>' +
+      '<a href="#taskuri" class="' + (tk.azi ? 'warn' : '') + '"><b>' + tk.azi + '</b><span>cu termen azi</span></a>' +
+      '<a href="#clarificat" class="' + (d.deClarificat ? 'warn' : '') + '"><b>' + (d.deClarificat == null ? '-' : d.deClarificat) + '</b><span>de clarificat în cash flow</span></a></div>';
+    h += panglica(tk.primele, d.termene, tk.intarziate);
+    h += '<div class="coloane sectiune"><div><h2 style="margin-bottom:12px">Cele mai apropiate taskuri</h2>' + (tk.primele.length ? '<div class="lista">' + tk.primele.map(randTask).join('') + '</div>' : '<div class="panou gol"><b>Nimic deschis</b>Taskurile noi apar aici.</div>') + '<div style="margin-top:12px"><a class="btn sec mic" href="#taskuri">Toate taskurile</a></div></div>';
+    h += '<div><h2 style="margin-bottom:12px">Mașini: termene în 30 de zile</h2>' + (d.termene.length ? '<div class="tabwrap" style="max-height:none"><table class="nw"><thead><tr><th>Ce</th><th>Al cui</th><th>Data</th><th>Când</th></tr></thead><tbody>' + d.termene.map(function (t) { return '<tr><td>' + esc(t.ce) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td><td>' + zilePill(t.zile) + '</td></tr>'; }).join('') + '</tbody></table></div>' : '<div class="panou gol"><b>Nimic nu expiră</b>Niciun ITP, RCA, CASCO sau rovinietă în următoarele 30 de zile.</div>') + '<div style="margin-top:12px"><a class="btn sec mic" href="#termene">Toate termenele</a></div></div></div>';
+    m.innerHTML = h;
+    legaTaskuri(m);
+    asazaPanglica(m, AZI_ANIM && MOTION);
+    AZI_ANIM = false;
+  }, '<div class="salut"><div class="sk" style="width:300px;height:40px"></div><div class="sk" style="width:220px;height:16px;margin-top:10px"></div></div><div class="sk" style="height:84px;margin-top:22px;border-radius:12px"></div><div class="sk" style="height:220px;margin-top:20px;border-radius:18px"></div>');
 };
-function taskRand(t) {
-  return '<div class="task" data-id="' + esc(t.ID) + '"><div><div class="t">' + esc(t.Titlu) + '</div><div class="m">' + esc(t.ID) + ' · ' + esc(t.Pentru) + ' · ' + esc(t.Stare) + (t.Sursa ? ' · ' + esc(t.Sursa) : '') + '</div></div><div>' + zilePill(t.zile) + '</div></div>';
+function panglica(taskuri, termene, nIntarz) {
+  var it = [];
+  taskuri.forEach(function (t) { if (t.zile !== null && t.zile !== undefined && t.zile !== '') it.push({ z: t.zile, t: t.Titlu, tip: /urgent/i.test(t.Prioritate || '') ? 'urg' : 'task', id: t.ID }); });
+  termene.forEach(function (t) { if (t.zile !== null && t.zile !== undefined) it.push({ z: t.zile, t: t.ce + ' ' + t.cine, tip: 'auto' }); });
+  var intarz = it.filter(function (x) { return x.z < 0; }), viit = it.filter(function (x) { return x.z >= 0 && x.z <= 30; });
+  var azi = new Date(); azi.setHours(0, 0, 0, 0);
+  var zile = '', ultima = -9;
+  for (var i = 0; i <= 30; i++) {
+    var d = new Date(azi.getTime() + i * 864e5), wd = d.getDay();
+    var et = '';
+    if (i > 1 && i - ultima >= 4 && (wd === 1 || d.getDate() === 1)) { et = '<em>' + d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' }) + '</em>'; ultima = i; }
+    zile += '<div class="' + (wd === 0 || wd === 6 ? 'we ' : '') + (wd === 1 ? 'luni' : '') + '">' + et + '</div>';
+  }
+  var mk = viit.sort(function (a, b) { return a.z - b.z; }).map(function (x, k) {
+    return '<button class="mk ' + x.tip + '" data-z="' + x.z + '" style="--k:' + k + '"' + (x.id ? ' data-id="' + esc(x.id) + '"' : ' data-auto="1"') + ' title="' + esc(x.t) + '">' + esc(x.t) + '</button>';
+  }).join('');
+  var lst = intarz.slice(0, 3).map(function (x) { return '<button type="button"' + (x.id ? ' data-id="' + esc(x.id) + '"' : ' data-auto="1"') + ' title="' + esc(x.t) + '">' + esc(x.t) + '</button>'; }).join('');
+  return '<section class="rb" aria-label="Termene în următoarele 30 de zile"><div class="rb-cap"><h2>Următoarele 30 de zile</h2><div class="rb-leg"><span><i></i>taskuri</span><span><i class="urg"></i>urgente</span><span><i class="auto"></i>mașini</span></div></div>' +
+    '<div class="rb-corp"><div class="rb-intarz"><b class="' + (nIntarz ? '' : 'zero') + '">' + nIntarz + '</b><span>' + (nIntarz === 1 ? 'task întârziat' : 'întârziate') + '</span>' + lst + '</div>' +
+    '<div class="rb-pista"><div class="rb-zile">' + zile + '</div><div class="rb-azi"></div>' + mk + (viit.length ? '' : '<div class="mic-t" style="position:absolute;left:24px;top:50px">Niciun termen în următoarele 30 de zile.</div>') + '</div></div></section>';
 }
+function asazaPanglica(m, anim) {
+  var p = m.querySelector('.rb-pista'); if (!p) return;
+  var W = p.clientWidth, col = W / 31, randuri = [], H = 30;
+  p.querySelectorAll('.mk').forEach(function (b) {
+    var w = Math.min(b.scrollWidth + 2, 190), r = 0;
+    var x = Math.max(0, Math.min(Number(b.dataset.z) * col + 3, W - w));
+    while (randuri[r] !== undefined && randuri[r] > x - 4) r++;
+    randuri[r] = x + w;
+    b.style.left = x + 'px'; b.style.top = (14 + r * H) + 'px';
+  });
+  p.style.minHeight = Math.max(150, 14 + randuri.length * H + 28) + 'px';
+  if (anim) m.querySelector('.rb').classList.add('anim');
+  m.querySelectorAll('.rb [data-id]').forEach(function (b) { b.onclick = function () { deschideTask(b.dataset.id); }; });
+  m.querySelectorAll('.rb [data-auto]').forEach(function (b) { b.onclick = function () { location.hash = 'termene'; }; });
+}
+window.addEventListener('resize', function () { if (location.hash.slice(1) === 'azi' || !location.hash) { var m = $('main'); if (m.querySelector('.rb')) asazaPanglica(m, false); } });
 
 // ---------- Taskuri ----------
-PAGINI.taskuri = async function (m) {
-  var toate = m._toate || false;
-  var d = await api('taskuri', { toate: toate });
-  var h = '<div class="rand" style="justify-content:space-between"><h1>Taskuri</h1><div class="rand"><button class="btn sec mic" id="tgToate">' + (toate ? 'Ascunde ce e făcut' : 'Arată și ce e făcut') + '</button><button class="btn" id="tNou">Task nou</button></div></div>';
-  h += d.taskuri.length ? d.taskuri.map(taskRand).join('') : '<div class="card"><p class="muted">Niciun task. Apasă „Task nou”.</p></div>';
-  m.innerHTML = h;
-  m.querySelectorAll('.task').forEach(function (e) { e.onclick = function () { deschideTask(e.dataset.id); }; });
-  $('tgToate').onclick = function () { m._toate = !toate; PAGINI.taskuri(m); };
-  $('tNou').onclick = formTaskNou;
+function randTask(t) {
+  var facut = t.Stare === 'făcut';
+  return '<div class="rt' + (facut ? ' facut' : '') + '" data-id="' + esc(t.ID) + '" role="button" tabindex="0">' +
+    '<button class="chk" type="button" data-bifa="' + esc(t.ID) + '" data-stare="' + esc(t.Stare) + '" aria-label="' + (facut ? 'Redeschide' : 'Marchează ca făcut') + ': ' + esc(t.Titlu) + '">' + ic('bifa') + '</button>' +
+    '<div class="corp"><div class="t">' + esc(t.Titlu) + '</div><div class="m"><span class="id">' + esc(t.ID) + '</span><span>pentru ' + esc(t.Pentru) + '</span>' + (t.Stare && t.Stare !== 'deschis' ? '<span>' + esc(t.Stare) + '</span>' : '') + (/urgent/i.test(t.Prioritate || '') ? '<span class="urg">urgent</span>' : '') + (t.Sursa === 'asistent' ? '<span>creat de Claude</span>' : '') + '</div></div>' +
+    '<div>' + (facut ? '<span class="pill ok">făcut</span>' : zilePill(t.zile)) + '</div></div>';
+}
+function legaTaskuri(m) {
+  m.querySelectorAll('.rt').forEach(function (e) {
+    e.onclick = function (ev) { if (ev.target.closest('.chk')) return; deschideTask(e.dataset.id); };
+    e.onkeydown = function (ev) { if ((ev.key === 'Enter' || ev.key === ' ') && ev.target === e) { ev.preventDefault(); deschideTask(e.dataset.id); } };
+  });
+  m.querySelectorAll('.chk').forEach(function (b) { b.onclick = function (ev) { ev.stopPropagation(); bifeaza(b); }; });
+}
+async function bifeaza(b) {
+  var id = b.dataset.bifa, vechi = b.dataset.stare || 'deschis', rand = b.closest('.rt'), nou = vechi === 'făcut' ? 'deschis' : 'făcut';
+  rand.classList.toggle('facut', nou === 'făcut');
+  try {
+    await api('task_schimba', { id: id, stare: nou });
+    b.dataset.stare = nou;
+    toast(nou === 'făcut' ? 'Taskul ' + id + ' e făcut.' : 'Taskul ' + id + ' e redeschis.', { act: 'Anulează', fn: async function () { try { await api('task_schimba', { id: id, stare: vechi }); toast('Am anulat.'); reimprospateaza(); } catch (e) { toast(e.message, { err: true }); } } });
+    setTimeout(reimprospateaza, 1600);
+  } catch (e) { rand.classList.toggle('facut', vechi === 'făcut'); toast(e.message, { err: true }); }
+}
+function reimprospateaza() { var p = location.hash.slice(1) || 'azi'; if (p === 'azi' || p === 'taskuri') mergi(p, true); }
+var TS = { toate: false, filtru: 'toate', q: '' };
+PAGINI.taskuri = function (m) {
+  return incarca(m, 'taskuri_' + (TS.toate ? 'toate' : 'deschise'), 'taskuri', { toate: TS.toate }, function (d, m) {
+    var L = d.taskuri, gr = { intarziate: [], azi: [], sapt: [], tarziu: [], fara: [], facute: [] };
+    L.forEach(function (t) {
+      if (t.Stare === 'făcut') gr.facute.push(t);
+      else if (t.zile === null || t.zile === undefined || t.zile === '') gr.fara.push(t);
+      else if (t.zile < 0) gr.intarziate.push(t); else if (t.zile === 0) gr.azi.push(t); else if (t.zile <= 7) gr.sapt.push(t); else gr.tarziu.push(t);
+    });
+    var F = [['toate', 'Toate', L.length - gr.facute.length], ['intarziate', 'Întârziate', gr.intarziate.length], ['azi', 'Azi', gr.azi.length], ['sapt', 'În 7 zile', gr.sapt.length], ['fara', 'Fără termen', gr.fara.length]];
+    var h = '<div class="cap"><div><h1>Taskuri</h1><p>Ce e de făcut în TEG, cu termene. Bifează cercul ca să închizi un task; deschide-l ca să vezi istoricul sau să-l întrebi pe Claude.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="tQ" placeholder="Caută în taskuri" value="' + esc(TS.q) + '" aria-label="Caută în taskuri"></div><button class="btn sec" id="tgToate">' + (TS.toate ? 'Ascunde ce e făcut' : 'Arată și ce e făcut') + '</button><button class="btn" id="tNou">' + ic('plus') + 'Task nou</button></div></div>';
+    h += '<div class="filtre" role="tablist">' + F.map(function (f) { return '<button type="button" role="tab" data-f="' + f[0] + '" class="' + (TS.filtru === f[0] ? 'activ' : '') + '" aria-selected="' + (TS.filtru === f[0]) + '">' + f[1] + ' <span>' + f[2] + '</span></button>'; }).join('') + '</div><div id="tLista"></div>';
+    m.innerHTML = h;
+    var deseneaza = function () {
+      var G = [['intarziate', 'Întârziate', 'hot'], ['azi', 'Azi', ''], ['sapt', 'În următoarele 7 zile', ''], ['tarziu', 'Mai târziu', ''], ['fara', 'Fără termen', ''], ['facute', 'Făcute', '']];
+      var o = '';
+      G.forEach(function (g) {
+        if (TS.filtru !== 'toate' && TS.filtru !== g[0]) return;
+        var l = gr[g[0]].filter(function (t) { return filtreazaText(TS.q, t.Titlu + ' ' + t.ID + ' ' + t.Pentru + ' ' + (t.Detalii || '')); });
+        if (!l.length) return;
+        o += '<div class="grup"><h3 class="' + g[2] + '">' + g[1] + ' <span class="mic-t">' + l.length + '</span></h3><div class="lista">' + l.map(randTask).join('') + '</div></div>';
+      });
+      $('tLista').innerHTML = o || '<div class="panou gol"><b>' + (TS.q ? 'Niciun task găsit' : 'Nimic aici') + '</b>' + (TS.q ? 'Încearcă alt cuvânt.' : 'Apasă „Task nou” ca să adaugi unul.') + '</div>';
+      legaTaskuri($('tLista'));
+    };
+    deseneaza();
+    $('tQ').oninput = function () { TS.q = this.value; deseneaza(); };
+    m.querySelectorAll('.filtre button').forEach(function (b) { b.onclick = function () { TS.filtru = b.dataset.f; m.querySelectorAll('.filtre button').forEach(function (x) { x.classList.toggle('activ', x === b); x.setAttribute('aria-selected', x === b); }); deseneaza(); }; });
+    $('tgToate').onclick = function () { TS.toate = !TS.toate; mergi('taskuri', true); };
+    $('tNou').onclick = formTaskNou;
+  });
 };
+function deschideDrawer(html) {
+  var dr = $('drawer'); dr.innerHTML = html; dr.classList.add('deschis'); $('scrim').classList.add('on');
+  dr.querySelectorAll('[data-inchide]').forEach(function (b) { b.onclick = inchide; });
+  return dr;
+}
+function inchide() { var dr = $('drawer'); if (!dr.classList.contains('deschis')) return; dr.classList.remove('deschis'); $('scrim').classList.remove('on'); clearTimeout(TC.timer); TC.task = null; }
 function formTaskNou() {
-  var dr = $('drawer');
-  dr.innerHTML = '<div class="rand" style="justify-content:space-between"><h2>Task nou</h2><button class="btn sec mic" onclick="inchide()">Închide</button></div>' +
-    '<label>Ce trebuie făcut</label><input id="nTitlu" placeholder="ex. Certificat constatator extins pentru CODRU Festival SRL">' +
-    '<label>Detalii</label><textarea id="nDet" rows="4" placeholder="Ce, pentru ce, de unde, la cine ajunge"></textarea>' +
-    '<label>Termen</label><input id="nTermen" type="date">' +
-    (S.rol === 'asociat' ? '<label>Pentru</label><select id="nPentru"><option>Tamara</option><option>Sebastian</option><option>Victor</option><option>Darius</option></select>' : '') +
-    '<label>Prioritate</label><select id="nPrio"><option>normală</option><option>urgentă</option><option>scăzută</option></select>' +
-    '<div class="spatiu"></div><button class="btn" id="nSalv">Creează</button>';
-  dr.classList.add('deschis');
-  $('nSalv').onclick = async function () {
+  deschideDrawer('<div class="dr-cap"><b>Task nou</b><div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div>' +
+    '<form class="dr-corp" id="fNou"><label for="nTitlu">Ce trebuie făcut</label><input id="nTitlu" required maxlength="200" placeholder="Ex.: Certificat constatator extins pentru CODRU Festival SRL">' +
+    '<label for="nDet">Detalii</label><textarea id="nDet" rows="5" placeholder="Pentru ce, de unde, la cine ajunge"></textarea>' +
+    '<div class="meta" style="margin-top:4px"><div><label for="nTermen">Termen</label><input id="nTermen" type="date"></div><div><label for="nPrio">Prioritate</label><select id="nPrio"><option>normală</option><option>urgentă</option><option>scăzută</option></select></div>' +
+    (S.rol === 'asociat' ? '<div><label for="nPentru">Pentru</label><select id="nPentru"><option>Tamara</option><option>Sebastian</option><option>Victor</option><option>Darius</option></select></div>' : '') + '</div>' +
+    '<button class="btn" type="submit" id="nSalv" style="margin-top:20px">' + ic('plus') + 'Creează taskul</button></form>');
+  setTimeout(function () { $('nTitlu').focus(); }, 120);
+  $('fNou').onsubmit = async function (ev) {
+    ev.preventDefault(); $('nSalv').disabled = true;
     try {
       var r = await api('task_nou', { titlu: $('nTitlu').value, detalii: $('nDet').value, termen: dinInputData($('nTermen').value), pentru: $('nPentru') ? $('nPentru').value : 'Tamara', prioritate: $('nPrio').value });
-      toast('Creat ' + r.id); inchide(); mergi('taskuri');
-    } catch (e) { toast(e.message); }
+      toast('Am creat taskul ' + r.id + '.'); inchide(); mergi('taskuri');
+    } catch (e) { toast(e.message, { err: true }); $('nSalv').disabled = false; }
   };
 }
-function inchide() { $('drawer').classList.remove('deschis'); }
-// ---------- Cere lui Claude pe un task (conversația ta pe acest task, ca în Cockpit) ----------
+
+// fișa taskului
+async function deschideTask(id) {
+  deschideDrawer('<div class="dr-cap"><span class="sk" style="width:60px;height:20px"></span><div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp"><div class="sk" style="height:28px;width:80%"></div><div class="sk" style="height:14px;width:50%;margin-top:14px"></div><div class="sk" style="height:120px;margin-top:24px"></div></div>');
+  var d;
+  try { d = await api('task_fir', { id: id }); } catch (e) { deschideDrawer('<div class="dr-cap"><div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp gol"><b>Taskul nu s-a încărcat</b>' + esc(e.message) + '</div>'); return; }
+  var t = d.task, stari = ['deschis', 'în lucru', 'amânat', 'făcut'];
+  var h = '<div class="dr-cap"><span class="pill">' + esc(t.ID) + '</span>' + (/urgent/i.test(t.Prioritate || '') ? '<span class="pill hot">urgent</span>' : '') + '<div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp">';
+  h += '<h2>' + esc(t.Titlu) + '</h2>';
+  h += '<div class="seg" role="radiogroup" aria-label="Starea taskului">' + stari.map(function (s) { return '<button type="button" role="radio" aria-checked="' + (t.Stare === s) + '" data-stare="' + s + '" class="' + (t.Stare === s ? 'activ' : '') + '">' + s.charAt(0).toUpperCase() + s.slice(1) + '</button>'; }).join('') + '</div>';
+  h += '<dl class="meta" style="margin-top:18px"><div><dt>Pentru</dt><dd>' + esc(t.Pentru) + '</dd></div><div><dt>Termen</dt><dd>' + (t.Termen ? esc(t.Termen) + ' ' + zilePill(d.task.zile !== undefined ? d.task.zile : zileDin(t.Termen)) : 'fără termen') + '</dd></div><div><dt>Creat</dt><dd>' + esc(t['Creat de']) + ', ' + esc(t['Creat la']) + '</dd></div><div><dt>Sursa</dt><dd>' + esc(t.Sursa || '-') + '</dd></div></dl>';
+  h += '<div class="rand" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input id="dTermen" type="date" style="max-width:180px" value="' + inInputData(t.Termen) + '" aria-label="Termen nou"><button class="btn sec mic" id="dSalvT">Salvează termenul</button><button class="btn ghost mic" id="dAmana">Amână 7 zile</button></div>';
+  if (t.Detalii) h += '<div class="detalii">' + esc(t.Detalii) + '</div>';
+  h += '<div class="tabs" role="tablist"><button type="button" role="tab" class="activ" data-tab="ist">Istoric <span class="mic-t">' + d.fir.length + '</span></button><button type="button" role="tab" data-tab="claude">Cere lui Claude</button></div>';
+  h += '<div id="pIst">' + (d.fir.length ? d.fir.map(function (f) { return '<div class="fir' + (f.tip === 'notă' ? ' fn' : '') + '"><div class="c"><b>' + esc(f.cine) + '</b>, ' + esc(f.cand) + (f.tip && f.tip !== 'sistem' ? ', ' + esc(f.tip) : '') + '</div><div class="x">' + esc(f.text) + '</div></div>'; }).join('') : '<p class="mic-t">Nimic încă.</p>') +
+    '<div class="compune"><textarea id="dNota" rows="2" placeholder="Ce s-a întâmplat, ce lipsește" aria-label="Notă"></textarea><div class="bara"><div class="sp"></div>' + (S.rol === 'tamara' ? '<button class="btn sec mic" id="dSebi">Trimite și lui Sebi</button>' : '') + '<button class="btn mic" id="dNotaB">Adaugă nota</button></div></div></div>';
+  h += '<div id="pClaude" hidden><p class="mic-t" style="margin-bottom:12px">Conversația ta cu Claude despre acest task. Claude vede taskul și istoricul lui și caută în Drive cu accesul contului tău.</p><div id="tcChat" class="chat"></div><p id="tcStare" style="margin-top:10px"></p>' +
+    '<div class="compune"><textarea id="tcText" rows="2" placeholder="Ex.: Ce mai lipsește ca să închid taskul? Găsește factura și spune-mi suma." aria-label="Mesaj pentru Claude"></textarea><div class="bara"><span class="mic-t">Ctrl + Enter trimite</span><div class="sp"></div><button class="btn ghost mic" id="tcStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="tcTrimite">' + ic('trimite') + 'Trimite</button></div></div></div>';
+  h += '</div><div class="dr-jos"><span class="mic-t">Actualizat ' + esc(t['Actualizat la'] || '') + '</span><button class="btn rosu mic" id="dSterge">Șterge taskul</button></div>';
+  if (TC.task !== null && TC.task !== id) { clearTimeout(TC.timer); }
+  deschideDrawer(h);
+  var dr = $('drawer');
+  var sch = async function (o, msg) { try { await api('task_schimba', Object.assign({ id: id }, o)); toast(msg); deschideTask(id); reimprospateaza(); } catch (e) { toast(e.message, { err: true }); } };
+  dr.querySelectorAll('.seg button').forEach(function (b) { b.onclick = function () { if (b.classList.contains('activ')) return; dr.querySelectorAll('.seg button').forEach(function (x) { x.classList.toggle('activ', x === b); }); sch({ stare: b.dataset.stare }, 'Stare: ' + b.dataset.stare + '.'); }; });
+  $('dSalvT').onclick = function () { sch({ termen: dinInputData($('dTermen').value) }, 'Termen salvat.'); };
+  $('dAmana').onclick = function () { var b = t.Termen ? new Date(inInputData(t.Termen)) : new Date(); b.setDate(b.getDate() + 7); sch({ termen: dinInputData(b.toISOString().slice(0, 10)), stare: 'amânat' }, 'Amânat cu 7 zile.'); };
+  $('dNotaB').onclick = function () { if ($('dNota').value.trim()) sch({ nota: $('dNota').value }, 'Notă adăugată.'); };
+  if ($('dSebi')) $('dSebi').onclick = function () { sch({ sebi_stie: true, nota: $('dNota').value }, 'Trimis lui Sebi în Cockpit.'); };
+  $('dSterge').onclick = function () { if (confirm('Ștergi taskul ' + id + '? Rămâne în jurnal.')) { sch({ stare: 'șters' }, 'Taskul a fost șters.'); inchide(); } };
+  dr.querySelectorAll('.tabs button').forEach(function (b) { b.onclick = function () {
+    dr.querySelectorAll('.tabs button').forEach(function (x) { x.classList.toggle('activ', x === b); x.setAttribute('aria-selected', x === b); });
+    $('pIst').hidden = b.dataset.tab !== 'ist'; $('pClaude').hidden = b.dataset.tab !== 'claude';
+    if (b.dataset.tab === 'claude' && TC.task !== id) pornesteClaudeTask(id);
+    if (b.dataset.tab === 'claude') setTimeout(function () { $('tcText').focus(); }, 50);
+  }; });
+}
+function zileDin(s) { var v = inInputData(s); if (!v) return null; var a = new Date(); a.setHours(0, 0, 0, 0); return Math.round((new Date(v + 'T00:00:00') - a) / 864e5); }
+
+// ---------- Claude pe un task ----------
 var TC = { task: null, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
 async function pornesteClaudeTask(id) {
   clearTimeout(TC.timer); TC = { task: id, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
   $('tcTrimite').onclick = trimiteTC;
-  $('tcText').addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteTC(); });
-  $('tcStop').onclick = async function () { if (TC.sid) { try { await api('asistent_opreste', { sid: TC.sid }); toast('Oprit'); } catch (e) { toast(e.message); } } };
+  $('tcText').onkeydown = function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteTC(); };
+  $('tcStop').onclick = async function () { if (TC.sid) { try { await api('asistent_opreste', { sid: TC.sid }); toast('Am oprit răspunsul.'); } catch (e) { toast(e.message, { err: true }); } } };
+  $('tcChat').innerHTML = '<div class="sk" style="height:16px;width:60%"></div>';
   try {
     var r = await api('asistent_task', { task: id });
     if (TC.task !== id) return;
-    if (!r.pornit) { $('tcChat').innerHTML = '<p class="muted">Asistentul se pornește în curând.</p>'; $('tcTrimite').disabled = true; return; }
+    if (!r.pornit) { $('tcChat').innerHTML = '<p class="mic-t">Asistentul nu e pornit încă.</p>'; $('tcTrimite').disabled = true; return; }
     TC.sid = r.sid;
     if (TC.sid) sondeazaTC(); else randeazaTC();
-  } catch (e) { $('tcChat').innerHTML = '<p class="muted">' + esc(e.message) + '</p>'; }
+  } catch (e) { $('tcChat').innerHTML = '<p class="err">' + esc(e.message) + '</p>'; }
 }
 async function trimiteTC() {
   var text = $('tcText').value.trim(); if (!text || !TC.task) return;
-  $('tcTrimite').disabled = true; $('tcStare').textContent = 'Trimit...';
+  $('tcTrimite').disabled = true;
   try {
     var r = await api('asistent_trimite', { task: TC.task, sid: TC.sid, text: text });
-    TC.sid = r.sid; $('tcText').value = ''; sondeazaTC();
-  } catch (e) { $('tcStare').textContent = e.message; }
+    TC.sid = r.sid; $('tcText').value = '';
+    TC.ev['tmp'] = { t: 'user.message', text: text }; if (TC.ordine.indexOf('tmp') < 0) TC.ordine.push('tmp'); randeazaTC(true);
+    sondeazaTC();
+  } catch (e) { $('tcStare').innerHTML = '<span class="err">' + esc(e.message) + '</span>'; }
   $('tcTrimite').disabled = false;
 }
 async function sondeazaTC() {
@@ -266,212 +865,248 @@ async function sondeazaTC() {
   try {
     var r = await api('asistent_progres', { sid: TC.sid, dupa: TC.dupa });
     if (TC.task !== task) return;
-    r.evenimente.forEach(function (x) { if (!TC.ev[x.id]) { TC.ev[x.id] = x; TC.ordine.push(x.id); } if (x.la) TC.dupa = x.la; });
-    TC.fisiere = r.fisiere || TC.fisiere;
-    randeazaTC();
-    if ($('tcStare')) $('tcStare').textContent = r.gata ? '' : 'Claude lucrează...';
+    adaugaEvenimente(TC, r);
+    randeazaTC(!r.gata);
     if (!r.gata) TC.timer = setTimeout(sondeazaTC, 2500);
-  } catch (e) { if ($('tcStare')) $('tcStare').textContent = e.message; }
+  } catch (e) { if ($('tcStare')) $('tcStare').innerHTML = '<span class="err">' + esc(e.message) + '</span>'; }
 }
-function randeazaTC() {
+function adaugaEvenimente(st, r) {
+  (r.evenimente || []).forEach(function (x) {
+    if (x.t === 'user.message' && st.ev.tmp) { delete st.ev.tmp; st.ordine = st.ordine.filter(function (k) { return k !== 'tmp'; }); }
+    if (!st.ev[x.id]) { st.ev[x.id] = x; st.ordine.push(x.id); }
+    if (x.la) st.dupa = x.la;
+  });
+  st.fisiere = r.fisiere || st.fisiere;
+}
+function randeazaTC(lucreaza) {
   var c = $('tcChat'); if (!c) return;
-  if (!TC.sid || !TC.ordine.length) { c.innerHTML = '<p class="muted">Încă nicio întrebare pe acest task.</p>'; return; }
-  var h = TC.ordine.map(function (id) {
-    var x = TC.ev[id];
-    if (x.t === 'user.message') return '<div style="margin:8px 0 8px 12%;background:var(--panel2);border-radius:12px;padding:8px 12px;white-space:pre-wrap">' + esc(curataMesaj(x.text)) + '</div>';
-    if (x.t === 'agent.message') return '<div style="margin:8px 12% 8px 0">' + md(x.text) + '</div>';
-    if (x.unealta) return '<div class="muted" style="font-size:12px">· ' + esc(ETICHETE[x.unealta] || x.unealta) + '</div>';
-    if (x.t === 'session.error') return '<div style="color:var(--hot)">' + esc(x.text) + '</div>';
+  $('tcStop').hidden = !lucreaza;
+  $('tcStare').innerHTML = lucreaza ? '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Claude lucrează</span>' : '';
+  c.innerHTML = TC.ordine.length ? mesajeHtml(TC) : '<p class="mic-t">Încă nicio întrebare pe acest task.</p>';
+  var corp = c.closest('.dr-corp'); if (corp) corp.scrollTop = corp.scrollHeight;
+}
+function mesajeHtml(st) {
+  var h = st.ordine.map(function (id) {
+    var x = st.ev[id]; if (!x) return '';
+    if (x.t === 'user.message') return '<div class="msg-eu">' + esc(curataMesaj(x.text)) + '</div>';
+    if (x.t === 'agent.message') return '<div class="msg-ai">' + md(x.text) + '</div>';
+    if (x.unealta) return '<div class="pas">' + esc(ETICHETE[x.unealta] || x.unealta) + '</div>';
+    if (x.t === 'session.error') return '<div class="err">' + esc(x.text) + '</div>';
     return '';
   }).join('');
-  if (TC.fisiere && TC.fisiere.length) h += '<div class="rand" style="margin:8px 0">' + TC.fisiere.map(function (f) { return '<a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(f.url) + '">' + esc(f.nume) + ' ↗</a>'; }).join('') + '</div>';
-  c.innerHTML = h; c.scrollTop = c.scrollHeight;
+  if (st.fisiere && st.fisiere.length) h += '<div style="display:flex;gap:8px;flex-wrap:wrap">' + st.fisiere.map(function (f) { return '<a class="btn sec mic" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(f.url)) + '">' + ic('foaie') + esc(f.nume) + '</a>'; }).join('') + '</div>';
+  return h;
 }
-async function deschideTask(id) {
-  var dr = $('drawer'); dr.innerHTML = '<p class="muted">Se încarcă...</p>'; dr.classList.add('deschis');
-  var d = await api('task_fir', { id: id }), t = d.task;
-  var h = '<div class="rand" style="justify-content:space-between"><span class="pill">' + esc(t.ID) + '</span><button class="btn sec mic" onclick="inchide()">Închide</button></div><div class="spatiu"></div>';
-  h += '<h2>' + esc(t.Titlu) + '</h2><p class="muted">Pentru ' + esc(t.Pentru) + ' · ' + esc(t.Stare) + ' · creat de ' + esc(t['Creat de']) + ' la ' + esc(t['Creat la']) + (t.Sursa ? ' · sursa: ' + esc(t.Sursa) : '') + '</p>';
-  if (t.Detalii) h += '<div class="card" style="white-space:pre-wrap">' + esc(t.Detalii) + '</div>';
-  h += '<label>Termen</label><div class="rand"><input id="dTermen" type="date" style="max-width:200px" value="' + inInputData(t.Termen) + '"><button class="btn sec mic" id="dSalvT">Salvează termenul</button><button class="btn sec mic" id="dAmana">Amână 7 zile</button></div>';
-  h += '<label>Notă</label><textarea id="dNota" rows="2" placeholder="Ce s-a întâmplat, ce lipsește"></textarea>';
-  h += '<div class="rand" style="margin-top:8px"><button class="btn sec mic" id="dNotaB">Adaugă nota</button>' + (S.rol === 'tamara' ? '<button class="btn sec mic" id="dSebi">Sebi știe (trimite în Cockpit)</button>' : '') + '</div>';
 
-  h += '<div class="spatiu"></div><div class="rand"><button class="btn" id="dGata">Gata</button><button class="btn sec" id="dLucru">În lucru</button><button class="btn rosu" id="dSterge">Șterge</button></div>';
-  h += '<div class="spatiu"></div><h3>Conversația</h3>' + d.fir.map(function (f) { return '<div class="fir"><div class="c">' + esc(f.cand) + ' · ' + esc(f.cine) + ' · ' + esc(f.tip) + '</div><div style="white-space:pre-wrap">' + esc(f.text) + '</div></div>'; }).join('');
-  h += '<label>Mesaj</label><textarea id="dMsg" rows="2"></textarea><div class="spatiu"></div><button class="btn sec mic" id="dMsgB">Trimite</button>';
-  h += '<div class="spatiu"></div><h3>Cere lui Claude</h3><p class="muted" style="margin-top:0">Conversația ta cu Claude despre acest task; Claude vede taskul și istoricul lui și caută în Drive cu accesul tău.</p><div id="tcChat" class="card" style="max-height:50vh;overflow:auto"><p class="muted">Se încarcă...</p></div><textarea id="tcText" rows="2" placeholder="Ex.: Ce mai lipsește ca să închid taskul? Găsește factura și spune-mi suma."></textarea><div class="rand" style="margin-top:8px"><button class="btn" id="tcTrimite">Trimite lui Claude</button><button class="btn sec mic" id="tcStop">Oprește</button></div><p id="tcStare" class="muted"></p>';
-  dr.innerHTML = h;
-  pornesteClaudeTask(id);
-  var sch = async function (o, msg) { try { await api('task_schimba', Object.assign({ id: id }, o)); toast(msg); deschideTask(id); if (location.hash.slice(1) === 'taskuri' || location.hash.slice(1) === 'azi') mergi(location.hash.slice(1), true); } catch (e) { toast(e.message); } };
-  $('dSalvT').onclick = function () { sch({ termen: dinInputData($('dTermen').value) }, 'Termen salvat'); };
-  $('dAmana').onclick = function () { var b = t.Termen ? new Date(inInputData(t.Termen)) : new Date(); b.setDate(b.getDate() + 7); sch({ termen: dinInputData(b.toISOString().slice(0, 10)), stare: 'amânat' }, 'Amânat cu 7 zile'); };
-  $('dNotaB').onclick = function () { if ($('dNota').value.trim()) sch({ nota: $('dNota').value }, 'Notă adăugată'); };
-  if ($('dSebi')) $('dSebi').onclick = function () { sch({ sebi_stie: true, nota: $('dNota').value }, 'Trimis lui Sebi în Cockpit'); };
-  $('dGata').onclick = function () { sch({ stare: 'făcut' }, 'Marcat ca făcut'); };
-  $('dLucru').onclick = function () { sch({ stare: 'în lucru' }, 'În lucru'); };
-  $('dSterge').onclick = function () { if (confirm('Ștergi taskul ' + id + '? Rămâne în jurnal.')) { sch({ stare: 'șters' }, 'Șters'); inchide(); } };
-  $('dMsgB').onclick = async function () { if (!$('dMsg').value.trim()) return; try { await api('task_mesaj', { id: id, text: $('dMsg').value }); deschideTask(id); } catch (e) { toast(e.message); } };
+// ---------- textul lui Claude: markdown sigur (totul trece prin esc înainte de formatare) ----------
+function md(t) {
+  var linii = String(t || '').replace(/\r/g, '').split('\n'), out = [], tab = [], lista = null, cod = null;
+  function inline(x) {
+    var s = esc(x);
+    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(^|[\s(])\*([^*\s][^*]*)\*(?=[\s).,;:!?]|$)/g, '$1<i>$2</i>');
+    s = s.replace(/\[([^\]]+)\]\((https:\/\/[^)\s"'<>]+)\)/g, function (m0, txt, u) { var uu = urlSigur(u.replace(/&amp;/g, '&')); var dom = domeniu(uu); var cunoscut = /(^|\.)(docs\.google\.com|drive\.google\.com|teg\.ro)$/.test(dom); return cunoscut ? '<a target="_blank" rel="noopener noreferrer" href="' + esc(uu) + '">' + txt + '</a>' : txt + ' <span class="dom">(link extern neverificat: ' + esc(dom) + ')</span>'; });
+    return s;
+  }
+  function golTab() { if (!tab.length) return;
+    var r = tab.filter(function (l) { return !/^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(l); });
+    out.push('<div class="tabwrap"><table>' + r.map(function (l, k) { var c = l.trim().replace(/^\||\|$/g, '').split('|'); return (k === 0 ? '<thead>' : '') + '<tr>' + c.map(function (x) { return (k ? '<td>' : '<th>') + inline(x.trim()) + (k ? '</td>' : '</th>'); }).join('') + '</tr>' + (k === 0 ? '</thead><tbody>' : ''); }).join('') + '</tbody></table></div>'); tab = []; }
+  function golLista() { if (!lista) return; out.push('<' + lista.tag + '>' + lista.el.map(function (x) { return '<li>' + inline(x) + '</li>'; }).join('') + '</' + lista.tag + '>'); lista = null; }
+  linii.forEach(function (l) {
+    if (cod !== null) { if (/^\s*```/.test(l)) { out.push('<pre><code>' + esc(cod.join('\n')) + '</code></pre>'); cod = null; } else cod.push(l); return; }
+    if (/^\s*```/.test(l)) { golTab(); golLista(); cod = []; return; }
+    if (/^\s*\|/.test(l)) { golLista(); tab.push(l); return; } golTab();
+    var m = /^\s*[-*•] (.*)$/.exec(l); if (m) { if (lista && lista.tag !== 'ul') golLista(); lista = lista || { tag: 'ul', el: [] }; lista.el.push(m[1]); return; }
+    m = /^\s*\d+[.)] (.*)$/.exec(l); if (m) { if (lista && lista.tag !== 'ol') golLista(); lista = lista || { tag: 'ol', el: [] }; lista.el.push(m[1]); return; }
+    golLista();
+    var hh = /^(#{1,4}) (.*)$/.exec(l); if (hh) { out.push('<h4>' + inline(hh[2]) + '</h4>'); return; }
+    if (/^\s*(---|\*\*\*)\s*$/.test(l)) { out.push('<hr style="border:0;border-top:1px solid var(--line2);margin:12px 0">'); return; }
+    if (l.trim()) out.push('<p>' + inline(l) + '</p>');
+  });
+  if (cod !== null) out.push('<pre><code>' + esc(cod.join('\n')) + '</code></pre>');
+  golTab(); golLista();
+  return out.join('');
 }
+function curataMesaj(t) { t = String(t || ''); var i = t.indexOf('[Mesajul despre acest task:]\n'); if (i >= 0) return t.slice(i + 29); return t.replace(/^\[[^\]]*\]\n(\[Atașamente[^\]]*\]\n)?/, ''); }
+var ETICHETE = { cauta_drive: 'Caut în Drive', lista_folder: 'Citesc un folder', structura_sursa: 'Mă uit în foi', citeste_foaie: 'Citesc o foaie', citeste_fisier: 'Citesc un fișier', task_nou: 'Creez un task', bash: 'Calculez', write: 'Scriu un fișier', read: 'Citesc' };
 
 // ---------- De clarificat ----------
-PAGINI.clarificat = async function (m) {
-  var d = await api('de_clarificat');
-  var h = '<div class="rand" style="justify-content:space-between"><h1>De clarificat</h1>' + (d.link ? '<a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(d.link) + '">Deschide foaia ↗</a>' : '') + '</div>';
-  h += '<p class="muted">Punctele deschise din TEG - Cash Flow › DE CLARIFICAT (' + (d.total || 0) + '). Răspunsul se scrie în foaie, în coloana de răspuns; botul îl aplică.</p>';
-  if (d.eroare) h += '<p style="color:var(--hot)">' + esc(d.eroare) + '</p>';
-  if (d.randuri && d.randuri.length) {
-    var col = d.cap.map(function (c, i) { return i; }).filter(function (i) { return d.cap[i] && d.randuri.some(function (r) { return r[i]; }); });
-    h += '<div class="tabwrap"><table><tr>' + col.map(function (i) { return '<th>' + esc(d.cap[i]) + '</th>'; }).join('') + '</tr>' + d.randuri.slice().reverse().map(function (r) { return '<tr>' + col.map(function (i) { return '<td>' + esc(r[i]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></div>';
-  }
-  m.innerHTML = h;
+PAGINI.clarificat = function (m) {
+  return incarca(m, 'clarificat', 'de_clarificat', {}, function (d, m) {
+    var h = '<div class="cap"><div><h1>De clarificat</h1><p>Punctele deschise din TEG - Cash Flow, foaia DE CLARIFICAT. Răspunsul se scrie în foaie, în coloana de răspuns, iar botul îl aplică.</p></div>' + (d.link ? '<div class="act"><a class="btn sec" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(d.link)) + '">' + ic('foaie') + 'Deschide foaia</a></div>' : '') + '</div>';
+    if (d.eroare) h += '<div class="nota warn" style="margin-bottom:16px">' + esc(d.eroare) + '</div>';
+    if (d.randuri && d.randuri.length) {
+      var col = d.cap.map(function (c, i) { return i; }).filter(function (i) { return d.cap[i] && d.randuri.some(function (r) { return r[i]; }); });
+      h += '<div class="act" style="margin-bottom:12px;display:flex;gap:12px;align-items:center"><div class="camp-cautare">' + ic('cauta') + '<input id="cQ" placeholder="Caută" aria-label="Caută în punctele de clarificat"></div><span class="mic-t" id="cN">' + d.randuri.length + ' puncte</span></div>';
+      h += '<div class="tabwrap"><table><thead><tr>' + col.map(function (i) { return '<th>' + esc(d.cap[i]) + '</th>'; }).join('') + '</tr></thead><tbody id="cB">' + d.randuri.slice().reverse().map(function (r) { return '<tr>' + col.map(function (i) { return '<td>' + esc(r[i]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+    } else h += '<div class="panou gol"><b>Nimic de clarificat</b>Foaia DE CLARIFICAT nu are puncte deschise.</div>';
+    m.innerHTML = h;
+    if ($('cQ')) $('cQ').oninput = function () { var q = this.value, n = 0; $('cB').querySelectorAll('tr').forEach(function (tr) { var v = filtreazaText(q, tr.textContent); tr.hidden = !v; if (v) n++; }); $('cN').textContent = n + ' puncte'; };
+  });
 };
 
 // ---------- Termene ----------
-PAGINI.termene = async function (m) {
-  var d = await api('termene');
-  var h = '<h1>Termene și expirări</h1><p class="muted">Din numele actelor din Acte firme („expira ZZ.LL.AAAA”) și din Centralizatorul auto (vehiculele active).</p>';
-  h += '<p class="muted">Certificatele constatatoare extinse și extrasele de la judecătorie sunt valabile 30 de zile și se cer la nevoie, pentru un dosar; „expirat” la ele nu e o urgență.</p>';
-  h += '<div class="tabwrap"><table><tr><th>Când</th><th>Categorie</th><th>Ce</th><th>Al cui</th><th>Data</th></tr>' + d.termene.map(function (t) { return '<tr><td>' + (t.categorie === 'Acte firme' && t.zile < 0 ? '<span class="pill">expirat</span>' : zilePill(t.zile)) + '</td><td>' + esc(t.categorie) + '</td><td>' + (t.url ? '<a target="_blank" rel="noopener" href="' + esc(t.url) + '">' + esc(t.ce) + '</a>' : esc(t.ce)) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') + '</table></div>';
-  m.innerHTML = h;
+var TT = { cat: 'toate', q: '' };
+PAGINI.termene = function (m) {
+  return incarca(m, 'termene', 'termene', {}, function (d, m) {
+    var cats = {}; d.termene.forEach(function (t) { cats[t.categorie] = (cats[t.categorie] || 0) + 1; });
+    var h = '<div class="cap"><div><h1>Termene și expirări</h1><p>Din numele actelor din Acte firme („expira ZZ.LL.AAAA”) și din Centralizatorul auto, pentru vehiculele active.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="eQ" placeholder="Caută" aria-label="Caută în termene" value="' + esc(TT.q) + '"></div></div></div>';
+    h += '<div class="filtre">' + [['toate', 'Toate', d.termene.length]].concat(Object.keys(cats).map(function (c) { return [c, c, cats[c]]; })).map(function (f) { return '<button type="button" data-c="' + esc(f[0]) + '" class="' + (TT.cat === f[0] ? 'activ' : '') + '">' + esc(f[1]) + ' <span>' + f[2] + '</span></button>'; }).join('') + '</div>';
+    h += '<div class="nota" style="margin-bottom:16px">Certificatele constatatoare extinse și extrasele de la judecătorie sunt valabile 30 de zile și se cer la nevoie, pentru un dosar. „Expirat” la ele nu e o urgență.</div>';
+    h += '<div class="tabwrap"><table><thead><tr><th>Când</th><th>Ce</th><th>Al cui</th><th>Categorie</th><th>Data</th></tr></thead><tbody id="eB"></tbody></table></div>';
+    m.innerHTML = h;
+    var des = function () {
+      var l = d.termene.filter(function (t) { return (TT.cat === 'toate' || t.categorie === TT.cat) && filtreazaText(TT.q, t.ce + ' ' + t.cine + ' ' + t.categorie); });
+      $('eB').innerHTML = l.length ? l.map(function (t) { return '<tr><td>' + (t.categorie === 'Acte firme' && t.zile < 0 ? '<span class="pill">expirat</span>' : zilePill(t.zile)) + '</td><td>' + (t.url ? '<a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(t.url)) + '">' + esc(t.ce) + '</a>' : esc(t.ce)) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.categorie) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') : '<tr><td colspan="5" class="gol">Niciun termen găsit.</td></tr>';
+    };
+    des();
+    $('eQ').oninput = function () { TT.q = this.value; des(); };
+    m.querySelectorAll('.filtre button').forEach(function (b) { b.onclick = function () { TT.cat = b.dataset.c; m.querySelectorAll('.filtre button').forEach(function (x) { x.classList.toggle('activ', x === b); }); des(); }; });
+  });
 };
 
 // ---------- Firme ----------
-PAGINI.firme = async function (m) {
-  var d = await api('firme');
-  var h = '<h1>Firme și asociații</h1><p class="muted">Actele la zi din Acte firme (rădăcina fiecărei firme) și ce lipsește din setul standard.</p><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))">';
-  d.firme.forEach(function (f) {
-    h += '<div class="card firma"><div class="rand" style="justify-content:space-between"><h3 style="margin:0">' + esc(f.firma) + '</h3><a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(f.url) + '">Folder ↗</a></div>';
-    h += '<ul>' + f.acte.filter(function (a) { return a.tip; }).sort(function (x, y) { return x.nume < y.nume ? -1 : 1; }).map(function (a) { var ex = (/\.([a-z0-9]+)$/i.exec(a.nume) || [])[1]; return '<li><a target="_blank" rel="noopener" href="' + esc(a.url) + '">' + esc(a.tip) + '</a>' + (ex && ex.toLowerCase() !== 'pdf' ? ' <span class="pill">' + esc(ex.toLowerCase()) + '</span>' : '') + (a.emis ? ' <span class="muted">· ' + esc(a.emis) + '</span>' : '') + (a.expira ? ' <span class="pill warn">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
-    if (f.lipsa.length) h += '<p style="margin:10px 0 0"><span class="pill hot">lipsă</span> <span class="muted">' + f.lipsa.map(esc).join(', ') + '</span></p>';
-    h += '</div>';
+PAGINI.firme = function (m) {
+  return incarca(m, 'firme', 'firme', {}, function (d, m) {
+    var nLipsa = d.firme.filter(function (f) { return f.lipsa.length; }).length;
+    var h = '<div class="cap"><div><h1>Firme și asociații</h1><p>Actele la zi din Acte firme (rădăcina fiecărei firme) și ce lipsește din setul standard. ' + d.firme.length + ' entități' + (nLipsa ? ', ' + nLipsa + ' cu acte lipsă' : '') + '.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="fQ" placeholder="Caută o firmă sau un act" aria-label="Caută o firmă"></div></div></div><div class="firme" id="fL"></div>';
+    m.innerHTML = h;
+    var des = function (q) {
+      var l = d.firme.filter(function (f) { return filtreazaText(q, f.firma + ' ' + f.acte.map(function (a) { return a.tip; }).join(' ')); });
+      $('fL').innerHTML = l.length ? l.map(function (f) {
+        var o = '<div class="panou firma' + (f.lipsa.length ? ' are-lipsa' : '') + '"><div class="fc"><h3>' + esc(f.firma) + '</h3><a class="ib" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(f.url)) + '" title="Deschide folderul" aria-label="Deschide folderul ' + esc(f.firma) + '">' + ic('dosar') + '</a></div>';
+        o += '<ul>' + f.acte.filter(function (a) { return a.tip; }).sort(function (x, y) { return x.nume < y.nume ? -1 : 1; }).map(function (a) { var ex = (/\.([a-z0-9]+)$/i.exec(a.nume) || [])[1]; return '<li><a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(a.url)) + '">' + esc(a.tip) + '</a>' + (ex && ex.toLowerCase() !== 'pdf' ? '<span class="pill">' + esc(ex.toLowerCase()) + '</span>' : '') + (a.emis ? '<span class="mic-t">emis ' + esc(a.emis) + '</span>' : '') + (a.expira ? '<span class="pill warn">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
+        if (f.lipsa.length) o += '<div class="lipsa"><b>Lipsă:</b> ' + f.lipsa.map(esc).join(', ') + '</div>';
+        return o + '</div>';
+      }).join('') : '<div class="panou gol"><b>Nicio firmă găsită</b>Încearcă alt cuvânt.</div>';
+    };
+    des(''); $('fQ').oninput = function () { des(this.value); };
   });
-  m.innerHTML = h + '</div>';
 };
 
 // ---------- Link-uri ----------
-PAGINI.linkuri = async function (m) {
-  var d = await api('linkuri'), gr = {};
-  d.linkuri.forEach(function (l) { (gr[l.g] = gr[l.g] || []).push(l); });
-  var h = '<h1>Link-uri utile</h1>';
-  Object.keys(gr).forEach(function (g) { h += '<div class="grupt">' + esc(g) + '</div><div class="grid">' + gr[g].map(function (l) { return '<a class="link" target="_blank" rel="noopener" href="' + esc(l.u) + '">' + esc(l.t) + ' ↗</a>'; }).join('') + '</div>'; });
-  m.innerHTML = h;
+PAGINI.linkuri = function (m) {
+  return incarca(m, 'linkuri', 'linkuri', {}, function (d, m) {
+    var h = '<div class="cap"><div><h1>Link-uri utile</h1><p>Foile, folderele și platformele pe care lucrăm zilnic.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="lQ" placeholder="Caută un link" aria-label="Caută un link"></div></div></div><div id="lL"></div>';
+    m.innerHTML = h;
+    var des = function (q) {
+      var gr = {}; d.linkuri.forEach(function (l) { if (filtreazaText(q, l.t + ' ' + l.g)) (gr[l.g] = gr[l.g] || []).push(l); });
+      $('lL').innerHTML = Object.keys(gr).map(function (g) { return '<div class="sectiune" style="margin-top:24px"><h2 style="font-size:16px">' + esc(g) + '</h2><div class="linkuri">' + gr[g].map(function (l) { var u = urlSigur(l.u), dom = domeniu(u); return '<a class="lk" target="_blank" rel="noopener noreferrer" href="' + esc(u) + '"><span class="ic">' + ic(/spreadsheets/.test(u) ? 'foaie' : /folders|drive\.google/.test(u) ? 'dosar' : 'ext') + '</span><span style="min-width:0"><b>' + esc(l.t) + '</b><span>' + esc(/spreadsheets/.test(u) ? 'Google Sheets' : /folders/.test(u) ? 'Folder Drive' : dom) + '</span></span></a>'; }).join('') + '</div></div>'; }).join('') || '<div class="panou gol"><b>Niciun link găsit</b>Încearcă alt cuvânt.</div>';
+    };
+    des(''); $('lQ').oninput = function () { des(this.value); };
+  });
 };
 
 // ---------- Urcă ----------
 PAGINI.urca = async function (m) {
-  m.innerHTML = '<h1>Urcă un document</h1><p class="muted">Documentul ajunge în TEG Finance › _Urcate din platforma. Curățenia de seară îl redenumește și îl mută la locul lui.</p>' +
-    '<div class="card" style="max-width:560px"><label>Fișierul (maxim 20 MB)</label><input type="file" id="uFis"><label>Ce e și al cui (ajută la așezare)</label><input id="uNota" placeholder="ex. ITP HD 73 TEG, 10.11.2026"><div class="spatiu"></div><button class="btn" id="uBtn">Urcă</button><p id="uRez" class="muted"></p></div>';
+  m.innerHTML = '<div class="cap"><div><h1>Urcă un document</h1><p>Documentul ajunge în TEG Finance, folderul „_Urcate din platformă”. Curățenia de seară îl redenumește și îl mută la locul lui.</p></div></div>' +
+    '<div style="max-width:640px"><label class="drop" id="uDrop" for="uFis"><span class="ic">' + ic('urca') + '</span><b>Trage fișierul aici sau alege-l</b><span class="mic-t">PDF, imagine sau document, maximum 20 MB</span><input type="file" id="uFis" class="sr"></label>' +
+    '<div id="uAles" style="margin-top:12px"></div><label for="uNota">Ce e și al cui (ajută la așezare)</label><input id="uNota" placeholder="Ex.: ITP HD 73 TEG, 10.11.2026"><button class="btn" id="uBtn" style="margin-top:16px" disabled>' + ic('urca') + 'Urcă documentul</button><div id="uRez" style="margin-top:16px"></div></div>';
+  var fis = null, drop = $('uDrop');
+  var alege = function (f) { if (!f) return; if (f.size > 20 * 1024 * 1024) { toast('Fișierul are peste 20 MB.', { err: true }); return; } fis = f; $('uAles').innerHTML = '<span class="fis">' + ic('contracte') + esc(f.name) + ' <span class="mic-t">' + (f.size / 1048576).toFixed(1) + ' MB</span><button type="button" aria-label="Scoate fișierul">' + ic('x') + '</button></span>'; $('uAles').querySelector('button').onclick = function () { fis = null; $('uAles').innerHTML = ''; $('uFis').value = ''; $('uBtn').disabled = true; }; $('uBtn').disabled = false; };
+  $('uFis').onchange = function () { alege(this.files[0]); };
+  ['dragenter', 'dragover'].forEach(function (e) { drop.addEventListener(e, function (ev) { ev.preventDefault(); drop.classList.add('peste'); }); });
+  ['dragleave', 'drop'].forEach(function (e) { drop.addEventListener(e, function (ev) { ev.preventDefault(); drop.classList.remove('peste'); }); });
+  drop.addEventListener('drop', function (ev) { alege(ev.dataTransfer.files[0]); });
   $('uBtn').onclick = function () {
-    var f = $('uFis').files[0]; if (!f) return toast('Alege un fișier.');
-    if (f.size > 20 * 1024 * 1024) return toast('Fișier prea mare.');
+    if (!fis) return;
     var rd = new FileReader();
     rd.onload = async function () {
-      $('uBtn').disabled = true; $('uRez').textContent = 'Se urcă...';
-      try { var r = await api('urca', { nume: f.name, mime: f.type, date: String(rd.result).split(',')[1], nota: $('uNota').value }); $('uRez').innerHTML = 'Urcat: <a target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(r.nume) + '</a>'; $('uFis').value = ''; $('uNota').value = ''; }
-      catch (e) { $('uRez').textContent = e.message; }
-      $('uBtn').disabled = false;
+      $('uBtn').disabled = true; $('uBtn').innerHTML = '<svg class="i rot" viewBox="0 0 24 24" aria-hidden="true">' + IC.refa + '</svg>Se urcă...';
+      try { var r = await api('urca', { nume: fis.name, mime: fis.type, date: String(rd.result).split(',')[1], nota: $('uNota').value }); $('uRez').innerHTML = '<div class="nota" style="background:var(--mossbg);color:var(--moss)">' + ic('bifa') + '<span>Am urcat <a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(r.url)) + '">' + esc(r.nume) + '</a>.</span></div>'; fis = null; $('uAles').innerHTML = ''; $('uFis').value = ''; $('uNota').value = ''; toast('Document urcat.'); }
+      catch (e) { $('uRez').innerHTML = '<div class="nota warn">' + esc(e.message) + '</div>'; }
+      $('uBtn').innerHTML = ic('urca') + 'Urcă documentul'; $('uBtn').disabled = !fis;
     };
-    rd.readAsDataURL(f);
+    rd.readAsDataURL(fis);
   };
 };
 
-// ---------- Asistent (API Anthropic, din creditele lunare incluse în abonamentul Claude Max al lui Sebastian; patru oameni, fiecare cu accesul lui) ----------
-var ASISTENT_URL = 'https://claude.ai/artifact/UHQPRVYQiR7D8wUBpSSB3c';
+// ---------- Asistent ----------
+var AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null, fis: [] };
 var AS_TEXT = '';
-function deschideAsistent(text) { AS_TEXT = text || ''; inchide(); location.hash = 'asistent'; }
-function md(t) {
-  var linii = String(t || '').split('\n'), out = [], tab = [], lista = [];
-  function inline(x) { return esc(x).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a target="_blank" rel="noopener" href="$2">$1</a>'); }
-  function golesteTab() { if (!tab.length) return;
-    var r = tab.filter(function (l) { return !/^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(l); });
-    out.push('<div class="tabwrap" style="max-height:none;margin:8px 0"><table>' + r.map(function (l, k) { var c = l.trim().replace(/^\||\|$/g, '').split('|'); return '<tr>' + c.map(function (x) { return (k ? '<td>' : '<th>') + inline(x.trim()) + (k ? '</td>' : '</th>'); }).join('') + '</tr>'; }).join('') + '</table></div>'); tab = []; }
-  function golesteLista() { if (!lista.length) return; out.push('<ul>' + lista.map(function (x) { return '<li>' + inline(x) + '</li>'; }).join('') + '</ul>'); lista = []; }
-  linii.forEach(function (l) {
-    if (/^\s*\|/.test(l)) { golesteLista(); tab.push(l); return; } golesteTab();
-    var m = /^\s*[-*] (.*)$/.exec(l); if (m) { lista.push(m[1]); return; } golesteLista();
-    var h = /^(#{1,3}) (.*)$/.exec(l); if (h) { out.push('<h3>' + inline(h[2]) + '</h3>'); return; }
-    out.push(l.trim() ? '<p style="margin:6px 0">' + inline(l) + '</p>' : '');
-  });
-  golesteTab(); golesteLista();
-  return out.join('');
-}
-function curataMesaj(t) { t = String(t || ''); var i = t.indexOf('[Mesajul despre acest task:]\n'); if (i >= 0) return t.slice(i + 29); return t.replace(/^\[[^\]]*\]\n(\[Atașamente[^\]]*\]\n)?/, ''); }
-var AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null };
-var ETICHETE = { cauta_drive: 'caut în Drive', lista_folder: 'citesc un folder', structura_sursa: 'mă uit în foi', citeste_foaie: 'citesc o foaie', citeste_fisier: 'citesc un fișier', task_nou: 'creez un task', bash: 'calculez', write: 'scriu un fișier', read: 'citesc' };
+var SUGESTII = {
+  asociat: ['Ce facturi neplătite are CODRU Festival SRL în noiembrie?', 'Fă-mi un Excel cu plățile programate săptămâna asta', 'Ce acte ale firmelor expiră în următoarele 60 de zile?', 'Rezumă ce a rămas deschis în DE CLARIFICAT'],
+  tamara: ['Găsește factura și spune-mi dacă e plătită', 'Fă-mi un Excel cu facturile de luna asta, pe furnizori', 'Ce documente lipsesc pentru dosarul de finanțare?', 'Explică-mi un punct din DE CLARIFICAT']
+};
 PAGINI.asistent = async function (m) {
   clearTimeout(AS.timer);
-  var ist, eu = {};
-  try { ist = await api('asistent_istoric'); } catch (e) { ist = { istoric: [] }; }
-  try { eu = await api('eu'); } catch (e) { }
-  var nepornit = eu.asistent === false;
-  m.innerHTML = '<div class="rand" style="justify-content:space-between"><h1>Asistent</h1><button class="btn sec mic" id="asNou">Conversație nouă</button></div>' +
-    '<p class="muted">' + (S.rol === 'asociat' ? 'Acces la tot ecosistemul.' : 'Vede TEG Finance, TEG Public Funding și documentele primite nominal.') + ' Face Excel-uri (ca foi Google), PDF-uri și rapoarte; primește atașamente.' + (ist.plafon ? ' Consum luna asta: ' + ist.cost_luna + ' $ din ' + ist.plafon + ' $.' : '') + '</p>' +
-    (S.id === 'sebastian' ? '<div class="card" style="margin-bottom:14px;padding:12px 16px"><b>Pe abonamentul tău Claude:</b> același asistent, direct în Claude, cu Google Drive-ul tău. <a target="_blank" rel="noopener" href="' + ASISTENT_URL + '">Deschide în Claude ↗</a></div>' : '') +
-    (nepornit ? '<div class="card" style="margin-bottom:14px;padding:12px 16px;border-color:#5e4b12"><b>Asistentul se pornește în curând.</b> <span class="muted">Până atunci, întrebările merg pe WhatsApp la Sebastian.</span></div>' : '') +
-    '<div class="grid" style="grid-template-columns:260px 1fr;align-items:start"><div class="card" style="padding:12px"><div class="grupt" style="margin-top:0">Conversațiile mele</div><div id="asIst"></div></div>' +
-    '<div class="card"><div id="asChat" style="min-height:240px;max-height:60vh;overflow:auto"></div><div class="spatiu"></div>' +
-    '<textarea id="asText" rows="3" placeholder="Scrie ce ai nevoie. Ex.: „Fă-mi un Excel cu facturile neachitate ale CODRU Festival SRL din octombrie, pe furnizori”"></textarea>' +
-    '<div class="rand" style="margin-top:8px;justify-content:space-between"><input type="file" id="asFis" multiple style="max-width:60%"><div class="rand"><button class="btn sec mic" id="asStop">Oprește</button><button class="btn" id="asTrimite">Trimite</button></div></div><p id="asStare" class="muted"></p></div></div>';
-  $('asIst').innerHTML = ist.istoric.length ? ist.istoric.map(function (x) { return '<a class="link" style="margin:6px 0;padding:8px 10px;font-size:13px" data-sid="' + esc(x.sid) + '">' + esc(x.titlu) + '<br><span class="muted">' + esc(x.la) + '</span></a>'; }).join('') : '<p class="muted">Încă nimic.</p>';
-  $('asIst').querySelectorAll('[data-sid]').forEach(function (a) { a.onclick = function () { deschideConv(a.dataset.sid); }; });
-  $('asNou').onclick = function () { AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null }; randeazaChat(); };
+  m.innerHTML = '<div class="cap" style="margin-bottom:16px"><div><h1>Asistent Claude</h1><p>' + (S.rol === 'asociat' ? 'Vede tot ecosistemul.' : 'Vede TEG Finance, TEG Public Funding și documentele primite pe nume.') + ' Face Excel-uri (ca foi Google), PDF-uri și rapoarte și primește atașamente.</p></div></div>' +
+    '<div class="as"><div class="panou as-ist"><div style="padding:10px"><button class="btn sec" id="asNou" style="width:100%;justify-content:center">' + ic('plus') + 'Conversație nouă</button></div><div class="lst" id="asIst"><div class="sk" style="height:40px;margin:6px"></div></div><div class="cost" id="asCost" hidden></div></div>' +
+    '<div class="panou as-main"><div class="as-chat" id="asChat"></div><p id="asStare" style="padding:0 28px 8px"></p>' +
+    '<div class="compune"><textarea id="asText" rows="2" placeholder="Scrie ce ai nevoie" aria-label="Mesaj pentru Claude"></textarea><div id="asAtas" style="display:flex;gap:6px;flex-wrap:wrap;padding:0 10px"></div><div class="bara"><label class="btn ghost mic" for="asFis" style="margin:0" title="Atașează fișiere">' + ic('clips') + 'Atașează</label><input type="file" id="asFis" class="sr" multiple><span class="mic-t">Ctrl + Enter trimite</span><div class="sp"></div><button class="btn ghost mic" id="asStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="asTrimite">' + ic('trimite') + 'Trimite</button></div></div></div></div>';
+  $('asNou').onclick = function () { clearTimeout(AS.timer); AS = { sid: null, dupa: null, ev: {}, ordine: [], timer: null, fis: [] }; randeazaChat(); marcheazaConv(); $('asText').focus(); };
   $('asTrimite').onclick = trimiteAs;
-  $('asStop').onclick = async function () { if (AS.sid) { try { await api('asistent_opreste', { sid: AS.sid }); toast('Oprit'); } catch (e) { toast(e.message); } } };
-  $('asText').addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteAs(); });
-  if (AS_TEXT) { $('asText').value = AS_TEXT; AS_TEXT = ''; $('asText').focus(); }
-  randeazaChat();
+  $('asStop').onclick = async function () { if (AS.sid) { try { await api('asistent_opreste', { sid: AS.sid }); toast('Am oprit răspunsul.'); } catch (e) { toast(e.message, { err: true }); } } };
+  $('asText').onkeydown = function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteAs(); };
+  $('asText').oninput = function () { this.style.height = 'auto'; this.style.height = Math.min(240, this.scrollHeight) + 'px'; };
+  $('asFis').onchange = function () { Array.from(this.files).forEach(function (f) { if (AS.fis.length < 5) AS.fis.push(f); }); this.value = ''; deseneazaAtas(); };
+  if (AS_TEXT) { $('asText').value = AS_TEXT; AS_TEXT = ''; }
+  randeazaChat(); deseneazaAtas();
+  if (AS.sid) sondeaza();
+  try { var ist = await api('asistent_istoric'); afiseazaIstoric(ist); } catch (e) { $('asIst').innerHTML = '<p class="mic-t" style="padding:10px">' + esc(e.message) + '</p>'; }
 };
+function afiseazaIstoric(ist) {
+  if (!$('asIst')) return;
+  $('asIst').innerHTML = ist.istoric.length ? ist.istoric.map(function (x) { return '<button type="button" data-sid="' + esc(x.sid) + '"><b>' + esc(x.titlu) + '</b><span>' + esc(x.la) + '</span></button>'; }).join('') : '<p class="mic-t" style="padding:10px">Conversațiile tale apar aici.</p>';
+  $('asIst').querySelectorAll('[data-sid]').forEach(function (b) { b.onclick = function () { deschideConv(b.dataset.sid); }; });
+  marcheazaConv();
+  if (ist.plafon) { var p = Math.min(100, Math.round(100 * ist.cost_luna / ist.plafon)); $('asCost').hidden = false; $('asCost').innerHTML = 'Consum luna asta: ' + esc(ist.cost_luna) + ' $ din ' + esc(ist.plafon) + ' $<div class="bara-c"><i style="width:' + p + '%"></i></div>'; }
+}
+function marcheazaConv() { if (!$('asIst')) return; $('asIst').querySelectorAll('[data-sid]').forEach(function (b) { b.classList.toggle('activ', b.dataset.sid === AS.sid); }); }
+function deseneazaAtas() { var e = $('asAtas'); if (!e) return; e.innerHTML = AS.fis.map(function (f, i) { return '<span class="fis">' + esc(f.name) + '<button type="button" data-i="' + i + '" aria-label="Scoate ' + esc(f.name) + '">' + ic('x') + '</button></span>'; }).join(''); e.querySelectorAll('button').forEach(function (b) { b.onclick = function () { AS.fis.splice(Number(b.dataset.i), 1); deseneazaAtas(); }; }); }
 function citesteFisiere(files) {
-  return Promise.all(Array.from(files || []).slice(0, 5).map(function (f) { return new Promise(function (ok, nu) {
-    if (f.size > 15 * 1024 * 1024) return nu(new Error('Fișier prea mare: ' + f.name));
-    var r = new FileReader(); r.onload = function () { ok({ nume: f.name, mime: f.type, date: String(r.result).split(',')[1] }); }; r.onerror = nu; r.readAsDataURL(f); }); }));
+  return Promise.all((files || []).slice(0, 5).map(function (f) { return new Promise(function (ok, nu) {
+    if (f.size > 15 * 1024 * 1024) return nu(new Error('Fișier prea mare (peste 15 MB): ' + f.name));
+    var r = new FileReader(); r.onload = function () { ok({ nume: f.name, mime: f.type, date: String(r.result).split(',')[1] }); }; r.onerror = function () { nu(new Error('Nu am putut citi ' + f.name)); }; r.readAsDataURL(f); }); }));
 }
 async function trimiteAs() {
   var text = $('asText').value.trim(); if (!text) return;
-  $('asTrimite').disabled = true; $('asStare').textContent = 'Trimit...';
+  $('asTrimite').disabled = true;
   try {
-    var atas = await citesteFisiere($('asFis').files);
+    var atas = await citesteFisiere(AS.fis);
+    var nou = !AS.sid;
     var r = await api('asistent_trimite', { sid: AS.sid, text: text, atasamente: atas });
-    if (!AS.sid) { AS.sid = r.sid; AS.dupa = null; }
-    $('asText').value = ''; $('asFis').value = '';
+    if (nou) { AS.sid = r.sid; AS.dupa = null; }
+    AS.ev.tmp = { t: 'user.message', text: text }; if (AS.ordine.indexOf('tmp') < 0) AS.ordine.push('tmp');
+    $('asText').value = ''; $('asText').style.height = ''; AS.fis = []; deseneazaAtas();
+    randeazaChat(true);
+    if (nou) api('asistent_istoric').then(afiseazaIstoric).catch(function () { });
     sondeaza();
-  } catch (e) { $('asStare').textContent = e.message; }
+  } catch (e) { $('asStare').innerHTML = '<span class="err">' + esc(e.message) + '</span>'; }
   $('asTrimite').disabled = false;
 }
-async function deschideConv(sid) { clearTimeout(AS.timer); AS = { sid: sid, dupa: null, ev: {}, ordine: [], timer: null }; randeazaChat(); sondeaza(); }
+async function deschideConv(sid) { clearTimeout(AS.timer); AS = { sid: sid, dupa: null, ev: {}, ordine: [], timer: null, fis: [] }; marcheazaConv(); $('asChat').innerHTML = '<div class="sk" style="height:16px;width:50%;margin:10px 0"></div><div class="sk" style="height:16px;width:70%"></div>'; sondeaza(); }
 async function sondeaza() {
   clearTimeout(AS.timer);
   if (!AS.sid || location.hash.slice(1) !== 'asistent') return;
+  var sid = AS.sid;
   try {
-    var r = await api('asistent_progres', { sid: AS.sid, dupa: AS.dupa });
-    r.evenimente.forEach(function (x) { if (!AS.ev[x.id]) { AS.ev[x.id] = x; AS.ordine.push(x.id); } if (x.la) AS.dupa = x.la; });
-    AS.fisiere = r.fisiere || AS.fisiere;
-    randeazaChat();
-    $('asStare').textContent = r.gata ? '' : 'Lucrez...';
+    var r = await api('asistent_progres', { sid: sid, dupa: AS.dupa });
+    if (AS.sid !== sid) return;
+    adaugaEvenimente(AS, r);
+    randeazaChat(!r.gata);
     if (!r.gata) AS.timer = setTimeout(sondeaza, 2500);
-  } catch (e) { if ($('asStare')) $('asStare').textContent = e.message; }
+  } catch (e) { if ($('asStare')) $('asStare').innerHTML = '<span class="err">' + esc(e.message) + '</span>'; }
 }
-function randeazaChat() {
+function randeazaChat(lucreaza) {
   var c = $('asChat'); if (!c) return;
-  if (!AS.sid) { c.innerHTML = '<p class="muted">Conversație nouă. Scrie mai jos.</p>'; return; }
-  var h = AS.ordine.map(function (id) {
-    var x = AS.ev[id];
-    if (x.t === 'user.message') return '<div style="margin:10px 0 10px 15%;background:var(--panel2);border-radius:14px;padding:10px 14px;white-space:pre-wrap">' + esc(curataMesaj(x.text)) + '</div>';
-    if (x.t === 'agent.message') return '<div style="margin:10px 15% 10px 0">' + md(x.text) + '</div>';
-    if (x.unealta) return '<div class="muted" style="font-size:12px">· ' + esc(ETICHETE[x.unealta] || x.unealta) + '</div>';
-    if (x.t === 'session.error') return '<div style="color:var(--hot)">' + esc(x.text) + '</div>';
-    return '';
-  }).join('');
-  if (AS.fisiere && AS.fisiere.length) h += '<div class="rand" style="margin:10px 0">' + AS.fisiere.map(function (f) { return '<a class="btn sec mic" target="_blank" rel="noopener" href="' + esc(f.url) + '">' + esc(f.nume) + ' ↗</a>'; }).join('') + '</div>';
-  c.innerHTML = h; c.scrollTop = c.scrollHeight;
+  $('asStop').hidden = !lucreaza;
+  $('asStare').innerHTML = lucreaza ? '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Claude lucrează</span>' : '';
+  if (!AS.sid && !AS.ordine.length) {
+    var sg = SUGESTII[S.rol] || SUGESTII.asociat;
+    c.innerHTML = '<div class="as-gol"><h2>Cu ce te ajut?</h2><p class="muted">Întreabă de facturi, plăți, acte, termene sau cere un Excel ori un PDF. Răspunsul spune de unde a luat fiecare cifră.</p><div class="sugestii">' + sg.map(function (s) { return '<button type="button">' + esc(s) + '</button>'; }).join('') + '</div></div>';
+    c.querySelectorAll('.sugestii button').forEach(function (b) { b.onclick = function () { $('asText').value = b.textContent; $('asText').focus(); }; });
+    return;
+  }
+  c.innerHTML = '<div class="chat">' + mesajeHtml(AS) + '</div>';
+  c.scrollTop = c.scrollHeight;
 }
 
 // ---------- Bot WhatsApp ----------
 PAGINI.bot = async function (m) {
   var f = [
     ['Factură nouă', 'PDF sau poză clară trimisă botului, plus textul: proiect / departament / detalii (ex. CODRU 26 / ART / avans artist). Fără reply, fără mesaje vocale. Confirmarea vine în 1-2 minute.'],
-    ['Mai multe facturi deodată', 'Toate fișierele unul după altul, apoi un singur text dacă au același proiect și departament. Proiecte diferite = loturi separate.'],
+    ['Mai multe facturi deodată', 'Toate fișierele unul după altul, apoi un singur text dacă au același proiect și departament. Proiecte diferite înseamnă loturi separate.'],
     ['Corecturi', 'Reply la factură sau la confirmare: „schimbă departamentul în MKT”, „CODRU 26 / PROD / consumabile”. Din chat se schimbă doar proiectul, departamentul și detaliile; restul îl face Tamara.'],
     ['Anulare', 'Reply la factură cu „anulează” (și motivul). Cererea ajunge la Tamara; dacă există cerere de plată, e marcată „NU PLĂTI”.'],
     ['Cerere de plată', 'Reply la confirmare: „cer plata / integral sau parțial suma / termen / mențiuni”. Primești codul P-XXXX; aprobarea o dau Sebastian, Victor sau Darius.'],
@@ -481,48 +1116,74 @@ PAGINI.bot = async function (m) {
     ['Proforme, bonuri, dovezi de plată', 'Se trimit la fel; botul le leagă de factură când o găsește.'],
     ['Șefii de departament', 'Primesc pe mail fiecare factură înregistrată pe departamentele lor, cu PDF-ul atașat.']
   ];
-  var h = '<h1>Bot WhatsApp „TEG Facturi”</h1><p class="muted">Ce face botul azi (din ghidul pentru echipă, 09.10.2026).</p><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">' + f.map(function (x) { return '<div class="card"><h3>' + esc(x[0]) + '</h3><p class="muted" style="margin:0">' + esc(x[1]) + '</p></div>'; }).join('') + '</div>';
-  h += '<div class="grupt">Ghiduri (PDF)</div><div class="grid"><a class="link" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1AwXQsZcWlalYcnw6ode1P7u5uIEB5Zk3/view">Ghid echipă: facturi și cereri de plată ↗</a><a class="link" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1peqQkvZukPWeZReiG3EQEDiKmXJVl-Dy/view">Ghid Tamara: plăți și cash flow ↗</a>' + (S.rol === 'asociat' ? '<a class="link" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1EY9OO1RMr-IJC3yt-d3W6l6EpqQPzAZR/view">Ghid admini (complet) ↗</a>' : '') + '</div>';
-  h += '<div class="spatiu"></div><div class="card"><h3>O funcție nouă pentru bot?</h3><p class="muted" style="margin:0">Creează un task cu „Bot:” în titlu și descrie ce vrei să facă. Implementarea trece prin repo-ul botului, cu teste, și apare aici după publicare.</p></div>';
-  m.innerHTML = h;
+  var g = [['Ghid echipă: facturi și cereri de plată', 'https://drive.google.com/file/d/1AwXQsZcWlalYcnw6ode1P7u5uIEB5Zk3/view'], ['Ghid Tamara: plăți și cash flow', 'https://drive.google.com/file/d/1peqQkvZukPWeZReiG3EQEDiKmXJVl-Dy/view']];
+  if (S.rol === 'asociat') g.push(['Ghid admini (complet)', 'https://drive.google.com/file/d/1EY9OO1RMr-IJC3yt-d3W6l6EpqQPzAZR/view']);
+  m.innerHTML = '<div class="cap"><div><h1>Bot WhatsApp „TEG Facturi”</h1><p>Ce face botul azi și cum îi scrii (din ghidul pentru echipă, 09.10.2026).</p></div></div>' +
+    '<div class="panou reguli">' + f.map(function (x) { return '<div><b>' + esc(x[0]) + '</b><p>' + esc(x[1]) + '</p></div>'; }).join('') + '</div>' +
+    '<div class="sectiune"><h2>Ghiduri</h2><div class="linkuri">' + g.map(function (x) { return '<a class="lk" target="_blank" rel="noopener noreferrer" href="' + esc(x[1]) + '"><span class="ic">' + ic('contracte') + '</span><span><b>' + esc(x[0]) + '</b><span>PDF în Drive</span></span></a>'; }).join('') + '</div></div>' +
+    '<div class="sectiune"><div class="nota">O funcție nouă pentru bot? Creează un task cu „Bot:” în titlu și descrie ce vrei să facă. Modificarea trece prin bot, cu teste, și apare aici după publicare.</div></div>';
 };
 
 // ---------- Jurnal ----------
-PAGINI.jurnal = async function (m) {
-  var d = await api('jurnal');
-  m.innerHTML = '<h1>Jurnal</h1><p class="muted">' + (S.rol === 'asociat' ? 'Ultimele acțiuni din platformă.' : 'Acțiunile tale din platformă.') + '</p><div class="tabwrap"><table><tr><th>Când</th><th>Cine</th><th>Acțiune</th><th>Detalii</th></tr>' + d.randuri.map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td>' + esc(r[3]) + '</td><td>' + esc(r[4]) + '</td></tr>'; }).join('') + '</table></div>';
+PAGINI.jurnal = function (m) {
+  return incarca(m, 'jurnal', 'jurnal', {}, function (d, m) {
+    m.innerHTML = '<div class="cap"><div><h1>Jurnal</h1><p>' + (S.rol === 'asociat' ? 'Ultimele acțiuni din platformă: intrări, taskuri, documente, asistent.' : 'Acțiunile tale din platformă.') + '</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="jQ" placeholder="Caută în jurnal" aria-label="Caută în jurnal"></div></div></div>' +
+      '<div class="tabwrap"><table><thead><tr><th>Când</th><th>Cine</th><th>Acțiune</th><th>Detalii</th></tr></thead><tbody id="jB">' + d.randuri.map(function (r) { var a = String(r[3] || ''); var c = /RESPINS|EROARE/.test(a) ? 'hot' : /LOGIN/.test(a) ? 'info' : ''; return '<tr><td style="white-space:nowrap">' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td><span class="pill ' + c + '">' + esc(a.charAt(0) + a.slice(1).toLowerCase()) + '</span></td><td>' + esc(r[4]) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    $('jQ').oninput = function () { var q = this.value; $('jB').querySelectorAll('tr').forEach(function (tr) { tr.hidden = !filtreazaText(q, tr.textContent); }); };
+  });
 };
 
-// ---------- Chei (asociați) ----------
+// ---------- Parole ----------
 PAGINI.chei = async function (m) {
-  var h = '<h1>Parole</h1>';
-  h += '<div class="card" style="max-width:560px"><h3 style="margin-top:0">Parola mea</h3><p class="muted" style="margin-top:0">Parola contului cu care ești intrat (minimum 8 caractere). Parola veche se oprește și intri din nou cu cea nouă.</p><label for="pP1">Parola nouă</label><input id="pP1" type="password" autocomplete="new-password"><label for="pP2">Parola nouă, încă o dată</label><input id="pP2" type="password" autocomplete="new-password"><div class="spatiu"></div><button class="btn" id="pSet">Setează parola mea</button></div>';
-  if (S.rol === 'asociat') {
-    var d = await api('chei');
-    h += '<div class="spatiu"></div><h2>Conturile</h2>';
-    h += '<div class="tabwrap"><table><tr><th>Cont</th><th>Acces</th><th>Stare</th><th>Setată</th><th>Ultima intrare</th></tr>' + d.chei.map(function (k) { return '<tr><td>' + esc(k.nume) + '</td><td>' + (k.rol === 'asociat' ? 'tot ecosistemul' : 'acces Tamara') + '</td><td>' + (k.activ ? '<span class="pill ok">activ</span>' : '<span class="pill hot">oprit</span>') + '</td><td>' + esc(k.creat) + '</td><td>' + esc(k.ultima || '-') + '</td></tr>'; }).join('') + '</table></div>';
-    h += '<div class="spatiu"></div><div class="card" style="max-width:560px"><h3 style="margin-top:0">Parola contului Tamara</h3><label for="tP1">Parola nouă</label><input id="tP1" type="password" autocomplete="new-password"><label for="tP2">Parola nouă, încă o dată</label><input id="tP2" type="password" autocomplete="new-password"><div class="spatiu"></div><button class="btn" id="tSet">Setează parola Tamarei</button></div>';
-  }
+  var form = function (id, titlu, buton, nota) { return '<form class="panou pad" id="' + id + '" style="max-width:520px"><h2>' + titlu + '</h2>' + (nota ? '<p class="mic-t" style="margin-top:6px">' + nota + '</p>' : '') + '<label for="' + id + '1">Parola nouă</label><input id="' + id + '1" type="password" autocomplete="new-password" minlength="8" required><label for="' + id + '2">Parola nouă, încă o dată</label><input id="' + id + '2" type="password" autocomplete="new-password" minlength="8" required><button class="btn" type="submit" style="margin-top:16px">' + buton + '</button></form>'; };
+  var h = '<div class="cap"><div><h1>Parole</h1><p>Parolele se păstrează doar ca amprentă. După schimbare, sesiunile deschise cu parola veche se închid.</p></div></div>';
+  h += form('fMea', 'Parola contului ' + esc(S.nume || ''), 'Schimbă parola', 'Minimum 8 caractere. Dacă e contul comun, anunță-i și pe ceilalți.');
+  if (S.rol === 'asociat') { h += '<div class="sectiune"><h2>Conturile</h2><div class="tabwrap" style="max-width:820px"><table><thead><tr><th>Cont</th><th>Acces</th><th>Stare</th><th>Setată</th><th>Ultima intrare</th></tr></thead><tbody id="kB"><tr><td colspan="5"><div class="sk" style="height:14px"></div></td></tr></tbody></table></div></div><div class="sectiune">' + form('fTam', 'Parola contului Tamara', 'Schimbă parola Tamarei') + '</div>'; }
   m.innerHTML = h;
-  $('pSet').onclick = async function () {
-    var a = $('pP1').value, b = $('pP2').value;
-    if (a.trim().length < 8) { toast('Minimum 8 caractere.'); return; }
-    if (a !== b) { toast('Parolele nu se potrivesc.'); return; }
-    try { await api('parola_proprie', { parola: a }); $('pP1').value = ''; $('pP2').value = ''; toast('Parola ta e setată: intră din nou cu ea.'); setTimeout(iesire, 1500); }
-    catch (e) { toast(e.message); }
-  };
+  var verif = function (a, b) { if (a.trim().length < 8) { toast('Parola are minimum 8 caractere.', { err: true }); return false; } if (a !== b) { toast('Parolele nu se potrivesc.', { err: true }); return false; } return true; };
+  $('fMea').onsubmit = async function (ev) { ev.preventDefault(); var a = $('fMea1').value, b = $('fMea2').value; if (!verif(a, b)) return; try { await api('parola_proprie', { parola: a }); toast('Parola e schimbată. Intră din nou cu ea.'); setTimeout(function () { iesire(true); }, 1500); } catch (e) { toast(e.message, { err: true }); } };
   if (S.rol !== 'asociat') return;
-  $('tSet').onclick = async function () {
-    var a = $('tP1').value, b = $('tP2').value;
-    if (a.trim().length < 8) { toast('Minimum 8 caractere.'); return; }
-    if (a !== b) { toast('Parolele nu se potrivesc.'); return; }
-    try { await api('parola_proprie', { id: 'tamara', parola: a }); $('tP1').value = ''; $('tP2').value = ''; toast('Parola Tamarei e schimbată.'); PAGINI.chei(m); }
-    catch (e) { toast(e.message); }
-  };
+  $('fTam').onsubmit = async function (ev) { ev.preventDefault(); var a = $('fTam1').value, b = $('fTam2').value; if (!verif(a, b)) return; try { await api('parola_proprie', { id: 'tamara', parola: a }); $('fTam1').value = ''; $('fTam2').value = ''; toast('Parola Tamarei e schimbată.'); mergi('chei', true); } catch (e) { toast(e.message, { err: true }); } };
+  try { var d = await api('chei'); $('kB').innerHTML = d.chei.map(function (k) { return '<tr><td><b>' + esc(k.nume) + '</b></td><td>' + (k.rol === 'asociat' ? 'acces complet' : 'acces Tamara') + '</td><td>' + (k.activ ? '<span class="pill ok">activ</span>' : '<span class="pill hot">oprit</span>') + '</td><td>' + esc(k.creat) + '</td><td>' + esc(k.ultima || '-') + '</td></tr>'; }).join(''); } catch (e) { $('kB').innerHTML = '<tr><td colspan="5" class="err">' + esc(e.message) + '</td></tr>'; }
 };
 
+// ---------- paleta de comenzi (Ctrl K) ----------
+function deschidePaleta() {
+  if ($('paleta')) return;
+  var p = document.createElement('div'); p.id = 'paleta';
+  p.innerHTML = '<div class="pal" role="dialog" aria-label="Caută sau sari la"><div class="pal-in">' + ic('cauta') + '<input id="palQ" placeholder="Caută o pagină, un task sau o acțiune" aria-label="Caută" autocomplete="off"><kbd class="mic-t">Esc</kbd></div><div class="pal-l" id="palL"></div></div>';
+  document.body.appendChild(p);
+  p.onclick = function (e) { if (e.target === p) inchidePaleta(); };
+  var tk = (citesteC('taskuri_deschise') || citesteC('taskuri_toate') || { d: { taskuri: [] } }).d.taskuri;
+  var actiuni = [
+    { g: 'Acțiuni', t: 'Task nou', i: 'plus', f: function () { mergi('taskuri'); setTimeout(formTaskNou, 60); } },
+    { g: 'Acțiuni', t: 'Întreabă-l pe Claude', i: 'asistent', f: function () { location.hash = 'asistent'; } },
+    { g: 'Acțiuni', t: 'Urcă un document', i: 'urca', f: function () { location.hash = 'urca'; } },
+    { g: 'Acțiuni', t: 'Schimbă tema', i: 'luna', f: function () { $('btnTema').click(); } },
+    { g: 'Acțiuni', t: 'Ieșire', i: 'iesire', f: function () { iesire(); } }
+  ];
+  var pagini = NAV.filter(function (n) { return n.p; }).map(function (n) { return { g: 'Pagini', t: n.t, i: n.i, f: function () { location.hash = n.p; } }; });
+  var taskuri = tk.map(function (t) { return { g: 'Taskuri', t: t.Titlu, s: t.ID, i: 'taskuri', f: function () { deschideTask(t.ID); } }; });
+  var sel = 0, rez = [];
+  var des = function () {
+    var q = $('palQ').value;
+    rez = pagini.concat(actiuni).filter(function (x) { return filtreazaText(q, x.t); }).concat(q ? taskuri.filter(function (x) { return filtreazaText(q, x.t + ' ' + x.s); }).slice(0, 8) : []);
+    sel = Math.min(sel, Math.max(0, rez.length - 1));
+    var g = '', h = '';
+    rez.forEach(function (x, k) { if (x.g !== g) { g = x.g; h += '<div class="gr">' + esc(g) + '</div>'; } h += '<button type="button" data-k="' + k + '" class="' + (k === sel ? 'sel' : '') + '">' + ic(x.i) + '<span>' + esc(x.t) + '</span>' + (x.s ? '<span class="s">' + esc(x.s) + '</span>' : '') + '</button>'; });
+    $('palL').innerHTML = h || '<div class="nimic">Nimic găsit.</div>';
+    $('palL').querySelectorAll('button').forEach(function (b) { b.onclick = function () { executa(Number(b.dataset.k)); }; b.onmousemove = function () { if (sel !== Number(b.dataset.k)) { sel = Number(b.dataset.k); des(); } }; });
+    var s = $('palL').querySelector('.sel'); if (s) s.scrollIntoView({ block: 'nearest' });
+  };
+  var executa = function (k) { var x = rez[k]; if (!x) return; inchidePaleta(); x.f(); };
+  $('palQ').oninput = function () { sel = 0; des(); };
+  $('palQ').onkeydown = function (e) { if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(rez.length - 1, sel + 1); des(); } else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(0, sel - 1); des(); } else if (e.key === 'Enter') { e.preventDefault(); executa(sel); } };
+  des(); $('palQ').focus();
+}
+function inchidePaleta() { var p = $('paleta'); if (p) p.remove(); }
 
-if (S.sesiune) porneste(); else { $('burger').style.display = 'none'; }
+// ---------- pornire ----------
+if (S.sesiune) porneste(); else { $('login').hidden = false; deseneazaContur(); setTimeout(function () { $('cheie').focus(); }, 50); }
 </script>
 </body>
 </html>
