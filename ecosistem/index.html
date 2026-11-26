@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Jgd/wlVMLQ8XQm2FBTSvhlUmur8nOkDjft5BFWOYm20='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-FT2qxl6pQiXD6AEqmkqPT71vnKzIwHs6UI0OR1ZEYMw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
 <meta name="theme-color" content="#EDF1EC">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -335,6 +335,30 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 .fr-jos .compune{margin:0}
 .fr-jos .compune textarea{min-height:44px}
 #drawer.editez .fr-jos{display:none}
+.fl-firma{all:unset;cursor:pointer}.fl-firma:hover{color:var(--moss)}.fl-firma:focus-visible{outline:2px solid var(--moss);outline-offset:2px;border-radius:4px}
+.acte-l{margin:12px 0 0;padding-left:18px;line-height:1.8}
+.dl-c{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:6px 12px;margin:12px 0 0;font-size:14px}.dl-c dt{color:var(--ink3)}.dl-c dd{margin:0;overflow-wrap:anywhere}
+.auto-c .ic{width:40px;height:40px;flex:none;border-radius:12px;background:var(--mossbg);color:var(--moss);display:grid;place-items:center}
+.fr-meta-t{margin:0;color:var(--ink2);font-size:14px;line-height:1.5}
+.fr-ev.cl{border-left-color:var(--blue)}.fr-ev.cl .x{color:var(--ink);font-size:14.5px}
+.placuta{display:inline-flex;align-items:stretch;border:2px solid var(--ink);border-radius:7px;overflow:hidden;background:#fff;color:#14231A;font-weight:800;font-size:19px;letter-spacing:.06em}
+.placuta span{background:#0A4A7C;color:#fff;font-size:10px;font-weight:700;padding:3px 5px;display:flex;align-items:flex-end;letter-spacing:0;margin-right:10px}
+.placuta{padding-right:12px}
+.acte-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.act-p{display:flex;flex-direction:column;padding:9px 11px;border-radius:10px;background:var(--surface2)}
+.act-p span{font-size:12px;font-weight:700;color:var(--ink2)}.act-p b{font-size:15px;font-variant-numeric:tabular-nums}.act-p i{font-style:normal;font-size:12px;font-weight:600;color:var(--ink3)}
+.act-p.rau{background:var(--rustbg)}.act-p.rau i{color:var(--rust)}.act-p.curand{background:var(--amberbg)}.act-p.curand i{color:var(--amber)}
+.auto-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.auto-c{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:var(--r3);background:var(--surface);box-shadow:var(--sh);border:1px solid transparent;transition:transform .15s var(--ease)}
+.auto-c:hover{transform:translateY(-2px)}.auto-c:focus-visible{outline:2px solid var(--moss);outline-offset:2px}
+.auto-c.rau{border-color:var(--rust)}
+.auto-c h3{margin:0;font-size:17px}.auto-c .sub{font-size:13.5px;color:var(--ink2)}.auto-c .jos{padding-top:10px;border-top:1px solid var(--line2);font-size:13px;color:var(--ink3)}
+.bifa-t{all:unset;box-sizing:border-box;cursor:pointer;width:26px;height:26px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;background:var(--surface)}
+.bifa-t.da{background:var(--moss);border-color:var(--moss);color:#fff}.bifa-t svg.i{width:15px;height:15px}
+tr.rand-fisa{cursor:pointer}tr.rand-fisa:hover td{background:var(--surface2)}
+.taburi{display:inline-flex;gap:4px;padding:4px;background:var(--sunk);border-radius:12px;margin-bottom:16px}
+.taburi button{all:unset;cursor:pointer;height:36px;padding:0 14px;border-radius:9px;font-size:14px;font-weight:650;color:var(--ink2)}
+.taburi button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--sh)}
 .fr-gata{width:100%;justify-content:center;height:46px;font-size:15.5px}
 /* conversații cu Claude */
 .chat{display:flex;flex-direction:column;gap:14px}
@@ -438,6 +462,7 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
  .rezumat a{flex:1 1 50%;border-bottom:1px solid var(--line2)}
  .meta{grid-template-columns:1fr 1fr}
  .campuri{grid-template-columns:1fr}
+ .fr-asist-cap .mic-t{display:none}
  .dr-corp{padding:18px 16px 24px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
@@ -489,7 +514,7 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 
 <script>
 'use strict';
-var VER = '0.4.3';
+var VER = '0.5.0';
 if (window.top !== window.self) { document.documentElement.innerHTML = ''; throw new Error('încadrat'); }
 var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
 var S = { sesiune: null };
@@ -530,6 +555,7 @@ var IC = {
  stop: '<rect x="6" y="6" width="12" height="12" rx="2"/>',
  refa: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>',
  foaie: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/>',
+ masina: '<path d="M3 16V8a1 1 0 0 1 1-1h10v9M14 10h4l3 3v3h-7"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>',
  dosar: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'
 };
 function ic(n) { return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">' + (IC[n] || '') + '</svg>'; }
@@ -634,9 +660,9 @@ function deseneazaContur() {
 // ---------- cadrul ----------
 var NAV = [
   { p: 'azi', t: 'Azi', i: 'azi' }, { p: 'taskuri', t: 'Taskuri', i: 'taskuri' }, { p: 'clarificat', t: 'De clarificat', i: 'clarificat' },
-  { p: 'termene', t: 'Termene și expirări', i: 'termene' }, { p: 'firme', t: 'Firme', i: 'firme' },
+  { p: 'termene', t: 'Termene și expirări', i: 'termene' }, { p: 'firme', t: 'Firme', i: 'firme' }, { p: 'auto', t: 'Auto', i: 'masina' }, { p: 'contracte', t: 'Contracte', i: 'contracte' },
   { gr: 'Lucru' }, { p: 'asistent', t: 'Asistent Claudiu', i: 'asistent' }, { p: 'urca', t: 'Urcă document', i: 'urca' }, { p: 'linkuri', t: 'Link-uri utile', i: 'linkuri' },
-  { p: 'bot', t: 'Bot WhatsApp', i: 'bot' }, { ext: 'https://smm2424.github.io/oportunitati/contracte/', t: 'Contracte', i: 'contracte' },
+  { p: 'bot', t: 'Bot WhatsApp', i: 'bot' },
   { gr: 'Cont' }, { p: 'jurnal', t: 'Jurnal', i: 'jurnal' }, { p: 'chei', t: 'Parole', i: 'chei' }
 ];
 function titluPagina(p) { var n = NAV.filter(function (x) { return x.p === p; })[0]; return n ? n.t : ''; }
@@ -931,17 +957,76 @@ async function deschideTask(id) {
   $('tcText').oninput = function () { this.style.height = 'auto'; this.style.height = Math.min(200, this.scrollHeight) + 'px'; };
   pornesteClaudeTask(id);
 }
+// ---------- Fișa generică: termen, firmă, mașină, contract (aceeași formă ca fișa taskului) ----------
+async function urcaPeFisa(k, files) {
+  var citite = [];
+  for (var i = 0; i < files.length; i++) {
+    var c = await citesteFisier(files[i]); citite.push(c);
+    var r = await api('urca', { nume: c.nume, mime: c.mime, date: c.date, nota: 'Atașament la fișa ' + k });
+    await api('fisa_mesaj', { cheie: k, text: 'Atașament: ' + r.nume + ' ' + r.url }); c.url = r.url; c.idDrive = r.id;
+  }
+  return citite;
+}
+function firHtml(fir) {
+  return '<div class="fr-ist">' + fir.map(function (f) { return '<div class="fr-ev' + (f.tip === 'notă' || f.tip === 'mesaj' ? ' om' : f.tip === 'claudiu' ? ' cl' : '') + '"><span class="c">' + esc(f.cine) + ', ' + esc(f.cand) + '</span><span class="x">' + linkuri(f.text) + '</span></div>'; }).join('') + '</div>';
+}
+async function deschideFisa(o) {
+  deschideDrawer('<div class="dr-cap"><span class="sk" style="width:60px;height:20px"></span><div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp"><div class="sk" style="height:28px;width:80%"></div><div class="sk" style="height:120px;margin-top:24px"></div></div>');
+  var d; try { d = await api('fisa_fir', { cheie: o.cheie }); } catch (e) { d = { fir: [], eroare: e.message }; }
+  FT = { fis: [] };
+  var h = '<div class="dr-cap">' + (o.pastile || []).map(function (x) { return '<span class="pill ' + (x[1] || '') + '">' + esc(x[0]) + '</span>'; }).join('') + '<div class="sp"></div><button class="ib" data-inchide aria-label="Închide">' + ic('x') + '</button></div><div class="dr-corp">';
+  h += '<h2 class="fr-titlu">' + esc(o.titlu) + '</h2>' + (o.meta ? '<p class="fr-meta-t">' + o.meta + '</p>' : '') + (o.sus || '');
+  if ((o.rapid || []).length) h += '<div class="fr-rapid">' + o.rapid.map(function (r, i) { return '<button class="btn sec mic" data-r="' + i + '">' + esc(r.t) + '</button>'; }).join('') + '</div>';
+  h += '<div class="fr-asist"><div class="fr-asist-cap">' + ic('asistent') + '<b>Asistent Claudiu</b><span class="mic-t">atașezi actul, el îl pune la locul lui</span></div>' + (d.eroare ? '<p class="err">' + esc(d.eroare) + '</p>' : firHtml(d.fir)) + '<div id="tcChat" class="chat"></div><p id="tcStare" style="margin-top:10px"></p></div></div>';
+  h += '<div class="fr-jos"><div class="compune"><textarea id="tcText" rows="2" placeholder="Scrie-i lui Claudiu sau atașează actul" aria-label="Mesaj pentru Claudiu"></textarea><div id="frAtas" class="atas-l" style="padding:0 10px"></div><div class="bara"><label class="ib" for="frFis" title="Atașează fișiere" aria-label="Atașează fișiere">' + ic('clips') + '</label><input type="file" id="frFis" class="sr" multiple><button class="btn ghost mic" id="frNota">Doar notă</button>' + (S.rol === 'tamara' ? '<button class="btn ghost mic" id="dSebi">Și lui Sebi</button>' : '') + '<div class="sp"></div><button class="btn ghost mic" id="tcStop" hidden>' + ic('stop') + 'Oprește</button><button class="btn mic" id="tcTrimite">' + ic('trimite') + 'Trimite</button></div></div>' + (o.jos ? '<button class="btn fr-gata' + (o.jos.sec ? ' sec' : '') + '" id="frGata">' + ic('bifa') + esc(o.jos.t) + '</button>' : '') + '</div>';
+  deschideDrawer(h);
+  var dr = $('drawer');
+  dr.querySelectorAll('[data-r]').forEach(function (b) { b.onclick = function () { o.rapid[Number(b.dataset.r)].f(); }; });
+  if (o.jos) $('frGata').onclick = function () { o.jos.f(); };
+  var desAtas = function () { $('frAtas').innerHTML = FT.fis.map(function (f, i) { return '<span class="fis">' + esc(f.name) + '<button type="button" data-i="' + i + '" aria-label="Scoate ' + esc(f.name) + '">' + ic('x') + '</button></span>'; }).join(''); $('frAtas').querySelectorAll('button').forEach(function (b) { b.onclick = function () { FT.fis.splice(Number(b.dataset.i), 1); desAtas(); }; }); };
+  $('frFis').onchange = function () { Array.from(this.files).forEach(function (f) { if (FT.fis.length < 5) FT.fis.push(f); }); this.value = ''; desAtas(); };
+  var nota = async function (sebi) {
+    var txt = $('tcText').value.trim(); if (!txt && !FT.fis.length) return;
+    try { if (FT.fis.length) { await urcaPeFisa(o.cheie, FT.fis); FT.fis = []; } if (txt) await api('fisa_mesaj', { cheie: o.cheie, text: txt, sebi_stie: !!sebi }); toast(sebi ? 'Trimis lui Sebi în Cockpit.' : 'Am adăugat în istoric.'); deschideFisa(o); }
+    catch (e) { toast(e.message, { err: true }); }
+  };
+  $('frNota').onclick = function () { nota(false); };
+  if ($('dSebi')) $('dSebi').onclick = function () { nota(true); };
+  $('tcText').oninput = function () { this.style.height = 'auto'; this.style.height = Math.min(200, this.scrollHeight) + 'px'; };
+  pornesteClaude(o.cheie, { fisa: o.cheie }, function (f) { return urcaPeFisa(o.cheie, f); });
+}
+function actePill(a) { return '<span class="act-p ' + (a.zile === null ? '' : a.zile < 0 ? 'rau' : a.zile <= 30 ? 'curand' : '') + '"><span>' + esc(a.tip) + '</span><b>' + esc(a.data) + '</b><i>' + (a.zile === null ? '' : a.zile < 0 ? 'expirat de ' + (-a.zile) + ' zile' : a.zile === 0 ? 'azi' : 'peste ' + a.zile + ' zile') + '</i></span>'; }
+function placuta(nr) { return '<span class="placuta"><span>RO</span>' + esc(nr) + '</span>'; }
+function lk(u, t) { return u ? '<a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(u)) + '">' + esc(t) + '</a>' : ''; }
+function deschideFisaAuto(v) {
+  var rau = v.acte.filter(function (a) { return a.zile !== null && a.zile < 0; }).length;
+  deschideFisa({ cheie: 'auto:' + v.nr, titlu: v.vehicul, pastile: [['Auto'], [v.stare || 'fără stare', /^activ/i.test(v.stare) ? 'ok' : 'info']].concat(rau ? [[rau + (rau === 1 ? ' act expirat' : ' acte expirate'), 'hot']] : []),
+    meta: esc([v.proprietar, v.responsabil].filter(String).join(' · ')),
+    sus: '<div style="margin:12px 0">' + placuta(v.nr) + '</div><div class="acte-g">' + v.acte.map(actePill).join('') + '</div>' +
+      '<p class="fr-meta-t" style="margin-top:12px">' + [lk(v.folder, 'Folderul de acte'), lk(v.talon, 'Talon'), lk(v.rca, 'RCA'), lk(v.act, 'ITP / CASCO')].filter(String).join(' · ') + '</p>' +
+      (v.km || v.leasing || v.asigurator ? '<p class="fr-meta-t">' + esc([v.km && ('Km: ' + v.km), v.leasing && ('Leasing: ' + v.leasing), v.asigurator && ('RCA: ' + v.asigurator)].filter(Boolean).join(' · ')) + '</p>' : '') +
+      (v.observatii ? '<div class="detalii">' + esc(v.observatii) + '</div>' : '') });
+}
+function deschideFisaTermen(t, dupa) {
+  var schimba = async function () { try { await api('termen_stare', { cheie: t.cheie, rezolvat: !t.rezolvat }); t.rezolvat = !t.rezolvat; toast(t.rezolvat ? 'Scos din urmărire. Îl găsești în Istoric.' : 'Readus la urmărit.'); inchide(); if (dupa) dupa(); } catch (e) { toast(e.message, { err: true }); } };
+  var masina = t.categorie === 'Auto' && t.nr ? [{ t: 'Vezi mașina', f: async function () { try { var a = await api('auto', {}); var v = a.vehicule.filter(function (x) { return x.nr === t.nr; })[0]; if (v) deschideFisaAuto(v); } catch (e) { toast(e.message, { err: true }); } } }] : [];
+  deschideFisa({ cheie: t.cheie, titlu: t.ce, pastile: [[t.categorie], t.rezolvat ? ['scos din urmărire', 'ok'] : t.zile !== null && t.zile < 0 ? ['expirat', 'hot'] : ['de urmărit', 'info']],
+    meta: esc(t.cine) + ' · ' + esc(t.data) + ' ' + zilePill(t.zile) + (t.rezolvat && t.rezolvatDe ? '<br><span class="mic-t">Scos de ' + esc(t.rezolvatDe) + ', ' + esc(t.rezolvatLa || '') + (t.nota ? ': ' + esc(t.nota) : '') + '</span>' : ''),
+    sus: t.url ? '<p class="fr-meta-t">' + lk(t.url, 'Deschide actul') + '</p>' : '', rapid: masina,
+    jos: t.rezolvat ? { t: 'Readu la urmărit', f: schimba, sec: true } : { t: 'Gata, nu mai urmărim', f: schimba } });
+}
 function zileDin(s) { var v = inInputData(s); if (!v) return null; var a = new Date(); a.setHours(0, 0, 0, 0); return Math.round((new Date(v + 'T00:00:00') - a) / 864e5); }
 
 // ---------- Claudiu pe un task ----------
 var TC = { task: null, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
-async function pornesteClaudeTask(id) {
-  clearTimeout(TC.timer); TC = { task: id, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
+function pornesteClaudeTask(id) { return pornesteClaude(id, { task: id }, function (f) { return urcaPeTask(id, f); }); }
+async function pornesteClaude(id, arg, urca) {
+  clearTimeout(TC.timer); TC = { task: id, arg: arg, urca: urca, sid: null, dupa: null, ev: {}, ordine: [], timer: null };
   $('tcTrimite').onclick = trimiteTC;
   $('tcText').onkeydown = function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) trimiteTC(); };
   $('tcStop').onclick = async function () { if (TC.sid) { try { await api('asistent_opreste', { sid: TC.sid }); toast('Am oprit răspunsul.'); } catch (e) { toast(e.message, { err: true }); } } };
   try {
-    var r = await api('asistent_task', { task: id });
+    var r = await api('asistent_task', arg);
     if (TC.task !== id) return;
     if (!r.pornit) { $('tcStare').innerHTML = '<span class="mic-t">Claudiu nu e pornit încă.</span>'; $('tcTrimite').disabled = true; return; }
     TC.sid = r.sid;
@@ -954,9 +1039,9 @@ async function trimiteTC() {
   $('tcTrimite').disabled = true; $('tcStare').innerHTML = '<span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Trimit</span>';
   try {
     var atas = [];
-    if (FT.fis.length) { atas = await urcaPeTask(TC.task, FT.fis); FT.fis = []; $('frAtas').innerHTML = ''; }
+    if (FT.fis.length) { atas = await TC.urca(FT.fis); FT.fis = []; $('frAtas').innerHTML = ''; }
     var spre = text + (atas.length ? '\n[Le-am urcat deja în Drive (TEG Finance › _Urcate din platformă): ' + atas.map(function (a) { return a.nume + ' ' + a.url; }).join('; ') + ']' : '');
-    var r = await api('asistent_trimite', { task: TC.task, sid: TC.sid, text: spre, atasamente: atas.map(function (a) { return { nume: a.nume, mime: a.mime, date: a.date }; }) });
+    var r = await api('asistent_trimite', Object.assign({ sid: TC.sid, text: spre, atasamente: atas.map(function (a) { return { nume: a.nume, mime: a.mime, date: a.date }; }) }, TC.arg));
     TC.sid = r.sid; $('tcText').value = ''; $('tcText').style.height = '';
     TC.ev['tmp'] = { t: 'user.message', text: text + (atas.length ? '\n' + atas.map(function (a) { return 'Atașat: ' + a.nume; }).join('\n') : '') }; if (TC.ordine.indexOf('tmp') < 0) TC.ordine.push('tmp'); randeazaTC(true);
     sondeazaTC();
@@ -1051,18 +1136,23 @@ PAGINI.clarificat = function (m) {
 };
 
 // ---------- Termene ----------
-var TT = { cat: 'toate', q: '' };
+var TT = { cat: 'toate', q: '', ist: false };
 PAGINI.termene = function (m) {
   return incarca(m, 'termene', 'termene', {}, function (d, m) {
     var cats = {}; d.termene.forEach(function (t) { cats[t.categorie] = (cats[t.categorie] || 0) + 1; });
-    var h = '<div class="cap"><div><h1>Termene și expirări</h1><p>Din numele actelor din Acte firme („expira ZZ.LL.AAAA”) și din Centralizatorul auto, pentru vehiculele active.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="eQ" placeholder="Caută" aria-label="Caută în termene" value="' + esc(TT.q) + '"></div></div></div>';
+    var h = '<div class="cap"><div><h1>Termene și expirări</h1><p>Actele firmelor și ale mașinilor. Bifezi ce nu mai trebuie urmărit (rămâne în Istoric); apeși pe rând ca să atașezi actul nou sau să scrii o mențiune.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="eQ" placeholder="Caută" aria-label="Caută în termene" value="' + esc(TT.q) + '"></div></div></div>';
     h += '<div class="filtre">' + [['toate', 'Toate', d.termene.length]].concat(Object.keys(cats).map(function (c) { return [c, c, cats[c]]; })).map(function (f) { return '<button type="button" data-c="' + esc(f[0]) + '" class="' + (TT.cat === f[0] ? 'activ' : '') + '">' + esc(f[1]) + ' <span>' + f[2] + '</span></button>'; }).join('') + '</div>';
     h += '<div class="nota" style="margin-bottom:16px">Certificatele constatatoare extinse și extrasele de la judecătorie sunt valabile 30 de zile și se cer la nevoie, pentru un dosar. „Expirat” la ele nu e o urgență.</div>';
-    h += '<div class="tabwrap"><table><thead><tr><th>Când</th><th>Ce</th><th>Al cui</th><th>Categorie</th><th>Data</th></tr></thead><tbody id="eB"></tbody></table></div>';
+    h += '<div class="taburi" role="tablist" aria-label="Ce arăt" id="eTab"></div><div class="tabwrap"><table><thead><tr><th><span class="sr">Bifă</span></th><th>Când</th><th>Ce</th><th>Al cui</th><th>Categorie</th><th>Data</th></tr></thead><tbody id="eB"></tbody></table></div>';
     m.innerHTML = h;
     var des = function () {
-      var l = d.termene.filter(function (t) { return (TT.cat === 'toate' || t.categorie === TT.cat) && filtreazaText(TT.q, t.ce + ' ' + t.cine + ' ' + t.categorie); });
-      $('eB').innerHTML = l.length ? l.map(function (t) { return '<tr><td>' + (t.categorie === 'Acte firme' && t.zile < 0 ? '<span class="pill">expirat</span>' : zilePill(t.zile)) + '</td><td>' + (t.url ? '<a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(t.url)) + '">' + esc(t.ce) + '</a>' : esc(t.ce)) + '</td><td>' + esc(t.cine) + '</td><td>' + esc(t.categorie) + '</td><td>' + esc(t.data) + '</td></tr>'; }).join('') : '<tr><td colspan="5" class="gol">Niciun termen găsit.</td></tr>';
+      var nU = d.termene.filter(function (t) { return !t.rezolvat; }).length, nI = d.termene.length - nU;
+      $('eTab').innerHTML = '<button type="button" role="tab" data-t="0" aria-selected="' + !TT.ist + '">De urmărit · ' + nU + '</button><button type="button" role="tab" data-t="1" aria-selected="' + TT.ist + '">Istoric · ' + nI + '</button>';
+      $('eTab').querySelectorAll('button').forEach(function (b) { b.onclick = function () { TT.ist = b.dataset.t === '1'; des(); }; });
+      var l = d.termene.filter(function (t) { return !!t.rezolvat === TT.ist && (TT.cat === 'toate' || t.categorie === TT.cat) && filtreazaText(TT.q, t.ce + ' ' + t.cine + ' ' + t.categorie); });
+      $('eB').innerHTML = l.length ? l.map(function (t, i) { return '<tr class="rand-fisa" data-i="' + d.termene.indexOf(t) + '"><td><button type="button" class="bifa-t' + (t.rezolvat ? ' da' : '') + '" data-b="' + d.termene.indexOf(t) + '" aria-label="' + (t.rezolvat ? 'Readu la urmărit: ' : 'Nu mai urmărim: ') + esc(t.ce + ', ' + t.cine) + '">' + (t.rezolvat ? ic('bifa') : '') + '</button></td><td>' + (t.categorie === 'Acte firme' && t.zile < 0 ? '<span class="pill">expirat</span>' : zilePill(t.zile)) + '</td><td><b>' + esc(t.ce) + '</b></td><td>' + esc(t.cine) + '</td><td>' + esc(t.categorie) + '</td><td class="num">' + esc(t.data) + '</td></tr>'; }).join('') : '<tr><td colspan="6"><div class="gol"><b>' + (TT.ist ? 'Nimic în istoric' : 'Nimic de urmărit aici') + '</b>' + (TT.ist ? 'Bifează un termen care nu mai trebuie urmărit; ajunge aici și îl poți readuce.' : '') + '</div></td></tr>';
+      $('eB').querySelectorAll('tr.rand-fisa').forEach(function (tr) { tr.onclick = function (ev) { if (ev.target.closest('.bifa-t')) return; deschideFisaTermen(d.termene[Number(tr.dataset.i)], des); }; });
+      $('eB').querySelectorAll('.bifa-t').forEach(function (b) { b.onclick = async function () { var t = d.termene[Number(b.dataset.b)]; b.disabled = true; try { await api('termen_stare', { cheie: t.cheie, rezolvat: !t.rezolvat }); t.rezolvat = !t.rezolvat; toast(t.rezolvat ? 'Scos din urmărire: ' + t.ce + '. E în Istoric.' : 'Readus la urmărit: ' + t.ce); des(); } catch (e) { toast(e.message, { err: true }); b.disabled = false; } }; });
     };
     des();
     $('eQ').oninput = function () { TT.q = this.value; des(); };
@@ -1084,7 +1174,7 @@ PAGINI.firme = function (m) {
     h += '<div class="sectiune" style="text-align:center"><button class="btn sec" id="fAlte" type="button" aria-expanded="' + FS.alte + '">' + (FS.alte ? 'Ascunde celelalte firme și asociații' : 'Alte firme și asociații (' + alte.length + ')') + '</button></div><div class="firme" id="fA" style="margin-top:18px"' + (FS.alte ? '' : ' hidden') + '></div>';
     m.innerHTML = h;
     var panou = function (f) {
-      var o = '<div class="panou firma' + (f.lipsa.length ? ' are-lipsa' : '') + '"><div class="fc"><h3>' + esc(f.firma) + '</h3><a class="ib" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(f.url)) + '" title="Deschide folderul" aria-label="Deschide folderul ' + esc(f.firma) + '">' + ic('dosar') + '</a></div>';
+      var o = '<div class="panou firma' + (f.lipsa.length ? ' are-lipsa' : '') + '"><div class="fc"><h3><button type="button" class="fl-firma" data-firma="' + esc(f.firma) + '">' + esc(f.firma) + '</button></h3><a class="ib" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(f.url)) + '" title="Deschide folderul" aria-label="Deschide folderul ' + esc(f.firma) + '">' + ic('dosar') + '</a></div>';
       o += '<ul>' + f.acte.filter(function (a) { return a.tip; }).sort(function (x, y) { return x.nume < y.nume ? -1 : 1; }).map(function (a) { var ex = (/\.([a-z0-9]+)$/i.exec(a.nume) || [])[1]; return '<li><a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(a.url)) + '">' + esc(a.tip) + '</a>' + (ex && ex.toLowerCase() !== 'pdf' ? '<span class="pill">' + esc(ex.toLowerCase()) + '</span>' : '') + (a.emis ? '<span class="mic-t">emis ' + esc(a.emis) + '</span>' : '') + (a.expira ? '<span class="pill warn">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
       if (f.lipsa.length) o += '<div class="lipsa"><b>Lipsă:</b> ' + f.lipsa.map(esc).join(', ') + '</div>';
       return o + '</div>';
@@ -1097,8 +1187,50 @@ PAGINI.firme = function (m) {
       if (q && la.length && !FS.alte) { $('fA').hidden = false; }
     };
     des('');
+    m.onclick = function (ev) { var b = ev.target.closest('.fl-firma'); if (!b) return; var f = d.firme.filter(function (x) { return x.firma === b.dataset.firma; })[0]; if (f) deschideFisaFirma(f); };
     $('fQ').oninput = function () { des(this.value); };
     $('fAlte').onclick = function () { FS.alte = !FS.alte; $('fA').hidden = !FS.alte; this.setAttribute('aria-expanded', FS.alte); this.textContent = FS.alte ? 'Ascunde celelalte firme și asociații' : 'Alte firme și asociații (' + alte.length + ')'; if (FS.alte) $('fA').scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' }); };
+  });
+};
+
+function deschideFisaFirma(f) {
+  deschideFisa({ cheie: 'firma:' + f.firma, titlu: f.firma, pastile: [[f.tip]].concat(f.lipsa.length ? [[f.lipsa.length + (f.lipsa.length === 1 ? ' act lipsă' : ' acte lipsă'), 'hot']] : [['set complet', 'ok']]),
+    meta: 'Actele la zi din TEG Finance · ' + lk(f.url, 'deschide folderul'),
+    sus: '<ul class="acte-l">' + f.acte.filter(function (a) { return a.tip; }).sort(function (x, y) { return x.nume < y.nume ? -1 : 1; }).map(function (a) { return '<li>' + lk(a.url, a.tip) + (a.expira ? ' <span class="mic-t">expiră ' + esc(a.expira) + '</span>' : '') + '</li>'; }).join('') + '</ul>' + (f.lipsa.length ? '<div class="detalii"><b>Lipsă:</b> ' + f.lipsa.map(esc).join(', ') + '</div>' : '') });
+}
+
+// ---------- Auto (din Centralizatorul auto; aceleași date apar și în Termene și expirări) ----------
+PAGINI.auto = function (m) {
+  return incarca(m, 'auto', 'auto', {}, function (d, m) {
+    var act = d.vehicule.filter(function (v) { return /^activ/i.test(v.stare); }), rest = d.vehicule.filter(function (v) { return !/^activ/i.test(v.stare); });
+    var card = function (v) { var rau = v.acte.some(function (a) { return a.zile !== null && a.zile < 0; }); return '<button type="button" class="auto-c' + (rau ? ' rau' : '') + '" data-nr="' + esc(v.nr) + '"><span style="display:flex;gap:12px;align-items:flex-start"><span class="ic" aria-hidden="true">' + ic('masina') + '</span><span style="min-width:0"><h3>' + esc(v.vehicul) + '</h3><span class="sub">' + esc(v.categorie || '') + '</span></span></span>' + placuta(v.nr) + '<span class="sub">' + esc([v.proprietar, v.responsabil].filter(String).join(' · ')) + '</span>' + (v.acte.length ? '<span class="acte-g">' + v.acte.map(actePill).join('') + '</span>' : '<span class="sub">Fără date de expirare în centralizator.</span>') + '<span class="jos">' + esc(v.km || v.stare || '') + '</span></button>'; };
+    var h = '<div class="cap"><div><h1>Auto</h1><p>Mașinile și remorcile grupului, din ' + lk(d.link, 'Centralizatorul auto') + '. Aceleași termene apar și în Termene și expirări. Apasă pe o mașină ca să atașezi un act: Claudiu îl citește, îl pune în folderul mașinii și actualizează data.</p></div></div>';
+    h += '<div class="auto-g">' + act.map(card).join('') + '</div>';
+    if (rest.length) h += '<div class="sectiune"><h2>De completat sau ieșite din flotă</h2><div class="auto-g">' + rest.map(card).join('') + '</div></div>';
+    m.innerHTML = h;
+    m.querySelectorAll('.auto-c').forEach(function (b) { b.onclick = function () { var v = d.vehicule.filter(function (x) { return x.nr === b.dataset.nr; })[0]; if (v) deschideFisaAuto(v); }; });
+  });
+};
+
+// ---------- Contracte (registrul platformei de contracte, citit aici, cu aceeași intrare) ----------
+var CQ = { q: '' };
+PAGINI.contracte = function (m) {
+  return incarca(m, 'contracte', 'contracte', {}, function (d, m) {
+    var gas = function (re) { for (var i = 0; i < d.cap.length; i++) if (re.test(d.cap[i])) return i; return -1; };
+    var iNr = gas(/^(nr|număr|numar|id|cod)/i), iPart = gas(/partener|furnizor|client|beneficiar|contrapart/i), iOb = gas(/obiect|categorie|tip/i), iF = gas(/firm|entitat|societ|companie/i), iV = gas(/valoare|sum/i), iS = gas(/stare|status/i), iD = gas(/dat/i);
+    var col = [iNr, iPart, iOb, iF, iV, iS].map(function (x, j) { return x >= 0 ? x : j; });
+    var h = '<div class="cap"><div><h1>Contracte</h1><p>Registrul de contracte, aici, cu aceeași intrare. Apasă pe un contract ca să vezi tot ce scrie în registru, să atașezi documente și să lucrezi cu Claudiu. Citit la ' + esc(d.citit) + ' · ' + lk(d.link, 'registrul complet') + '</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="cQ" placeholder="Caută" aria-label="Caută în contracte" value="' + esc(CQ.q) + '"></div></div></div>';
+    h += '<div class="tabwrap"><table><thead><tr>' + col.map(function (i) { return '<th>' + esc(d.cap[i] || '') + '</th>'; }).join('') + '</tr></thead><tbody id="cB"></tbody></table></div>';
+    m.innerHTML = h;
+    var des = function () {
+      var l = d.randuri.map(function (r, i) { return { r: r, i: i }; }).filter(function (x) { return filtreazaText(CQ.q, x.r.join(' ')); }).reverse();
+      $('cB').innerHTML = l.length ? l.slice(0, 300).map(function (x) { return '<tr class="rand-fisa" data-i="' + x.i + '">' + col.map(function (i, j) { return '<td>' + (j === 1 ? '<b>' + esc(x.r[i] || '') + '</b>' : esc(x.r[i] || '')) + '</td>'; }).join('') + '</tr>'; }).join('') : '<tr><td colspan="' + col.length + '"><div class="gol"><b>Niciun contract găsit</b>Încearcă alt cuvânt.</div></td></tr>';
+      $('cB').querySelectorAll('tr.rand-fisa').forEach(function (tr) { tr.onclick = function () { var r = d.randuri[Number(tr.dataset.i)], nr = r[col[0]] || ('rândul ' + (Number(tr.dataset.i) + 2));
+        deschideFisa({ cheie: 'contract:' + String(nr).slice(0, 150), titlu: (r[col[1]] || nr) + (r[col[2]] ? ' · ' + r[col[2]] : ''), pastile: [['Contract'], [r[col[5]] || 'fără stare', 'info']], meta: esc(nr) + (iD >= 0 && r[iD] ? ' · ' + esc(r[iD]) : ''),
+          sus: '<dl class="dl-c">' + d.cap.map(function (k, i) { return r[i] ? '<dt>' + esc(k) + '</dt><dd>' + linkuri(r[i]) + '</dd>' : ''; }).join('') + '</dl>' }); }; });
+    };
+    des();
+    $('cQ').oninput = function () { CQ.q = this.value; des(); };
   });
 };
 
