@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-J/M2GVb4yjvhHS753valPfe2Aov5mINAWyX4y1URSjw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
-<meta name="theme-color" content="#EDF1EC">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XzpcgIsBLr38HHtuxKkcMofShL3aPz9vsS2qMCbW/Z8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta name="theme-color" content="#06120B">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://script.google.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
  --bg:#EDF1EC;--surface:#FFFFFF;--surface2:#F4F7F3;--sunk:#E4EAE3;--ink:#14231A;--ink2:#4E5F54;--ink3:#7A8A7F;--line:#D5DDD4;--line2:#E6ECE5;
@@ -481,13 +481,304 @@ tr.rand-fisa{cursor:pointer}tr.rand-fisa:hover td{background:var(--surface2)}
  .dr-corp{padding:18px 16px 24px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+/* ===== TEMA E (26.11.2026): sticlă peste „Curent de codru”, accente pe secțiuni, Inter =====
+   Stratul acesta stă la final și suprascrie doar aspectul; structura și funcțiile paginilor rămân aceleași. */
+:root{
+ --side:256px;--top:64px;--r1:12px;--r2:20px;--r3:28px;--ease:cubic-bezier(.23,1,.32,1);
+ --act:#9BFF4F;--act2:#B6FF7E;--onact:#06120B;
+ --s-lucru:#3B8F12;--s-acte:#A86F00;--s-bani:#0B8770;--s-unelte:#1D68B0;--s-cont:#566A5C;--s-coral:#C2502A;
+ --glass:linear-gradient(180deg,rgba(255,255,255,.80),rgba(255,255,255,.58));
+ --glass-brd:rgba(16,36,26,.10);--glass-hi:inset 0 1px 0 rgba(255,255,255,.95);
+ --glass-sh:0 1px 2px rgba(16,36,26,.05),0 18px 44px -26px rgba(16,36,26,.38);
+ --blur:blur(24px) saturate(160%);
+ --bgimg:radial-gradient(1200px 700px at 70% -10%,#CDE5CF,#EEF4EC 62%);
+ --solid:#FBFDFB;--inp:#FFFFFF;--nav-act-bg:#0F2418;--nav-act-c:#F1F7F2;
+ --bg:#EEF4EC;--surface:#FFFFFF;--surface2:#F2F6F1;--sunk:rgba(16,36,26,.06);--ink:#0F2418;--ink2:#46594C;--ink3:#6A7D70;--line:rgba(16,36,26,.14);--line2:rgba(16,36,26,.075);
+ --moss:#17773A;--moss2:#0F5E2C;--mossbg:rgba(23,119,58,.12);--amber:#8A5D00;--amberbg:rgba(255,186,40,.22);--rust:#B23A10;--rustbg:rgba(230,90,40,.14);--blue:#0A4A7C;--bluebg:rgba(31,111,184,.13);
+ --onmoss:#FFFFFF;--sh:0 18px 44px -26px rgba(16,36,26,.38);--sh2:0 30px 80px -24px rgba(10,25,15,.45);
+}
+:root[data-tema="intunecat"]{
+ --s-lucru:#9BFF4F;--s-acte:#FFC857;--s-bani:#4FE3C1;--s-unelte:#7CC4FF;--s-cont:#C9D6CC;--s-coral:#FF9F7A;
+ --glass:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+ --glass-brd:rgba(255,255,255,.11);--glass-hi:inset 0 1px 0 rgba(255,255,255,.14);
+ --glass-sh:0 24px 60px -24px rgba(0,0,0,.7);
+ --bgimg:radial-gradient(1200px 700px at 70% -10%,#0F3B22,#06120B 60%);
+ --solid:#0B1C12;--inp:rgba(255,255,255,.06);--nav-act-bg:rgba(241,247,242,.94);--nav-act-c:#06120B;
+ --bg:#06120B;--surface:#0F2217;--surface2:#13281B;--sunk:rgba(255,255,255,.07);--ink:#F1F7F2;--ink2:#B6C7BB;--ink3:#889B8E;--line:rgba(255,255,255,.14);--line2:rgba(255,255,255,.075);
+ --moss:#9BFF4F;--moss2:#C7FF9E;--mossbg:rgba(155,255,79,.14);--amber:#FFD27A;--amberbg:rgba(255,200,87,.17);--rust:#FFB094;--rustbg:rgba(255,128,84,.2);--blue:#A9D8FF;--bluebg:rgba(124,196,255,.16);
+ --onmoss:#06120B;--sh:0 24px 60px -24px rgba(0,0,0,.7);--sh2:0 30px 80px -20px rgba(0,0,0,.85);
+}
+[data-s="lucru"]{--sc:var(--s-lucru)}[data-s="acte"]{--sc:var(--s-acte)}[data-s="bani"]{--sc:var(--s-bani)}[data-s="unelte"]{--sc:var(--s-unelte)}[data-s="cont"]{--sc:var(--s-cont)}[data-s="coral"]{--sc:var(--s-coral)}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bgimg) top center/100% 1200px no-repeat,var(--bg);font-feature-settings:"cv11","ss01"}
+a{color:var(--moss)}a:hover{color:var(--moss2)}
+:focus-visible{outline-color:var(--moss)}
+h1{font-size:clamp(34px,4vw,54px);font-weight:800;letter-spacing:-.04em;line-height:1.04}
+.salut h1{font-size:clamp(38px,4.6vw,58px)}
+.cap{margin:10px 0 22px}
+.cap p,.salut .zi{font-size:15.5px;color:var(--ink2)}
+
+/* fundalul generativ: doar sus, se estompează în culoarea paginii */
+#app{position:relative}
+#fundal,#voal{position:absolute;left:0;top:0;width:100%;height:1000px;pointer-events:none;z-index:0}
+#voal{background:linear-gradient(to bottom,rgba(0,0,0,0) 45%,var(--bg))}
+main,#top{position:relative;z-index:1}
+#top{position:sticky}
+
+/* sticlă */
+#side,.panou,.lista,.tabwrap,.rezumat a,.rb,.kpi-c,.ct-lista,.auto-c,.as-ist,.as-main,.lk,.drop,.pl,.sugestii button,#cmdBtn,.bc-cadru{background:var(--glass);border:1px solid var(--glass-brd);box-shadow:var(--glass-hi),var(--glass-sh);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.panou,.lista,.rb,.ct-lista,.as-ist,.as-main,.bc-cadru{border-radius:var(--r3)}
+.tabwrap{border-radius:24px}
+.sectiune>h2{font-size:18px}
+main[data-s] .sectiune>h2::before,.rb-cap h2::before,.coloane h2::before{content:"";width:8px;height:8px;border-radius:99px;background:var(--sc,var(--moss));flex:none;display:inline-block;margin-right:10px;vertical-align:middle;position:relative;top:-2px}
+main[data-s] .sectiune>h2::before{margin-right:0;top:0}
+
+/* meniul: panou de sticlă care plutește */
+#side{top:14px;left:14px;bottom:14px;width:var(--side);border-radius:28px;padding:8px;overflow:hidden;border-right:1px solid var(--glass-brd)}
+.side-sus{display:flex;align-items:center;gap:6px;padding:6px 4px 8px 12px}
+.brand{flex:1;min-width:0;padding:0;align-items:baseline}
+.brand b{font-size:20px}
+.brand i{color:var(--ink2)}
+#sideCorp{display:flex;flex-direction:column;flex:1;min-height:0}
+#nav{padding:0 2px 8px}
+#nav .gr{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink3);padding:14px 12px 6px;margin-top:4px;border-top:1px solid var(--line2)}
+#nav .gr:first-child{border-top:0;margin-top:0;padding-top:6px}
+#nav .gr i{width:7px;height:7px;border-radius:99px;background:var(--sc)}
+#nav a{height:40px;border-radius:99px;padding:0 12px;gap:11px;font-weight:600;color:var(--ink);transition:background-color .12s var(--ease),color .12s var(--ease)}
+#nav a svg.i{color:var(--sc)}
+#nav a:hover{background:var(--sunk);color:var(--ink)}
+#nav a:active{transform:scale(.97)}
+#nav a.activ{background:var(--nav-act-bg);color:var(--nav-act-c)}
+#nav a.activ svg.i{color:inherit}
+#nav a.activ::before{display:none}
+#nav a .nr{background:var(--sunk);color:var(--ink2)}
+#nav a.activ .nr{background:rgba(127,127,127,.18);color:inherit}
+#nav a .nr.hot{background:var(--rustbg);color:var(--rust)}
+.side-jos{border-top:1px solid var(--line2);padding:12px 4px 4px 8px}
+.av{border-radius:99px;background:rgba(155,255,79,.2);color:var(--moss)}
+:root:not([data-tema="intunecat"]) .av{background:var(--mossbg)}
+.rotund{border-radius:99px}
+.ib{border-radius:99px}
+.ib[aria-pressed="true"]{background:var(--mossbg);color:var(--moss)}
+#burger,#btnCautaTel{display:none}
+
+/* bara de sus */
+#top{margin-left:calc(var(--side) + 28px);padding:0 32px 0 6px;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:0}
+#top.umbra{background:color-mix(in srgb,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
+#cmdBtn{height:44px;border-radius:99px;padding:0 8px 0 16px;color:var(--ink2);min-width:260px}
+#cmdBtn:hover{color:var(--ink);border-color:var(--line)}
+#cmdBtn kbd{border-radius:8px;background:var(--sunk)}
+main{margin-left:calc(var(--side) + 28px);padding:4px 32px 90px 6px}
+
+/* butoane, câmpuri, etichete */
+.btn{height:42px;padding:0 18px;border-radius:99px;background:var(--act);color:var(--onact);transition:background-color .16s var(--ease),transform .16s var(--ease)}
+.btn:hover{background:var(--act2);color:var(--onact)}
+.btn:active{transform:scale(.97);transition-duration:.1s}
+:root:not([data-tema="intunecat"]) .btn:not(.sec):not(.ghost):not(.rosu){box-shadow:inset 0 0 0 1px rgba(6,18,11,.16)}
+.btn.sec{background:var(--sunk);color:var(--ink);border:1px solid var(--line)}
+.btn.sec:hover{background:color-mix(in srgb,var(--ink) 10%,transparent);color:var(--ink)}
+.btn.ghost:hover{background:var(--sunk)}
+.btn.mic{height:34px;border-radius:99px;padding:0 13px}
+input,select,textarea{background:var(--inp);border-color:var(--line);border-radius:14px}
+input:focus,select:focus,textarea:focus{border-color:var(--moss);box-shadow:0 0 0 3px var(--mossbg)}
+select option{background:var(--surface);color:var(--ink)}
+.camp-cautare input{height:42px;border-radius:99px}
+.pill{height:26px;padding:0 10px;border-radius:99px;font-size:12.5px}
+.nota{border-radius:18px;border:1px solid color-mix(in srgb,var(--blue) 22%,transparent)}
+.nota.warn{border-color:color-mix(in srgb,var(--amber) 25%,transparent)}
+.filtre button{height:36px;border-radius:99px;background:var(--glass);border:1px solid var(--glass-brd);color:var(--ink2)}
+.filtre button:hover{color:var(--ink);border-color:var(--line)}
+.filtre button.activ{background:var(--nav-act-bg);color:var(--nav-act-c);border-color:transparent}
+.taburi,.seg{background:var(--sunk);border-radius:99px}
+.taburi button,.seg button{border-radius:99px}
+.taburi button[aria-selected="true"],.seg button.activ{background:var(--nav-act-bg);color:var(--nav-act-c);box-shadow:none}
+.tabs button.activ::after{background:var(--sc,var(--moss))}
+
+/* Azi: cifrele mari, fiecare cu culoarea ei */
+.rezumat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;border:0;background:none;overflow:visible;border-radius:0}
+.rezumat a{border-radius:24px;padding:20px 22px;border-right:1px solid var(--glass-brd);transition:transform .2s var(--ease)}
+.rezumat a:last-child{border-right:1px solid var(--glass-brd)}
+.rezumat a:hover{transform:translateY(-2px);background:var(--glass)}
+.rezumat a:active{transform:scale(.97)}
+.rezumat b{font-size:44px;letter-spacing:-.045em;line-height:1;margin-bottom:8px;color:var(--ink3)}
+.rezumat a:nth-child(1) b{color:var(--s-lucru)}
+.rezumat a.hot b{color:var(--rust)}.rezumat a.warn b{color:var(--s-acte)}.rezumat a:nth-child(4).warn b{color:var(--s-unelte)}
+.rezumat span{font-size:14px}
+.rb{border-radius:var(--r3);padding:22px 22px 16px}
+.rb-zile div{border-left-color:var(--line2)}
+.rb-zile div.we{background:var(--sunk)}
+.rb-azi{background:var(--s-lucru);width:2px}
+.rb-azi::after{color:var(--s-lucru)}
+.mk{border-radius:99px;background:color-mix(in srgb,var(--s-lucru) 18%,transparent);color:var(--ink)}
+.mk.auto{background:color-mix(in srgb,var(--s-acte) 20%,transparent);color:var(--ink);box-shadow:inset 3px 0 0 var(--s-acte)}
+.mk.urg{background:var(--rustbg);color:var(--ink);box-shadow:inset 3px 0 0 var(--rust)}
+.rb-leg i{background:var(--s-lucru)}.rb-leg i.auto{background:var(--s-acte)}
+.rb-intarz button{border-radius:12px}
+
+/* liste și tabele */
+.lista{overflow:hidden}
+.rt{border-top-color:var(--line2);min-height:54px}
+.rt:hover{background:var(--sunk)}
+.rt .chk{border-color:var(--line);background:transparent}
+.rt.facut .chk{background:var(--moss);border-color:var(--moss);color:var(--onmoss)}
+th{background:var(--surface2);color:var(--ink3);border-bottom-color:var(--line2)}
+td{border-bottom-color:var(--line2)}
+tbody tr:hover td,tr.rand-fisa:hover td{background:var(--sunk)}
+tfoot tr.tot td{background:var(--surface2);border-top-color:var(--line)}
+.bifa-t.da{color:var(--onmoss)}
+.kpi-c{border-radius:24px;padding:20px 22px}
+.kpi-c b{font-size:clamp(22px,2.1vw,30px);letter-spacing:-.035em;color:var(--sc,var(--ink));overflow-wrap:anywhere}
+.kpi-c:hover{background:var(--glass)}
+.ct-lista{box-shadow:var(--glass-hi),var(--glass-sh)}
+.ct-rand:hover{background:var(--sunk)}
+.ct-rand b.bun{color:var(--s-lucru)}
+.auto-c{border-radius:24px}.auto-c .ic{border-radius:14px;background:color-mix(in srgb,var(--s-acte) 18%,transparent);color:var(--s-acte)}
+.firma{border-radius:24px}
+.firma .lipsa{border-radius:14px}
+.act-p{border-radius:14px;background:var(--sunk)}
+.act-p.rau{background:var(--rustbg)}.act-p.curand{background:var(--amberbg)}
+.reguli div{border-top-color:var(--line2)}
+.reguli b{color:var(--ink)}
+.lk .ic{border-radius:12px;background:color-mix(in srgb,var(--sc,var(--s-unelte)) 18%,transparent);color:var(--sc,var(--s-unelte))}
+.lk:hover{border-color:var(--line)}
+.drop{border:2px dashed var(--line);border-radius:var(--r3)}
+.drop .ic{border-radius:16px;background:color-mix(in srgb,var(--s-unelte) 18%,transparent);color:var(--s-unelte)}
+.fis{border-radius:99px}
+
+/* link-uri utile: pătrate, iconița colorată după tip, titlul cel mai vizibil */
+.lk-gr{margin-top:28px}
+.lk-gr h2{display:flex;align-items:center;gap:10px;font-size:17px;margin-bottom:14px}
+.lk-gr h2 i{width:10px;height:10px;border-radius:99px;background:var(--sc)}
+.lk-gr h2 span{font-size:13px;font-weight:600;color:var(--ink3)}
+.plac{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(176px,1fr))}
+.pl{position:relative;aspect-ratio:1/1;display:flex;flex-direction:column;justify-content:space-between;gap:10px;padding:18px;border-radius:26px;text-decoration:none;color:var(--ink);transition:transform .2s var(--ease),border-color .2s var(--ease)}
+.pl:hover{transform:translateY(-3px);color:var(--ink);border-color:color-mix(in srgb,var(--sc) 55%,transparent)}
+.pl:active{transform:scale(.97)}
+.pl .ic{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 10px 22px -10px rgba(0,0,0,.45)}
+.pl .ic svg{width:26px;height:26px;stroke-width:2}
+.pl .ic.foaie{background:linear-gradient(150deg,#3CD884,#0E7D45)}
+.pl .ic.dosar{background:linear-gradient(150deg,#62AEFF,#1A5BAA)}
+.pl .ic.doc{background:linear-gradient(150deg,#FFD266,#C98200)}
+.pl .ic.platf{background:linear-gradient(150deg,#D4FFB0,#6CCB1F);color:#06120B}
+.pl .ic.ext{background:linear-gradient(150deg,#5BE9C8,#0B8770)}
+.pl .sag{position:absolute;top:18px;right:18px;color:var(--ink3);opacity:.55;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+.pl:hover .sag{opacity:1;transform:translate(2px,-2px);color:var(--sc)}
+.pl .txt{min-width:0}
+.pl b{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:16px;font-weight:700;line-height:1.25;letter-spacing:-.01em;color:var(--ink)}
+.pl .tip{display:block;margin-top:5px;font-size:12.5px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* fișa (panoul lateral), paleta, notificări */
+#scrim{background:rgba(3,10,6,.5)}
+#drawer{background:var(--solid);border-radius:28px 0 0 28px;border-left:1px solid var(--glass-brd)}
+:root[data-tema="intunecat"] #drawer{background:linear-gradient(180deg,#12301F,#081A10)}
+.dr-cap,.dr-jos,.fr-jos{border-color:var(--line2)}
+.fr-jos{background:transparent}
+.detalii,.fr-mod{background:var(--sunk);border-color:var(--line2);border-radius:18px}
+.compune{background:var(--inp);border-color:var(--line);border-radius:20px}
+#paleta{background:rgba(3,10,6,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.pal{background:var(--solid);border-radius:24px;border:1px solid var(--glass-brd)}
+:root[data-tema="intunecat"] .pal{background:linear-gradient(180deg,#12301F,#0A1D12)}
+.pal-l button{border-radius:14px}
+.pal-l button.sel{background:var(--sunk)}
+.toast{border-radius:16px;background:var(--nav-act-bg);color:var(--nav-act-c)}
+.toast button{color:var(--moss)}
+:root[data-tema="intunecat"] .toast button{color:#17773A}
+.msg-eu{background:var(--nav-act-bg);color:var(--nav-act-c);border-radius:20px 20px 6px 20px}
+.as-ist .lst button{border-radius:14px}
+.as-ist .lst button.activ{background:var(--sunk)}
+.sugestii button{border-radius:18px}
+
+/* intrarea: același curent, pe toată partea stângă */
+.lg-art{background:#06120B}
+.lg-art canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.lg-form .btn{height:48px}
+
+/* conversațiile botului (ca WhatsApp: persoanele în stânga, firul în dreapta) */
+.bc-cadru{display:grid;grid-template-columns:320px minmax(0,1fr);height:calc(100vh - var(--top) - 150px);min-height:520px;overflow:hidden}
+.bc-st{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line2)}
+.bc-st .bc-q{padding:12px}
+.bc-st .bc-q input{height:42px;border-radius:99px}
+.bc-l{flex:1;overflow:auto;padding:0 6px 8px}
+.bc-om{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;width:100%;padding:10px 10px;border-radius:18px;transition:background-color .12s var(--ease)}
+.bc-om:hover{background:var(--sunk)}
+.bc-om[aria-current="true"]{background:var(--nav-act-bg);color:var(--nav-act-c)}
+.bc-om[aria-current="true"] .bc-pv,.bc-om[aria-current="true"] .bc-ora{color:inherit;opacity:.7}
+.bc-om:focus-visible{outline:2px solid var(--moss);outline-offset:-2px}
+.bc-av{width:42px;height:42px;flex:none;border-radius:99px;display:grid;place-items:center;font-weight:800;font-size:15px;color:#06120B;background:var(--sc)}
+.bc-c{flex:1;min-width:0}
+.bc-r1{display:flex;align-items:baseline;gap:8px}
+.bc-r1 b{flex:1;min-width:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bc-ora{font-size:12px;color:var(--ink3);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bc-pv{display:block;font-size:13px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.bc-dr{display:flex;flex-direction:column;min-height:0;min-width:0}
+.bc-cap{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line2)}
+.bc-cap .bc-c b{font-size:16px}
+.bc-cap .bc-c span{display:block;font-size:12.5px;color:var(--ink3)}
+.bc-inapoi{display:none}
+.bc-fir{flex:1;overflow:auto;padding:18px 22px 26px;display:flex;flex-direction:column;gap:6px;background-image:radial-gradient(color-mix(in srgb,var(--ink) 9%,transparent) 1px,transparent 1.2px);background-size:18px 18px}
+.bc-zi{align-self:center;margin:12px 0 6px;padding:5px 12px;border-radius:99px;background:var(--surface2);color:var(--ink2);font-size:12.5px;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.bc-m{max-width:min(78%,620px);padding:8px 12px 6px;border-radius:18px;font-size:14.5px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.bc-m.in{align-self:flex-start;background:color-mix(in srgb,var(--ink) 7%,var(--surface));border-top-left-radius:6px}
+.bc-m.out{align-self:flex-end;background:color-mix(in srgb,var(--s-lucru) 22%,var(--surface));border-top-right-radius:6px}
+.bc-m .bc-t{display:block;text-align:right;font-size:11.5px;color:var(--ink3);margin-top:2px;font-variant-numeric:tabular-nums}
+.bc-m .bc-la{display:block;margin:0 0 6px;padding:6px 10px;border-radius:10px;border-left:3px solid var(--s-lucru);background:var(--sunk);font-size:13px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bc-m .bc-fis{display:inline-flex;align-items:center;gap:8px;margin:2px 0 4px;padding:8px 12px;border-radius:12px;background:var(--sunk);font-size:13.5px;font-weight:600;color:var(--ink);text-decoration:none;max-width:100%}
+.bc-m .bc-fis span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bc-m .bc-sta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;border:0}
+.bc-m .bc-sta .pill{height:22px;font-size:11.5px}
+.bc-gol{margin:auto;text-align:center;color:var(--ink2);max-width:340px;padding:24px}
+.bc-gol b{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
+.bc-mai{align-self:center;margin:4px 0 10px}
+
+/* tabletă și telefon: ținte de 44 px, meniul se strânge sub „Meniu” */
+@media (min-width:1101px){#nav a{height:36px}#nav .gr{padding:10px 12px 4px}}
+@media (max-width:1100px){
+ #nav a{height:44px}
+ .btn{height:44px}.btn.mic{height:40px}
+ .ib{width:44px;height:44px}
+ .filtre button{height:44px}
+ .rezumat{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .bc-cadru{grid-template-columns:280px minmax(0,1fr)}
+}
+@media (max-width:860px){
+ #side{top:10px;left:10px;right:10px;bottom:auto;width:auto;border-radius:24px;padding:6px;transform:none;visibility:visible;transition:none;max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px);box-shadow:var(--glass-hi),var(--glass-sh)}
+ #side.deschis{transform:none}
+ .side-sus{padding:2px 2px 2px 12px}
+ #sideCorp{display:none}
+ #side.deschis #sideCorp{display:flex;overflow:auto;padding-top:4px}
+ #burger{display:inline-flex;align-items:center;height:44px;padding:0 16px;border:0;border-radius:99px;background:var(--sunk);color:var(--ink);font-weight:600;font-size:15px;cursor:pointer;width:auto}
+ #btnCautaTel{display:inline-grid}
+ #top{display:none}
+ main{margin-left:0;padding:86px 14px 90px}
+ h1{font-size:40px}
+ .salut h1{font-size:42px}
+ .rezumat{gap:10px}
+ .rezumat a{padding:16px;border-radius:20px}
+ .rezumat b{font-size:34px}
+ #drawer{border-radius:0;border-left:0}
+ .plac{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .pl{padding:14px;border-radius:22px}
+ .pl .ic{width:46px;height:46px;border-radius:15px}.pl .ic svg{width:22px;height:22px}
+ .pl b{font-size:15px}
+ .pl .sag{top:14px;right:14px}
+ .bc-cadru{grid-template-columns:minmax(0,1fr);height:calc(100dvh - 190px);min-height:460px}
+ .bc-cadru.fir-deschis .bc-st{display:none}
+ .bc-cadru:not(.fir-deschis) .bc-dr{display:none}
+ .bc-st{border-right:0}
+ .bc-inapoi{display:inline-grid}
+ .bc-tel-ascuns{display:none}
+ .bc-fir{padding:14px 12px 20px}
+ .bc-m{max-width:88%}
+ #side,.panou,.lista,.tabwrap,.rezumat a,.rb,.kpi-c,.ct-lista,.auto-c,.as-ist,.as-main,.lk,.drop,.pl,.bc-cadru{-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%)}
+ #fundal,#voal{height:720px}
+}
+@media (prefers-reduced-motion:reduce){.rezumat a:hover,.pl:hover{transform:none}}
 </style>
 </head>
 <body>
 
 <section id="login" hidden>
  <div class="lg-art">
-  <svg class="contur" id="contur" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  <canvas id="fundalLogin" aria-hidden="true"></canvas>
   <div class="marca">TEG<span>Ecosistem</span></div>
   <p class="jos">Taskurile, termenele, actele firmelor și asistentul Claudiu ale echipei TEG, într-un singur loc.</p>
  </div>
@@ -504,18 +795,25 @@ tr.rand-fisa{cursor:pointer}tr.rand-fisa:hover td{background:var(--surface2)}
 </section>
 
 <div id="app" hidden>
+ <canvas id="fundal" aria-hidden="true"></canvas><div id="voal" aria-hidden="true"></div>
  <aside id="side">
-  <a class="brand" href="#azi"><b>TEG</b><i>Ecosistem</i></a>
-  <nav id="nav" aria-label="Meniu"></nav>
-  <div class="side-jos">
-   <div class="av" id="av"></div>
-   <div class="cine"><b id="euNume"></b><span id="euRol"></span></div>
-   <button class="ib" id="btnTema" aria-label="Schimbă tema" title="Schimbă tema"></button>
-   <button class="ib" id="btnIesire" aria-label="Ieșire" title="Ieșire"></button>
+  <div class="side-sus">
+   <a class="brand" href="#azi"><b>TEG</b><i>Ecosistem</i></a>
+   <button class="ib" id="btnMiscare" type="button"></button>
+   <button class="ib" id="btnCautaTel" type="button" aria-label="Caută sau sari la" title="Caută sau sari la"></button>
+   <button id="burger" type="button" aria-expanded="false" aria-controls="sideCorp">Meniu</button>
+  </div>
+  <div id="sideCorp">
+   <nav id="nav" aria-label="Meniu"></nav>
+   <div class="side-jos">
+    <div class="av" id="av"></div>
+    <div class="cine"><b id="euNume"></b><span id="euRol"></span></div>
+    <button class="ib" id="btnTema" aria-label="Schimbă tema" title="Schimbă tema"></button>
+    <button class="ib" id="btnIesire" aria-label="Ieșire" title="Ieșire"></button>
+   </div>
   </div>
  </aside>
  <header id="top">
-  <button class="ib" id="burger" aria-label="Meniu"></button>
   <div class="titlu" id="topTitlu"></div>
   <div class="sp"></div>
   <span id="sync" aria-live="polite"></span>
@@ -529,7 +827,7 @@ tr.rand-fisa{cursor:pointer}tr.rand-fisa:hover td{background:var(--surface2)}
 
 <script>
 'use strict';
-var VER = '0.6.1';
+var VER = '0.7.0';
 if (window.top !== window.self) { document.documentElement.innerHTML = ''; throw new Error('încadrat'); }
 var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
 var S = { sesiune: null };
@@ -575,6 +873,103 @@ var IC = {
  dosar: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'
 };
 function ic(n) { return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">' + (IC[n] || '') + '</svg>'; }
+
+// ---------- „Curent de codru”, seed 42: câmp de zgomot Perlin + 12 vârtejuri ascunse ----------
+// Același desen în fiecare zi (seed fix). Rulează doar cât se vede partea plină, se oprește la tab ascuns,
+// la mișcare redusă e o imagine statică, iar butonul din meniu îl oprește (ține minte alegerea).
+var MISCARE_OPRITA = (function () { try { return localStorage.getItem('eco_miscare') === 'oprita'; } catch (e) { return false; } })();
+var CURENTI = [];
+var CUL_INTUNECAT = ['rgba(23,119,58,.5)', 'rgba(43,182,115,.3)', 'rgba(155,255,79,.24)', 'rgba(199,255,158,.2)'];
+var CUL_LUMINOS = ['rgba(23,119,58,.20)', 'rgba(11,135,112,.15)', 'rgba(59,143,18,.17)', 'rgba(15,94,44,.13)'];
+function Curent(c, opt) {
+  var self = this; this.c = c; this.opt = opt || {}; this._W = 0;
+  this._mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  var laMq = function () { self._staticDesenat = false; self.actualizeaza(); };
+  if (this._mq) { if (this._mq.addEventListener) this._mq.addEventListener('change', laMq); else if (this._mq.addListener) this._mq.addListener(laMq); }
+  document.addEventListener('visibilitychange', function () { self.actualizeaza(); });
+  if (window.IntersectionObserver) {
+    var pr = []; for (var i = 0; i <= 20; i++) pr.push(i / 20);
+    this._io = new IntersectionObserver(function (e) { var x = e[e.length - 1], b = x.boundingClientRect, r = x.intersectionRect; self._vizibil = x.isIntersecting && r.height > 0 && r.top < b.top + b.height * 0.7; self.actualizeaza(); }, { threshold: pr });
+    this._io.observe(c);
+  }
+  if (window.ResizeObserver) { this._ro = new ResizeObserver(function () { self.dimensioneaza(); }); this._ro.observe(c); }
+  CURENTI.push(this);
+  this.dimensioneaza();
+}
+Curent.prototype.culori = function () { return this.opt.mereuIntunecat || document.documentElement.dataset.tema === 'intunecat' ? CUL_INTUNECAT : CUL_LUMINOS; };
+Curent.prototype.dimensioneaza = function () {
+  var c = this.c, r = c.getBoundingClientRect(); if (r.width < 2 || r.height < 2) return;
+  var W = Math.round(r.width * 0.5), H = Math.round(r.height * 0.5), n = r.width < 768 ? 160 : r.width < 1100 ? 420 : 720;
+  this._pasMs = r.width < 1100 ? 50 : 33; this._viteza = 0.7 * this._pasMs / 33;
+  if (this._W === W && this._H === H && this._n === n) { this.actualizeaza(); return; }
+  this._W = W; this._H = H; this._n = n; c.width = W; c.height = H; c.setAttribute('data-linii', String(n));
+  this._ctx = c.getContext('2d'); this.semanta(); this.actualizeaza();
+};
+Curent.prototype.semanta = function () {
+  var a = 42 >>> 0;
+  var rng = function () { a = (a + 0x6D2B79F5) >>> 0; var t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  var q = [], i, j, x;
+  for (i = 0; i < 256; i++) q[i] = i;
+  for (i = 255; i > 0; i--) { j = Math.floor(rng() * (i + 1)); x = q[i]; q[i] = q[j]; q[j] = x; }
+  this._p = new Uint8Array(512); for (i = 0; i < 512; i++) this._p[i] = q[i & 255];
+  this._rng = rng;
+  var W = this._W, H = this._H, M = Math.max(W, H);
+  this._vort = []; for (i = 0; i < 12; i++) this._vort.push({ x: rng() * W, y: rng() * H, s: (rng() < 0.5 ? -1 : 1) * (0.6 + rng() * 0.9), r: (0.07 + rng() * 0.1) * M });
+  this._part = []; for (i = 0; i < this._n; i++) this._part.push(this.particula({}));
+  this._t = 0; this._cadre = 0; this._staticDesenat = false; this._areCadru = false;
+  this._ctx.clearRect(0, 0, W, H);
+};
+Curent.prototype.particula = function (p) { var r = this._rng, u = r(); p.x = r() * this._W; p.y = r() * this._H; p.l = 120 + Math.floor(r() * 300); p.c = u < 0.55 ? 0 : u < 0.88 ? 1 : u < 0.97 ? 2 : 3; return p; };
+Curent.prototype.zgomot = function (x, y) {
+  var p = this._p, X = Math.floor(x), Y = Math.floor(y);
+  x -= X; y -= Y; X &= 255; Y &= 255;
+  var u = x * x * x * (x * (x * 6 - 15) + 10), v = y * y * y * (y * (y * 6 - 15) + 10);
+  var A = p[X] + Y, B = p[X + 1] + Y;
+  var g = function (h, a, b) { h &= 3; return h === 0 ? a + b : h === 1 ? b - a : h === 2 ? a - b : -a - b; };
+  var n00 = g(p[A], x, y), n10 = g(p[B], x - 1, y), n01 = g(p[A + 1], x, y - 1), n11 = g(p[B + 1], x - 1, y - 1);
+  var a0 = n00 + u * (n10 - n00), a1 = n01 + u * (n11 - n01);
+  return a0 + v * (a1 - a0);
+};
+Curent.prototype.pas = function () {
+  var ctx = this._ctx, W = this._W, H = this._H, P = this._part, V = this._vort, t = this._t, sc = 3.2 / W, i, k;
+  ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = this._pasMs > 40 ? 'rgba(0,0,0,0.033)' : 'rgba(0,0,0,0.022)'; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over';
+  var cai = [new Path2D(), new Path2D(), new Path2D(), new Path2D()];
+  for (i = 0; i < P.length; i++) {
+    var p = P[i];
+    var n = this.zgomot(p.x * sc, p.y * sc + t) + 0.5 * this.zgomot(p.x * sc * 2.1 + 7.3, p.y * sc * 2.1 - t * 1.3);
+    var ang = n * Math.PI * 1.6 + 0.35, vx = Math.cos(ang), vy = Math.sin(ang);
+    for (k = 0; k < V.length; k++) { var o = V[k], dx = p.x - o.x, dy = p.y - o.y, d2 = dx * dx + dy * dy, f = o.s * Math.exp(-d2 / (o.r * o.r)) * 1.4, d = Math.sqrt(d2) + 1; vx -= dy / d * f; vy += dx / d * f; }
+    var m = Math.sqrt(vx * vx + vy * vy) + 1e-6, nx = p.x + vx / m * this._viteza, ny = p.y + vy / m * this._viteza;
+    cai[p.c].moveTo(p.x, p.y); cai[p.c].lineTo(nx, ny);
+    p.x = nx; p.y = ny; p.l--;
+    if (p.l <= 0 || nx < -2 || ny < -2 || nx > W + 2 || ny > H + 2) this.particula(p);
+  }
+  var cul = this.culori(); ctx.lineWidth = 0.9; ctx.lineCap = 'round';
+  for (k = 0; k < 4; k++) { ctx.strokeStyle = cul[k]; ctx.stroke(cai[k]); }
+  this._t += 0.0025 * this._viteza / 0.7; this._cadre++; this._areCadru = true;
+  if (this._cadre % 15 === 0) this.c.setAttribute('data-cadre', String(this._cadre));
+};
+Curent.prototype.desenStatic = function () { for (var i = 0; i < 240; i++) this.pas(); this._staticDesenat = true; };
+Curent.prototype.actualizeaza = function () {
+  var c = this.c, self = this; if (!this._ctx) return;
+  var redus = !!(this._mq && this._mq.matches);
+  var activ = !redus && !MISCARE_OPRITA && this._vizibil !== false && !document.hidden && c.offsetParent !== null;
+  c.setAttribute('data-animatie', redus ? 'statica' : activ ? 'activa' : 'oprita');
+  if (!activ) { if (this._raf) { cancelAnimationFrame(this._raf); this._raf = 0; } if ((redus && !this._staticDesenat) || !this._areCadru) this.desenStatic(); return; }
+  if (this._raf) return;
+  this._ultim = 0;
+  var bucla = function (ts) { if (!self._raf) return; self._raf = requestAnimationFrame(bucla); if (ts - self._ultim < self._pasMs - 1) return; self._ultim = ts; self.pas(); };
+  this._raf = requestAnimationFrame(bucla);
+};
+Curent.prototype.reface = function () { if (!this._ctx) return; this.semanta(); this.actualizeaza(); };
+function miscareButon() {
+  var b = $('btnMiscare'); if (!b) return;
+  b.setAttribute('aria-pressed', MISCARE_OPRITA ? 'true' : 'false');
+  var et = MISCARE_OPRITA ? 'Pornește mișcarea fundalului' : 'Oprește mișcarea fundalului';
+  b.setAttribute('aria-label', et); b.title = et;
+  b.innerHTML = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><path d="' + (MISCARE_OPRITA ? 'M8 5.5v13l10-6.5z' : 'M9 6v12M15 6v12') + '"/></svg>';
+}
+function curentPorneste(id, opt) { var c = $(id); if (!c || c._curent) return; c._curent = new Curent(c, opt); }
 
 function toast(text, opt) {
   opt = opt || {};
@@ -634,7 +1029,7 @@ function scheletLista() { var h = '<div class="cap"><div class="sk" style="width
 
 // ---------- intrare / ieșire ----------
 function iesire(tacut) {
-  localStorage.removeItem('eco_sesiune'); golesteC(); S = { sesiune: null };
+  localStorage.removeItem('eco_sesiune'); golesteC(); S = { sesiune: null }; BC.lista = null; BC.fir = null; BC.p = null; BC.q = '';
   clearTimeout(AS.timer); clearTimeout(TC.timer);
   inchide(); $('app').hidden = true; $('login').hidden = false; deseneazaContur();
   if (!tacut) toast('Ai ieșit din cont.');
@@ -659,62 +1054,61 @@ $('fLogin').addEventListener('submit', async function (ev) {
   }
   $('btnLogin').disabled = false; $('btnLogin').textContent = 'Intră';
 });
-function deseneazaContur() {
-  var svg = $('contur'); if (!svg || svg.childNodes.length) return;
-  var h = '', cx = 520, cy = 360;
-  for (var k = 0; k < 16; k++) {
-    var R = 40 + k * 34, pts = [];
-    for (var a = 0; a <= 64; a++) {
-      var t = a / 64 * Math.PI * 2, r = R * (1 + 0.09 * Math.sin(3 * t + k * 0.35) + 0.05 * Math.sin(5 * t - k * 0.2) + 0.03 * Math.cos(7 * t + k));
-      pts.push((cx + r * Math.cos(t)).toFixed(1) + ' ' + (cy + r * 0.82 * Math.sin(t)).toFixed(1));
-    }
-    h += '<path d="M' + pts.join(' L') + 'Z" stroke="' + (k % 4 === 3 ? '#9BFF4F' : '#3E6B4C') + '" stroke-opacity="' + (k % 4 === 3 ? 0.55 : 0.6) + '" fill="none" stroke-width="' + (k % 4 === 3 ? 1.4 : 1) + '"/>';
-  }
-  svg.innerHTML = h;
-}
+function deseneazaContur() { curentPorneste('fundalLogin', { mereuIntunecat: true }); CURENTI.forEach(function (x) { x.dimensioneaza(); x.actualizeaza(); }); }
 
 // ---------- cadrul ----------
+var LINK_CONTRACTE = 'https://smm2424.github.io/oportunitati/contracte/';
 var NAV = [
-  { p: 'azi', t: 'Azi', i: 'azi' }, { p: 'taskuri', t: 'Taskuri', i: 'taskuri' }, { p: 'clarificat', t: 'De clarificat', i: 'clarificat' },
-  { p: 'termene', t: 'Termene și expirări', i: 'termene' }, { p: 'firme', t: 'Firme', i: 'firme' }, { p: 'auto', t: 'Auto', i: 'masina' }, { p: 'contracte', t: 'Contracte', i: 'contracte' },
-  { gr: 'Bani' }, { p: 'imprumuturi', t: 'Împrumuturi între firme', i: 'refa' }, { p: 'drepturi', t: 'Drepturi de autor', i: 'foaie' }, { p: 'contabilitate', t: 'Contabilitate', i: 'grafic' },
-  { gr: 'Lucru' }, { p: 'asistent', t: 'Asistent Claudiu', i: 'asistent' }, { p: 'urca', t: 'Urcă document', i: 'urca' }, { p: 'linkuri', t: 'Link-uri utile', i: 'linkuri' },
-  { p: 'bot', t: 'Bot WhatsApp', i: 'bot' },
-  { gr: 'Cont' }, { p: 'jurnal', t: 'Jurnal', i: 'jurnal' }, { p: 'chei', t: 'Parole', i: 'chei' }
+  { gr: 'Lucru', s: 'lucru' }, { p: 'azi', t: 'Azi', i: 'azi' }, { p: 'taskuri', t: 'Taskuri', i: 'taskuri' }, { p: 'clarificat', t: 'De clarificat', i: 'clarificat' }, { p: 'asistent', t: 'Asistent Claudiu', i: 'asistent' },
+  { gr: 'Firme și acte', s: 'acte' }, { p: 'termene', t: 'Termene și expirări', i: 'termene' }, { p: 'firme', t: 'Firme', i: 'firme' }, { p: 'auto', t: 'Auto', i: 'masina' }, { ext: LINK_CONTRACTE, t: 'Contracte', i: 'contracte' },
+  { gr: 'Bani', s: 'bani' }, { p: 'imprumuturi', t: 'Împrumuturi între firme', i: 'refa' }, { p: 'drepturi', t: 'Drepturi de autor', i: 'foaie' }, { p: 'contabilitate', t: 'Contabilitate', i: 'grafic' },
+  { gr: 'Unelte', s: 'unelte' }, { p: 'linkuri', t: 'Link-uri utile', i: 'linkuri' }, { p: 'urca', t: 'Urcă document', i: 'urca' }, { p: 'bot', t: 'Bot WhatsApp', i: 'bot' },
+  { gr: 'Cont', s: 'cont' }, { p: 'jurnal', t: 'Jurnal', i: 'jurnal' }, { p: 'chei', t: 'Parole', i: 'chei' }
 ];
-function titluPagina(p) { var n = NAV.filter(function (x) { return x.p === p; })[0]; return n ? n.t : ''; }
+// pagini care nu sunt în meniu, dar se deschid din altă pagină (titlul, secțiunea și pagina din meniu care se aprinde)
+var PAGINI_EXTRA = { botconv: { t: 'Conversațiile botului', s: 'unelte', nav: 'bot' }, contracte: { t: 'Contracte', s: 'acte', nav: '' } };
+(function () { var s = ''; NAV.forEach(function (n) { if (n.gr) s = n.s; else n.s = s; }); })();
+function sectiunePagina(p) { var n = NAV.filter(function (x) { return x.p === p; })[0]; return n ? n.s : (PAGINI_EXTRA[p] || {}).s || 'lucru'; }
+function titluPagina(p) { var n = NAV.filter(function (x) { return x.p === p; })[0]; return n ? n.t : (PAGINI_EXTRA[p] || {}).t || ''; }
 function construiesteNav() {
   $('nav').innerHTML = NAV.map(function (n) {
-    if (n.gr) return '<div class="gr">' + esc(n.gr) + '</div>';
-    if (n.ext) return '<a href="' + esc(n.ext) + '" target="_blank" rel="noopener noreferrer">' + ic(n.i) + '<span>' + esc(n.t) + '</span><span class="ext">' + ic('ext').replace('class="i"', 'class="i" style="width:14px;height:14px"') + '</span></a>';
-    return '<a href="#' + n.p + '" data-p="' + n.p + '">' + ic(n.i) + '<span>' + esc(n.t) + '</span><span class="nr" id="nr_' + n.p + '" hidden></span></a>';
+    if (n.gr) return '<div class="gr" data-s="' + n.s + '"><i></i>' + esc(n.gr) + '</div>';
+    if (n.ext) return '<a href="' + esc(n.ext) + '" target="_blank" rel="noopener noreferrer" data-s="' + n.s + '">' + ic(n.i) + '<span>' + esc(n.t) + '</span><span class="ext" aria-label="se deschide în altă filă">' + ic('ext').replace('class="i"', 'class="i" style="width:14px;height:14px;color:var(--ink3)"') + '</span></a>';
+    return '<a href="#' + n.p + '" data-p="' + n.p + '" data-s="' + n.s + '">' + ic(n.i) + '<span>' + esc(n.t) + '</span><span class="nr" id="nr_' + n.p + '" hidden></span></a>';
   }).join('');
 }
 function badge(p, n, hot) { var e = $('nr_' + p); if (!e) return; if (!n) { e.hidden = true; return; } e.hidden = false; e.textContent = n; e.classList.toggle('hot', !!hot); }
 function tema(t) {
   if (t) { try { localStorage.setItem('eco_tema', t); } catch (e) { } }
-  var v = t || (function () { try { return localStorage.getItem('eco_tema'); } catch (e) { return null; } })() || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'intunecat' : 'luminos');
+  var v = t || (function () { try { return localStorage.getItem('eco_tema'); } catch (e) { return null; } })() || 'intunecat';
   document.documentElement.dataset.tema = v;
-  document.querySelector('meta[name=theme-color]').content = v === 'intunecat' ? '#0C1410' : '#EDF1EC';
+  document.querySelector('meta[name=theme-color]').content = v === 'intunecat' ? '#06120B' : '#EEF4EC';
   if ($('btnTema')) $('btnTema').innerHTML = ic(v === 'intunecat' ? 'soare' : 'luna');
+  if (t) CURENTI.forEach(function (x) { if (!x.opt.mereuIntunecat) x.reface(); });
   return v;
 }
 tema();
 $('btnTema').onclick = function () { tema(document.documentElement.dataset.tema === 'intunecat' ? 'luminos' : 'intunecat'); };
 $('btnIesire').innerHTML = ic('iesire'); $('btnIesire').onclick = function () { iesire(); };
-$('burger').innerHTML = ic('meniu'); $('burger').onclick = function () { $('side').classList.toggle('deschis'); $('scrim').classList.toggle('on', $('side').classList.contains('deschis')); };
+function meniuMobil(deschis) { $('side').classList.toggle('deschis', deschis); $('scrim').classList.toggle('on', deschis || $('drawer').classList.contains('deschis')); $('burger').setAttribute('aria-expanded', deschis ? 'true' : 'false'); $('burger').textContent = deschis ? 'Închide' : 'Meniu'; }
+$('burger').onclick = function () { meniuMobil(!$('side').classList.contains('deschis')); };
 $('cmdIc').outerHTML = ic('cauta');
 $('cmdBtn').onclick = deschidePaleta;
-$('scrim').onclick = function () { inchide(); $('side').classList.remove('deschis'); };
+$('btnCautaTel').innerHTML = ic('cauta'); $('btnCautaTel').onclick = function () { meniuMobil(false); deschidePaleta(); };
+miscareButon();
+$('btnMiscare').onclick = function () { MISCARE_OPRITA = !MISCARE_OPRITA; try { localStorage.setItem('eco_miscare', MISCARE_OPRITA ? 'oprita' : 'activa'); } catch (e) { } miscareButon(); CURENTI.forEach(function (x) { x.actualizeaza(); }); };
+$('scrim').onclick = function () { inchide(); meniuMobil(false); };
 window.addEventListener('scroll', function () { $('top').classList.toggle('umbra', window.scrollY > 24); }, { passive: true });
 document.addEventListener('keydown', function (e) {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k' && S.sesiune) { e.preventDefault(); deschidePaleta(); }
-  if (e.key === 'Escape') { if ($('paleta')) inchidePaleta(); else if ($('drawer').classList.contains('deschis')) inchide(); else { $('side').classList.remove('deschis'); $('scrim').classList.remove('on'); } }
+  if (e.key === 'Escape') { if ($('paleta')) inchidePaleta(); else if ($('drawer').classList.contains('deschis')) inchide(); else meniuMobil(false); }
 });
 var expTimer = null;
 function porneste() {
   $('login').hidden = true; $('app').hidden = false;
   construiesteNav();
+  curentPorneste('fundal');
+  CURENTI.forEach(function (x) { x.dimensioneaza(); x.actualizeaza(); });
   $('euNume').textContent = S.nume || ''; $('euRol').textContent = (S.rol === 'asociat' ? 'acces complet' : 'acces Tamara') + ', v' + VER;
   $('av').textContent = (S.nume || '?').charAt(0).toUpperCase();
   clearTimeout(expTimer); if (S.exp) expTimer = setTimeout(function () { iesire(true); toast('Sesiunea de 12 ore s-a încheiat. Intră din nou.'); }, Math.max(0, S.exp - Date.now()));
@@ -729,11 +1123,12 @@ async function mergi(p, dinHash) {
   if (!dinHash && location.hash.slice(1) !== p) history.replaceState(null, '', '#' + p);
   GEN++;
   clearTimeout(AS.timer);
-  document.querySelectorAll('#nav a[data-p]').forEach(function (a) { a.classList.toggle('activ', a.dataset.p === p); if (a.dataset.p === p) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
-  $('side').classList.remove('deschis'); if (!$('drawer').classList.contains('deschis')) $('scrim').classList.remove('on');
+  var pn = PAGINI_EXTRA[p] && !NAV.some(function (x) { return x.p === p; }) ? PAGINI_EXTRA[p].nav : p;
+  document.querySelectorAll('#nav a[data-p]').forEach(function (a) { a.classList.toggle('activ', a.dataset.p === pn); if (a.dataset.p === pn) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  meniuMobil(false);
   $('topTitlu').textContent = titluPagina(p);
   document.title = titluPagina(p) + ' - Ecosistem TEG';
-  var m = $('main'); m.className = ''; void m.offsetWidth; m.className = 'pagina';
+  var m = $('main'); m.className = ''; void m.offsetWidth; m.className = 'pagina'; m.dataset.s = sectiunePagina(p);
   window.scrollTo(0, 0);
   try { await PAGINI[p](m); }
   catch (e) { m.innerHTML = '<div class="cap"><div><h1>' + esc(titluPagina(p)) + '</h1></div></div><div class="panou gol"><b>Pagina nu s-a încărcat</b>' + esc(e.message) + '<div style="margin-top:14px"><button class="btn sec mic" id="reincearca">' + ic('refa') + 'Încearcă din nou</button></div></div>'; $('reincearca').onclick = function () { mergi(p); }; }
@@ -1453,13 +1848,24 @@ PAGINI.contabilitate = function (m) {
 };
 
 // ---------- Link-uri ----------
+var LK_CUL = { 'Bani și plăți': 'bani', 'Firme și acte': 'acte', 'Contabilitate': 'unelte', 'Finanțări': 'coral', 'Platforme': 'lucru' };
+function tipLink(u) { return /spreadsheets/.test(u) ? 'foaie' : /folders/.test(u) ? 'dosar' : /document|file\/d|presentation/.test(u) ? 'doc' : /github\.io|teg\.ro|script\.google/.test(u) ? 'platf' : 'ext'; }
 PAGINI.linkuri = function (m) {
   return incarca(m, 'linkuri', 'linkuri', {}, function (d, m) {
-    var h = '<div class="cap"><div><h1>Link-uri utile</h1><p>Foile, folderele și platformele pe care lucrăm zilnic.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="lQ" placeholder="Caută un link" aria-label="Caută un link"></div></div></div><div id="lL"></div>';
+    var h = '<div class="cap"><div><h1>Link-uri utile</h1><p>Foile, folderele și platformele pe care lucrăm zilnic. Se deschid în altă filă.</p></div><div class="act"><div class="camp-cautare">' + ic('cauta') + '<input id="lQ" placeholder="Caută un link" aria-label="Caută un link"></div></div></div><div id="lL"></div>';
     m.innerHTML = h;
+    var ET = { foaie: 'Google Sheets', dosar: 'Folder în Drive', doc: 'Document', platf: 'Platformă TEG' };
+    var IC_T = { foaie: 'foaie', dosar: 'dosar', doc: 'contracte', platf: 'azi', ext: 'ext' };
     var des = function (q) {
-      var gr = {}; d.linkuri.forEach(function (l) { if (filtreazaText(q, l.t + ' ' + l.g)) (gr[l.g] = gr[l.g] || []).push(l); });
-      $('lL').innerHTML = Object.keys(gr).map(function (g) { return '<div class="sectiune" style="margin-top:26px"><h2 style="font-size:16px">' + esc(g) + '</h2><div class="plac">' + gr[g].map(function (l) { var u = urlSigur(l.u), dom = domeniu(u), tip = /spreadsheets/.test(u) ? 'foaie' : /folders/.test(u) ? 'dosar' : /document|file\/d|presentation/.test(u) ? 'doc' : 'ext'; return '<a class="pl" target="_blank" rel="noopener noreferrer" href="' + esc(u) + '"><span class="ic ' + tip + '">' + ic(tip === 'doc' ? 'contracte' : tip) + '</span><span style="min-width:0"><b>' + esc(l.t) + '</b><span>' + esc(tip === 'foaie' ? 'Google Sheets' : tip === 'dosar' ? 'Folder Drive' : tip === 'doc' ? 'Document' : dom) + '</span></span></a>'; }).join('') + '</div></div>'; }).join('') || '<div class="panou gol"><b>Niciun link găsit</b>Încearcă alt cuvânt.</div>';
+      var gr = {}, ord = []; d.linkuri.forEach(function (l) { if (filtreazaText(q, l.t + ' ' + l.g)) { if (!gr[l.g]) { gr[l.g] = []; ord.push(l.g); } gr[l.g].push(l); } });
+      var k = 0, rot = ['lucru', 'acte', 'bani', 'unelte', 'coral'];
+      $('lL').innerHTML = ord.map(function (g) {
+        var s = LK_CUL[g] || rot[(k++) % rot.length];
+        return '<section class="lk-gr" data-s="' + s + '"><h2><i></i>' + esc(g) + '<span>' + gr[g].length + '</span></h2><div class="plac">' + gr[g].map(function (l) {
+          var u = urlSigur(l.u), tip = tipLink(u);
+          return '<a class="pl" target="_blank" rel="noopener noreferrer" href="' + esc(u) + '"><span class="ic ' + tip + '">' + ic(IC_T[tip]) + '</span><span class="sag">' + ic('ext').replace('class="i"', 'class="i" style="width:16px;height:16px"') + '</span><span class="txt"><b>' + esc(l.t) + '</b><span class="tip">' + esc(ET[tip] || domeniu(u) || 'link') + '</span></span></a>';
+        }).join('') + '</div></section>';
+      }).join('') || '<div class="panou gol"><b>Niciun link găsit</b>Încearcă alt cuvânt.</div>';
     };
     des(''); $('lQ').oninput = function () { des(this.value); };
   });
@@ -1586,10 +1992,108 @@ PAGINI.bot = async function (m) {
   ];
   var g = [['Ghid echipă: facturi și cereri de plată', 'https://drive.google.com/file/d/1AwXQsZcWlalYcnw6ode1P7u5uIEB5Zk3/view'], ['Ghid Tamara: plăți și cash flow', 'https://drive.google.com/file/d/1peqQkvZukPWeZReiG3EQEDiKmXJVl-Dy/view']];
   if (S.rol === 'asociat') g.push(['Ghid admini (complet)', 'https://drive.google.com/file/d/1EY9OO1RMr-IJC3yt-d3W6l6EpqQPzAZR/view']);
-  m.innerHTML = '<div class="cap"><div><h1>Bot WhatsApp „TEG Facturi”</h1><p>Ce face botul azi și cum îi scrii (din ghidul pentru echipă, 09.10.2026).</p></div></div>' +
+  m.innerHTML = '<div class="cap"><div><h1>Bot WhatsApp „TEG Facturi”</h1><p>Ce face botul azi și cum îi scrii (din ghidul pentru echipă, 09.10.2026).</p></div>' + (S.rol === 'asociat' ? '<div class="act"><a class="btn" href="#botconv">' + ic('bot') + 'Conversațiile botului</a></div>' : '') + '</div>' +
     '<div class="panou reguli">' + f.map(function (x) { return '<div><b>' + esc(x[0]) + '</b><p>' + esc(x[1]) + '</p></div>'; }).join('') + '</div>' +
     '<div class="sectiune"><h2>Ghiduri</h2><div class="linkuri">' + g.map(function (x) { return '<a class="lk" target="_blank" rel="noopener noreferrer" href="' + esc(x[1]) + '"><span class="ic">' + ic('contracte') + '</span><span><b>' + esc(x[0]) + '</b><span>PDF în Drive</span></span></a>'; }).join('') + '</div></div>' +
     '<div class="sectiune"><div class="nota">O funcție nouă pentru bot? Creează un task cu „Bot:” în titlu și descrie ce vrei să facă. Modificarea trece prin bot, cu teste, și apare aici după publicare.</div></div>';
+};
+
+// ---------- Conversațiile botului: doar Admin, citite live din cash flow, nimic păstrat în browser ----------
+var BC = { lista: null, p: null, q: '', fir: null, limita: 400 };
+var BC_ROL = { ADMIN: 'lucru', MANAGER: 'acte', ECHIPA: 'unelte' };
+function bcInitiale(n) { var p = String(n || '?').replace(/[^\p{L}\s]/gu, ' ').trim().split(/\s+/); return ((p[0] || '?').charAt(0) + (p[1] ? p[1].charAt(0) : '')).toUpperCase(); }
+function bcData(ts) { if (!ts || ts.length < 8) return null; return new Date(+ts.slice(0, 4), +ts.slice(4, 6) - 1, +ts.slice(6, 8), +ts.slice(8, 10) || 0, +ts.slice(10, 12) || 0); }
+function bcOraScurta(ts) {
+  var d = bcData(ts); if (!d) return '';
+  var azi = new Date(); azi.setHours(0, 0, 0, 0); var z = new Date(d); z.setHours(0, 0, 0, 0); var dif = Math.round((azi - z) / 864e5);
+  if (dif === 0) return ts.slice(8, 10) + ':' + ts.slice(10, 12);
+  if (dif === 1) return 'ieri';
+  return ts.slice(6, 8) + '.' + ts.slice(4, 6) + (ts.slice(0, 4) === String(azi.getFullYear()) ? '' : '.' + ts.slice(2, 4));
+}
+function bcZi(ts) {
+  var d = bcData(ts); if (!d) return 'Fără dată';
+  var azi = new Date(); azi.setHours(0, 0, 0, 0); var z = new Date(d); z.setHours(0, 0, 0, 0); var dif = Math.round((azi - z) / 864e5);
+  if (dif === 0) return 'Azi'; if (dif === 1) return 'Ieri';
+  var s = d.toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); return s.charAt(0).toUpperCase() + s.slice(1);
+}
+// textul de pe WhatsApp: linkurile devin linkuri sigure, *gros*, _cursiv_, ~tăiat~
+function bcText(s) {
+  return String(s || '').split(/(https?:\/\/[^\s<>"]+)/g).map(function (x, i) {
+    if (i % 2) { var u = urlSigur(x); return u === '#' ? esc(x) : '<a href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + esc(x.length > 60 ? x.slice(0, 57) + '...' : x) + '</a>'; }
+    return esc(x).replace(/(^|[\s(])\*([^*\n]+)\*(?=$|[\s).,!?:;])/g, '$1<b>$2</b>').replace(/(^|[\s(])_([^_\n]+)_(?=$|[\s).,!?:;])/g, '$1<i>$2</i>').replace(/(^|[\s(])~([^~\n]+)~(?=$|[\s).,!?:;])/g, '$1<s>$2</s>');
+  }).join('');
+}
+function bcStare(s) {
+  if (!s) return '';
+  var c = /^EROARE|NEPROCESABIL|FARA_FIRMA/.test(s) ? 'hot' : /ASTEAPTA|EXPIRAT|DUBLU\?/.test(s) ? 'warn' : /^(PROCESAT|PLATA|OP|DOVADA_PLATA|RASPUNS|CORECTIE|COMANDA|STATUS|CONVERSATIE)$/.test(s) ? 'ok' : '';
+  return '<span class="pill ' + c + '">' + esc(s.toLowerCase().replace(/_/g, ' ')) + '</span>';
+}
+function bcOm(o) {
+  var pv = o.ultimText ? (o.ultimDir === 'out' ? 'Bot: ' : '') + o.ultimText : 'Nicio conversație încă';
+  return '<button type="button" class="bc-om" data-id="' + esc(o.id) + '" aria-current="' + (o.id === BC.p ? 'true' : 'false') + '"><span class="bc-av" data-s="' + (o.echipa ? (BC_ROL[String(o.rol).toUpperCase()] || 'unelte') : 'cont') + '">' + esc(bcInitiale(o.nume)) + '</span><span class="bc-c"><span class="bc-r1"><b>' + esc(o.nume) + '</b><span class="bc-ora">' + esc(bcOraScurta(o.ultimTs)) + '</span></span><span class="bc-pv">' + esc(pv) + '</span></span></button>';
+}
+function bcLista() {
+  var l = (BC.lista && BC.lista.oameni || []).filter(function (o) { return filtreazaText(BC.q, o.nume + ' ' + o.rol + ' ' + o.dep); });
+  $('bcL').innerHTML = l.length ? l.map(bcOm).join('') : '<div class="bc-gol"><b>Nimeni găsit</b>Încearcă alt nume.</div>';
+  $('bcL').querySelectorAll('.bc-om').forEach(function (b) { b.onclick = function () { bcDeschide(b.dataset.id); }; });
+}
+function bcCap(o) {
+  var sub = [o.echipa ? (o.rol ? o.rol.charAt(0) + o.rol.slice(1).toLowerCase() : 'Echipă') : 'Nu e în ECHIPA', o.dep, o.nIn + ' primite, ' + o.nOut + ' trimise de bot'].filter(Boolean).join(' · ');
+  return '<div class="bc-cap"><button type="button" class="ib bc-inapoi" id="bcInapoi" aria-label="Înapoi la persoane" title="Înapoi la persoane"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><span class="bc-av" data-s="' + (o.echipa ? (BC_ROL[String(o.rol).toUpperCase()] || 'unelte') : 'cont') + '">' + esc(bcInitiale(o.nume)) + '</span><span class="bc-c"><b>' + esc(o.nume) + '</b><span>' + esc(sub) + '</span></span></div>';
+}
+function bcMesaj(x) {
+  var h = '';
+  if (x.la) h += '<span class="bc-la">' + esc(x.la) + '</span>';
+  var media = /^(document|image|video|audio|sticker)$/.test(String(x.tip || ''));
+  if (x.dir === 'in' && (media || x.fisier)) { var n = x.fisier || ({ image: 'Poză', video: 'Video', audio: 'Mesaj audio', document: 'Document' })[x.tip] || 'Fișier'; h += (x.link ? '<a class="bc-fis" href="' + esc(urlSigur(x.link)) + '" target="_blank" rel="noopener noreferrer">' : '<span class="bc-fis">') + ic('clips') + '<span>' + esc(n) + '</span>' + (x.link ? '</a>' : '</span>') + (x.text ? '\n' : ''); }
+  else if (x.dir === 'out' && x.tip === 'document') h += '<span class="bc-fis">' + ic('contracte') + '<span>Document trimis</span></span>' + (x.text ? '\n' : '');
+  if (x.text) h += bcText(x.text);
+  else if (!h) h += '<i class="mic-t">[' + esc(x.tip || 'mesaj') + ']</i>';
+  var sta = x.dir === 'in' ? bcStare(x.stare) + (x.linkCF ? '<a class="pill info" href="' + esc(urlSigur(x.linkCF)) + '" target="_blank" rel="noopener noreferrer">rândul ' + esc(x.rand) + '</a>' : '') : '';
+  return '<div class="bc-m ' + (x.dir === 'out' ? 'out' : 'in') + '">' + h + (sta ? '<span class="bc-sta">' + sta + '</span>' : '') + '<span class="bc-t">' + esc(x.ts ? x.ts.slice(8, 10) + ':' + x.ts.slice(10, 12) : '') + '</span></div>';
+}
+function bcFir() {
+  var f = BC.fir, D = $('bcD'); if (!D) return;
+  if (!f) { D.innerHTML = '<div class="bc-gol"><b>Alege o persoană</b>Vezi conversația ei cu botul, cum apare pe WhatsApp: ce a trimis omul în stânga, ce a răspuns botul în dreapta.</div>'; return; }
+  var h = bcCap(f.om) + '<div class="bc-fir" id="bcF" role="log" aria-label="Conversația cu ' + esc(f.om.nume) + '">';
+  if (f.total > f.mesaje.length) h += '<button type="button" class="btn sec mic bc-mai" id="bcMai">Arată și cele ' + (f.total - f.mesaje.length) + ' mai vechi</button>';
+  var zi = '';
+  f.mesaje.forEach(function (x) { var z = (x.ts || '').slice(0, 8); if (z !== zi) { zi = z; h += '<div class="bc-zi">' + esc(bcZi(x.ts)) + '</div>'; } h += bcMesaj(x); });
+  if (!f.mesaje.length) h += '<div class="bc-gol"><b>Niciun mesaj</b>Persoana e în ECHIPA, dar nu a scris încă botului.</div>';
+  D.innerHTML = h + '</div>';
+  var F = $('bcF'); F.scrollTop = F.scrollHeight;
+  $('bcInapoi').onclick = function () { BC.p = null; $('bcC').classList.remove('fir-deschis'); bcLista(); };
+  if ($('bcMai')) $('bcMai').onclick = function () { BC.limita = 5000; bcDeschide(BC.p, true); };
+}
+async function bcDeschide(id, pastreaz) {
+  var g = GEN; BC.p = id; if (!pastreaz) BC.limita = 400;
+  $('bcC').classList.add('fir-deschis'); bcLista();
+  var o = (BC.lista.oameni || []).filter(function (x) { return x.id === id; })[0];
+  $('bcD').innerHTML = (o ? bcCap(o) : '') + '<div class="bc-fir"><div class="bc-gol"><span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Citesc conversația din cash flow</span></div></div>';
+  if ($('bcInapoi')) $('bcInapoi').onclick = function () { BC.p = null; $('bcC').classList.remove('fir-deschis'); bcLista(); };
+  sync('lucru');
+  try { var d = await api('bot_conv', { p: id, limita: BC.limita }); if (g !== GEN || BC.p !== id) return; BC.fir = d; bcFir(); sync('ok'); }
+  catch (e) { if (g !== GEN) return; sync('ok'); $('bcD').innerHTML = (o ? bcCap(o) : '') + '<div class="bc-gol"><b>Conversația nu s-a încărcat</b>' + esc(e.message) + '</div>'; if ($('bcInapoi')) $('bcInapoi').onclick = function () { BC.p = null; $('bcC').classList.remove('fir-deschis'); bcLista(); }; }
+}
+PAGINI.botconv = async function (m) {
+  var g = GEN;
+  m.innerHTML = '<div class="cap"><div><h1>Conversațiile botului</h1><p>Ce a primit și ce a trimis botul „TEG Facturi”, pe fiecare persoană, cum se vede pe WhatsApp. Citite live din cash flow, doar pentru citire; nimic nu rămâne salvat în browser.</p></div><div class="act"><a class="btn sec bc-tel-ascuns" href="#bot">' + ic('bot') + 'Ghidul botului</a><button class="btn sec" id="bcRef" type="button">' + ic('refa') + 'Reîmprospătează</button></div></div>' +
+    '<div class="bc-cadru" id="bcC"><div class="bc-st"><div class="bc-q"><div class="camp-cautare" style="max-width:none">' + ic('cauta') + '<input id="bcQ" placeholder="Caută o persoană" aria-label="Caută o persoană" value="' + esc(BC.q) + '"></div></div><div class="bc-l" id="bcL"></div></div><div class="bc-dr" id="bcD"></div></div>';
+  $('bcQ').oninput = function () { BC.q = this.value; bcLista(); };
+  $('bcRef').onclick = function () { mergi('botconv'); };
+  BC.fir = null;
+  if (BC.lista) { bcLista(); bcFir(); } else $('bcL').innerHTML = '<div class="bc-gol"><span class="lucreaza"><span class="puncte"><i></i><i></i><i></i></span>Citesc persoanele</span></div>';
+  if (!BC.lista) bcFir();
+  sync('lucru');
+  try {
+    var d = await api('bot_conv', {}); if (g !== GEN) return;
+    BC.lista = d; bcLista(); sync('ok');
+    if (BC.p && d.oameni.some(function (o) { return o.id === BC.p; }) && window.innerWidth > 860) bcDeschide(BC.p, true); else { BC.p = null; bcFir(); }
+  } catch (e) {
+    if (g !== GEN) return; sync('ok');
+    if (/ACCES REFUZAT/.test(e.message)) { $('bcC').outerHTML = '<div class="panou gol"><b>Doar contul Admin vede conversațiile botului</b>Pentru acces, cere-i lui Sebastian.</div>'; return; }
+    throw e;
+  }
 };
 
 // ---------- Jurnal ----------
@@ -1631,6 +2135,8 @@ function deschidePaleta() {
     { g: 'Acțiuni', t: 'Ieșire', i: 'iesire', f: function () { iesire(); } }
   ];
   var pagini = NAV.filter(function (n) { return n.p; }).map(function (n) { return { g: 'Pagini', t: n.t, i: n.i, f: function () { location.hash = n.p; } }; });
+  if (S.rol === 'asociat') pagini.push({ g: 'Pagini', t: 'Conversațiile botului', i: 'bot', f: function () { location.hash = 'botconv'; } });
+  pagini.push({ g: 'Pagini', t: 'Contracte (platforma TEG Contracte)', i: 'contracte', f: function () { window.open(LINK_CONTRACTE, '_blank', 'noopener'); } });
   var taskuri = tk.map(function (t) { return { g: 'Taskuri', t: t.Titlu, s: t.ID, i: 'taskuri', f: function () { deschideTask(t.ID); } }; });
   var sel = 0, rez = [];
   var des = function () {
