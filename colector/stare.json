@@ -1,9 +1,9 @@
 {
- "colectat": "2026-11-26T13:56:58Z",
+ "colectat": "2026-11-26T19:49:39Z",
  "tinte": {
   "fs1": {
    "http": 200,
-   "n": 485
+   "n": 486
   },
   "fs2": {
    "http": 200,
@@ -11,12 +11,12 @@
   },
   "s20": {
    "http": 200,
-   "caractere": 42559,
-   "linkuri": 70
+   "caractere": 42257,
+   "linkuri": 69
   },
   "pmtm": {
    "http": 200,
-   "caractere": 30578,
+   "caractere": 30577,
    "linkuri": 49
   },
   "pmtm2": {
