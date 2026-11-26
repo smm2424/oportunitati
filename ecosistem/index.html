@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TwOeicpkrwPG/XGyx5kFVR1Udvg2eNiGbERnm2qAPac='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-/VJSBD23BkaitvBcn9U/m/hPN6FRKzfy2475QtbEqEY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; manifest-src 'none'">
 <meta name="theme-color" content="#EDF1EC">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -342,6 +342,16 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 .kpi-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:8px}
 .kpi-c{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding:18px 20px;border-radius:var(--r3);background:var(--surface);box-shadow:var(--sh);transition:transform .2s var(--ease)}
 .kpi-c:hover{transform:translateY(-2px)}.kpi-c:active{transform:scale(.97)}.kpi-c:focus-visible{outline:2px solid var(--moss);outline-offset:2px}
+.kpi-c.st{cursor:default}.kpi-c.st:hover{transform:none}
+.ct-lista{display:flex;flex-direction:column;border-radius:var(--r3);background:var(--surface);box-shadow:var(--sh);overflow:hidden}
+.ct-rand{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:16px;padding:14px 18px;border-top:1px solid var(--line2);transition:background-color .12s var(--ease)}
+.ct-rand:first-child{border-top:0}.ct-rand:hover{background:var(--surface2)}.ct-rand:focus-visible{outline:2px solid var(--moss);outline-offset:-2px}
+.ct-rand.ct-alte{border-top:6px solid var(--line2)}
+.ct-n{flex:1;min-width:0;font-weight:600;font-size:15px}.ct-n i{display:block;font-style:normal;font-weight:400;font-size:12.5px;color:var(--ink3);margin-top:2px}
+.ct-rand b{font-size:17px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}.ct-rand b.rau{color:var(--rust)}.ct-rand b.bun{color:var(--moss)}
+.fr-h3{font-size:14px;margin:18px 0 4px;color:var(--ink2)}
+.acte-l li span+b{float:right;font-variant-numeric:tabular-nums;margin-left:10px}
+@media (max-width:640px){.ct-rand{flex-wrap:wrap;gap:4px 12px}.ct-rand b{font-size:16px}}
 .kpi-c span{font-size:13px;color:var(--ink2)}.kpi-c b{font-size:26px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.kpi-c i{font-style:normal;font-size:13px;color:var(--ink3)}
 .fr-meta-t{margin:0;color:var(--ink2);font-size:14px;line-height:1.5}
 .fr-ev.cl{border-left-color:var(--blue)}.fr-ev.cl .x{color:var(--ink);font-size:14.5px}
@@ -518,7 +528,7 @@ tr.rand-fisa{cursor:pointer}tr.rand-fisa:hover td{background:var(--surface2)}
 
 <script>
 'use strict';
-var VER = '0.5.1';
+var VER = '0.6.0';
 if (window.top !== window.self) { document.documentElement.innerHTML = ''; throw new Error('încadrat'); }
 var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
 var S = { sesiune: null };
@@ -559,6 +569,7 @@ var IC = {
  stop: '<rect x="6" y="6" width="12" height="12" rx="2"/>',
  refa: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>',
  foaie: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/>',
+ grafic: '<path d="M5 19v-7M12 19V5M19 19v-4M3 19h18"/>',
  masina: '<path d="M3 16V8a1 1 0 0 1 1-1h10v9M14 10h4l3 3v3h-7"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>',
  dosar: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'
 };
@@ -665,7 +676,7 @@ function deseneazaContur() {
 var NAV = [
   { p: 'azi', t: 'Azi', i: 'azi' }, { p: 'taskuri', t: 'Taskuri', i: 'taskuri' }, { p: 'clarificat', t: 'De clarificat', i: 'clarificat' },
   { p: 'termene', t: 'Termene și expirări', i: 'termene' }, { p: 'firme', t: 'Firme', i: 'firme' }, { p: 'auto', t: 'Auto', i: 'masina' }, { p: 'contracte', t: 'Contracte', i: 'contracte' },
-  { gr: 'Bani' }, { p: 'imprumuturi', t: 'Împrumuturi între firme', i: 'refa' }, { p: 'drepturi', t: 'Drepturi de autor', i: 'foaie' },
+  { gr: 'Bani' }, { p: 'imprumuturi', t: 'Împrumuturi între firme', i: 'refa' }, { p: 'drepturi', t: 'Drepturi de autor', i: 'foaie' }, { p: 'contabilitate', t: 'Contabilitate', i: 'grafic' },
   { gr: 'Lucru' }, { p: 'asistent', t: 'Asistent Claudiu', i: 'asistent' }, { p: 'urca', t: 'Urcă document', i: 'urca' }, { p: 'linkuri', t: 'Link-uri utile', i: 'linkuri' },
   { p: 'bot', t: 'Bot WhatsApp', i: 'bot' },
   { gr: 'Cont' }, { p: 'jurnal', t: 'Jurnal', i: 'jurnal' }, { p: 'chei', t: 'Parole', i: 'chei' }
@@ -1313,6 +1324,127 @@ PAGINI.drepturi = function (m) {
         deschideFisa({ cheie: 'da:' + p, titlu: 'Drepturi de autor · ' + p, pastile: [[DA.an === 'total' ? 'Total' : DA.an]], meta: '<b style="font-size:20px">' + lei(tot[p]) + '</b> · ' + lp.length + ' plăți', sus: '<p class="fr-meta-t" style="margin:10px 0">' + lk(d.link, 'Deschide registrul') + '</p><ul class="acte-l">' + lp.slice().reverse().map(function (x) { return '<li>' + esc(x.data) + ' · ' + lei(x.suma) + ' · ' + esc(x.firma) + (x.motiv ? ' · ' + esc(x.motiv) : '') + (x.dovada ? ' · ' + lk(x.dovada, x.dovadaTip || 'dovada') : '') + (x.linkCF ? ' · ' + lk(x.linkCF, 'cash flow') : '') + '</li>'; }).join('') + '</ul>' }); }; });
       m.querySelectorAll('tr.rand-fisa').forEach(function (tr) { tr.onclick = function (ev) { if (ev.target.closest('a')) return; var x = d.plati.filter(function (y) { return String(y.rand) === tr.dataset.r; })[0]; if (!x) return;
         deschideFisa({ cheie: 'da:' + x.persoana + '|' + x.rand, titlu: x.persoana + ' · ' + lei(x.suma), pastile: [['Drept de autor'], x.randCF ? ['în cash flow', 'ok'] : ['negăsit în cash flow', 'hot']], meta: esc(x.data) + ' · ' + esc(x.firma) + (x.contract ? ' · ' + esc(x.contract) : ''), sus: '<dl class="dl-c"><dt>Motivul</dt><dd>' + esc(x.motiv || '-') + '</dd><dt>Contract trimis la conta</dt><dd>' + (x.laConta ? 'da' : 'nu') + '</dd><dt>Dovada plății</dt><dd>' + (x.dovada ? lk(x.dovada, x.dovadaTip || 'deschide') : 'lipsă') + '</dd><dt>Rândul din cash flow</dt><dd>' + (x.linkCF ? lk(x.linkCF, 'rândul ' + x.randCF) : 'negăsit') + '</dd><dt>Rândul din registru</dt><dd>' + lk(d.link + '&range=A' + x.rand, 'rândul ' + x.rand) + '</dd>' + (x.detalii ? '<dt>Detalii</dt><dd>' + esc(x.detalii) + '</dd>' : '') + '</dl>' }); }; });
+    };
+    des();
+  });
+};
+
+// ---------- Contabilitate ----------
+var CT = { cui: 'toate', an: '', per: '', det: {}, anaf: {}, q: '', zero: false };
+var CONTA_PREF = { ca: ['70'], rezultat: ['6', '7'], casa: ['531'], avansuri_decontare: ['542'], creditari: ['455'], furnizori: ['401', '403', '404', '405', '408'], clienti: ['411', '413', '418'], datorii_anaf: ['431', '436', '437', '441', '444', '446', '447', '448', '4423'], marfuri: ['371'], tva: ['4423', '4424', '4426', '4427'], debitori_diversi: ['461'], banci: ['512'], grup: ['451'], salarii: ['421', '423', '425', '426', '427'], credite: ['519', '162', '166', '167'], creditori_diversi: ['462'], avansuri_clienti: ['419'], avansuri_furnizori: ['409'], stocuri: ['3'], imobilizari: ['2'], capitaluri: ['10', '11', '12'], venituri: ['7'], cheltuieli: ['6'] };
+var CONTA_CREDIT = { creditari: 1, furnizori: 1, datorii_anaf: 1, salarii: 1, credite: 1, creditori_diversi: 1, avansuri_clienti: 1, capitaluri: 1, tva: 1 };
+var CONTA_FLUX = { ca: 1, rezultat: 1, venituri: 1, cheltuieli: 1 };
+function contaVal(k, v) {
+  if (k === 'tva') return v > 0.004 ? lei(v) + ' de plată' : v < -0.004 ? lei(-v) + ' de recuperat' : lei(0);
+  if (k === 'rezultat') return v < -0.004 ? lei(-v) + ' pierdere' : lei(v) + (v > 0.004 ? ' profit' : '');
+  return lei(v);
+}
+function contaData(p) { var x = p.per.split('-'); return x[2] + '.' + x[1] + '.' + x[0]; }
+function contaPerAn(f, an) { return f.perioade.filter(function (p) { return p.per.slice(0, 4) === an; }); }
+async function contaDetaliu(cui, per) {
+  var k = cui + '|' + per;
+  if (!CT.det[k]) CT.det[k] = await api('contabilitate', { cui: cui, per: per });
+  return CT.det[k];
+}
+function contaCompozitie(k, conturi) {
+  var pref = CONTA_PREF[k] || [], ok = function (c) { return pref.some(function (p) { return c.indexOf(p) === 0; }); };
+  var l = conturi.filter(function (r) { return ok(r[0]); });
+  var cuAnalitic = {}; l.forEach(function (r) { if (r[0].indexOf('.') > 0) cuAnalitic[r[0].split('.')[0]] = 1; });
+  l = l.filter(function (r) { return r[0].indexOf('.') > 0 || !cuAnalitic[r[0]]; });
+  return l.map(function (r) {
+    var v = CONTA_FLUX[k] ? (r[0][0] === '6' && r[0].indexOf('609') !== 0 ? r[4] : r[0].indexOf('709') === 0 ? -r[4] : r[5]) : (CONTA_CREDIT[k] ? r[3] - r[2] : r[2] - r[3]);
+    return { cod: r[0], nume: r[1], v: v };
+  }).filter(function (x) { return Math.abs(x.v) > 0.004; }).sort(function (a, b) { return Math.abs(b.v) - Math.abs(a.v); });
+}
+async function contaFisaInd(d, f, p, ind) {
+  var det; try { det = await contaDetaliu(f.cui, p.per); } catch (e) { toast(e.message, { err: true }); return; }
+  var v = p.ind[ind.k], comp = contaCompozitie(ind.k, det.conturi);
+  var ist = f.perioade.map(function (q) { return '<li><span>' + esc(q.eticheta) + '</span><b>' + esc(contaVal(ind.k, q.ind[ind.k])) + '</b></li>'; }).join('');
+  var sus = '<p class="fr-meta-t" style="margin:6px 0 12px">' + esc(ind.d) + '. ' + (det.linkPdf ? lk(det.linkPdf, 'Deschide balanța') : esc(p.fisier)) + '</p>';
+  if (ind.k === 'tva' || ind.k === 'datorii_anaf') { var dt = ind.k === 'tva' ? p.ind.tva_detaliu : p.ind.anaf_detaliu, et = ind.k === 'tva' ? { '4423': '4423 TVA de plată', '4424': '4424 TVA de recuperat', '4426': '4426 TVA deductibilă (neînchisă)', '4427': '4427 TVA colectată (neînchisă)' } : { contributii: 'Contribuții (431, 436, 437)', impozit_salarii: 'Impozit pe salarii (444)', impozit_profit_venit: 'Impozit pe profit sau venit (441)', tva_de_plata: 'TVA de plată (4423)', alte: 'Alte (446, 447, 448)' }; sus += '<dl class="dl-c">' + Object.keys(dt).map(function (q) { var vv = Math.abs(dt[q]) < 0.005 ? 0 : dt[q]; return '<dt>' + esc(et[q] || q) + '</dt><dd>' + esc(ind.k === 'tva' ? contaVal('tva', vv) : lei(vv)) + '</dd>'; }).join('') + '</dl>'; }
+  sus += '<h3 class="fr-h3">Din ce conturi vine</h3>' + (comp.length ? '<ul class="acte-l">' + comp.slice(0, 40).map(function (x) { return '<li><span><b>' + esc(x.cod) + '</b> ' + esc(x.nume) + '</span><b>' + esc(ind.k === 'tva' ? contaVal('tva', x.v) : lei(x.v)) + '</b></li>'; }).join('') + '</ul>' + (comp.length > 40 ? '<p class="mic-t">și încă ' + (comp.length - 40) + ' conturi; le vezi în lista de jos.</p>' : '') : '<p class="mic-t">Niciun cont cu sold.</p>');
+  sus += '<h3 class="fr-h3">În timp</h3><ul class="acte-l">' + ist + '</ul>';
+  deschideFisa({ cheie: 'conta:' + f.cui + '|' + ind.k, titlu: ind.t + ' · ' + scurtFirma(f.nume), pastile: [[p.eticheta], p.verificat ? ['bate cu balanța', 'ok'] : ['de verificat', 'hot']], meta: '<b style="font-size:20px">' + esc(contaVal(ind.k, v)) + '</b> · la ' + contaData(p), sus: sus });
+}
+function contaFisaCont(f, p, r, linkPdf) {
+  var sold = r[2] - r[3];
+  deschideFisa({ cheie: 'conta:' + f.cui + '|cont ' + r[0], titlu: r[0] + ' ' + r[1], pastile: [[scurtFirma(f.nume)], [p.eticheta]], meta: '<b style="font-size:20px">' + lei(Math.abs(sold)) + '</b> ' + (sold > 0.004 ? 'sold debitor' : sold < -0.004 ? 'sold creditor' : 'fără sold') + ' · la ' + contaData(p),
+    sus: '<dl class="dl-c"><dt>Sold final debitor</dt><dd>' + lei(r[2]) + '</dd><dt>Sold final creditor</dt><dd>' + lei(r[3]) + '</dd><dt>Rulaj de la 1 ianuarie, debit</dt><dd>' + lei(r[4]) + '</dd><dt>Rulaj de la 1 ianuarie, credit</dt><dd>' + lei(r[5]) + '</dd></dl><p class="fr-meta-t" style="margin:10px 0">' + (linkPdf ? lk(linkPdf, 'Deschide balanța') : esc(p.fisier)) + '</p>' });
+}
+async function contaAnaf(cui) { if (!CT.anaf[cui]) CT.anaf[cui] = await api('conta_anaf', { cui: cui }); return CT.anaf[cui]; }
+function contaAnafHtml(a, an) {
+  var y = (a.ani || []).filter(function (x) { return !an || String(x.an) === an; });
+  if (!y.length) return '<p class="mic-t">ANAF nu are bilanț pentru anul ăsta.</p>';
+  var gas = function (o, re) { var k = Object.keys(o.indicatori || {}).filter(function (q) { return re.test(o.indicatori[q].t || ''); })[0]; return k ? Number(o.indicatori[k].v) : null; };
+  var col = [['Cifra de afaceri netă', /cifra de afaceri/i], ['Profit net', /profit net/i], ['Pierdere netă', /pierdere net/i], ['Datorii', /^datorii/i], ['Casa și bănci', /casa/i], ['Capitaluri', /capitaluri/i], ['Salariați', /salariati|salariați/i]];
+  return '<div class="tabwrap"><table><thead><tr><th>Anul</th>' + col.map(function (c) { return '<th class="num">' + esc(c[0]) + '</th>'; }).join('') + '</tr></thead><tbody>' + y.map(function (o) {
+    if (!o.ok) return '<tr><td>' + o.an + '</td><td colspan="' + col.length + '" class="mic-t">' + esc(o.eroare || 'bilanț nedepus sau nepublicat încă') + '</td></tr>';
+    return '<tr><td><b>' + o.an + '</b></td>' + col.map(function (c) { var v = gas(o, c[1]); return '<td class="num">' + (v === null ? '-' : c[0] === 'Salariați' ? v : lei(v)) + '</td>'; }).join('') + '</tr>';
+  }).join('') + '</tbody></table></div>';
+}
+PAGINI.contabilitate = function (m) {
+  return incarca(m, 'contabilitate', 'contabilitate', {}, function (d, m) {
+    var anAzi = new Date().getFullYear(), ani = {};
+    d.firme.forEach(function (f) { f.perioade.forEach(function (p) { ani[p.per.slice(0, 4)] = 1; }); });
+    for (var i = 1; i <= 4; i++) ani[String(anAzi - i)] = 1;
+    ani = Object.keys(ani).sort().reverse();
+    if (!CT.an) CT.an = d.firme.reduce(function (a, f) { var u = f.perioade[f.perioade.length - 1]; return u && u.per.slice(0, 4) > a ? u.per.slice(0, 4) : a; }, '');
+    var I = d.indicatori;
+    var des = function () {
+      var f = d.firme.filter(function (x) { return x.cui === CT.cui; })[0];
+      var h = '<div class="cap"><div><h1>Contabilitate</h1><p>Din ' + lk(d.dosar, 'balanțele de verificare') + ' urcate în TEG Finance. Pe fiecare firmă și lună folosesc balanța generată cel mai recent, iar suma conturilor bate cu totalul din PDF. Anii încheiați vin și din bilanțul depus la ANAF. Citit la ' + esc(d.citit) + '.</p></div>';
+      h += '<div class="act"><label class="sr" for="ctFirma">Firma</label><select id="ctFirma" style="min-width:220px"><option value="toate">Toate firmele</option>' + d.firme.map(function (x) { return '<option value="' + esc(x.cui) + '"' + (x.cui === CT.cui ? ' selected' : '') + '>' + esc(x.nume) + '</option>'; }).join('') + '</select>';
+      h += '<label class="sr" for="ctAn">Anul</label><select id="ctAn" style="min-width:110px">' + ani.map(function (a) { return '<option' + (a === CT.an ? ' selected' : '') + '>' + a + '</option>'; }).join('') + '</select>';
+      if (f) { var pl = contaPerAn(f, CT.an); if (pl.length) { if (!pl.some(function (p) { return p.per === CT.per; })) CT.per = pl[pl.length - 1].per; h += '<label class="sr" for="ctPer">Balanța</label><select id="ctPer" style="min-width:160px">' + pl.slice().reverse().map(function (p) { return '<option value="' + p.per + '"' + (p.per === CT.per ? ' selected' : '') + '>' + esc(p.eticheta) + '</option>'; }).join('') + '</select>'; } }
+      h += '</div></div>';
+      if (!f) {
+        var rows = d.firme.map(function (x) { var pl = contaPerAn(x, CT.an); return { f: x, p: pl[pl.length - 1] }; });
+        var cu = rows.filter(function (r) { return r.p; });
+        if (cu.length) {
+          var sum = function (k, filt) { return cu.reduce(function (s, r) { var v = r.p.ind[k]; return s + (filt ? (filt(v) ? v : 0) : v); }, 0); };
+          h += '<div class="kpi-g">' + [['Casa, toate firmele', lei(sum('casa'))], ['Bănci, toate firmele', lei(sum('banci'))], ['Datorii ANAF', lei(sum('datorii_anaf'))], ['TVA de plată', lei(sum('tva', function (v) { return v > 0; }))], ['TVA de recuperat', lei(-sum('tva', function (v) { return v < 0; }))]].map(function (k) { return '<div class="kpi-c st"><span>' + esc(k[0]) + '</span><b>' + k[1] + '</b><i>la ultima balanță din ' + esc(CT.an) + ' a fiecărei firme</i></div>'; }).join('') + '</div>';
+          h += '<div class="sectiune"><h2>Pe firme, ' + esc(CT.an) + '</h2><div class="tabwrap"><table><thead><tr><th>Firma</th><th>La data</th><th class="num">Cifra de afaceri</th><th class="num">Profit / pierdere</th><th class="num">Casa</th><th class="num">Bănci</th><th class="num">Datorii ANAF</th><th class="num">TVA</th></tr></thead><tbody>' + rows.map(function (r) {
+            if (!r.p) return '<tr class="rand-fisa" data-cui="' + esc(r.f.cui) + '"><td><b>' + esc(r.f.nume) + '</b></td><td colspan="7" class="mic-t">nicio balanță în ' + esc(CT.an) + '</td></tr>';
+            var q = r.p.ind; return '<tr class="rand-fisa" data-cui="' + esc(r.f.cui) + '"><td><b>' + esc(r.f.nume) + '</b>' + (r.p.verificat ? '' : ' <span class="pill hot">de verificat</span>') + '</td><td>' + contaData(r.p) + '</td><td class="num">' + lei(q.ca) + '</td><td class="num">' + esc(contaVal('rezultat', q.rezultat)) + '</td><td class="num">' + lei(q.casa) + '</td><td class="num">' + lei(q.banci) + '</td><td class="num">' + lei(q.datorii_anaf) + '</td><td class="num">' + esc(contaVal('tva', q.tva)) + '</td></tr>';
+          }).join('') + '</tbody></table></div></div>';
+        } else h += '<div class="sectiune"><h2>Bilanțurile depuse la ANAF, ' + esc(CT.an) + '</h2><p class="mic-t" style="margin-bottom:10px">Pentru ' + esc(CT.an) + ' nu am balanțe în TEG Finance; cifrele vin din bilanțul depus (aceleași ca pe listafirme sau termene).</p><div id="ctAnafToate"><div class="sk" style="height:120px"></div></div></div>';
+        if ((d.ignorate || []).length) h += '<div class="nota">Balanțe necitite: ' + d.ignorate.map(function (x) { return esc(x.fisier) + ' (' + esc(x.motiv) + ')'; }).join('; ') + '.</div>';
+      } else {
+        var p = f.perioade.filter(function (x) { return x.per === CT.per && x.per.slice(0, 4) === CT.an; })[0];
+        if (p) {
+          h += '<div class="sectiune"><h2>' + esc(f.nume) + ', balanța la ' + contaData(p) + '</h2><p class="mic-t" style="margin-bottom:12px">' + (p.verificat ? 'Suma conturilor bate cu totalul balanței (' + lei(p.totalSold) + ').' : 'Atenție: ' + esc(p.nota || 'suma conturilor nu bate cu totalul balanței')) + ' Fișierul: <span id="ctPdf">' + esc(p.fisier) + '</span>.' + ((p.inlocuite || []).length ? ' Am ignorat variantele mai vechi: ' + p.inlocuite.map(esc).join(', ') + '.' : '') + '</p>';
+          h += '<div class="ct-lista">' + I.map(function (ind, i) { var v = p.ind[ind.k]; return '<button type="button" class="ct-rand' + (i === 11 ? ' ct-alte' : '') + '" data-k="' + ind.k + '"><span class="ct-n">' + esc(ind.t) + '<i>' + esc(ind.d) + '</i></span><b class="' + (ind.k === 'tva' ? (v > 0.004 ? 'rau' : v < -0.004 ? 'bun' : '') : ind.k === 'rezultat' ? (v < 0 ? 'rau' : 'bun') : '') + '">' + esc(contaVal(ind.k, v)) + '</b></button>'; }).join('') + '</div></div>';
+          h += '<div class="sectiune"><h2>Toate conturile</h2><div class="filtre-r" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px"><label class="sr" for="ctQ">Caută cont</label><input id="ctQ" type="search" placeholder="Caută după cont sau denumire, de exemplu 5311 sau casa" value="' + esc(CT.q) + '" style="flex:1 1 260px"><label class="mic-t" style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="ctZero"' + (CT.zero ? ' checked' : '') + '> și conturile fără sold</label></div><div id="ctConturi"><div class="sk" style="height:200px"></div></div></div>';
+        } else h += '<div class="nota">Pentru ' + esc(f.nume) + ' nu am nicio balanță în ' + esc(CT.an) + '.</div>';
+        h += '<div class="sectiune"><h2>Bilanțurile depuse la ANAF</h2><div id="ctAnaf"><div class="sk" style="height:120px"></div></div></div>';
+      }
+      m.innerHTML = h;
+      $('ctFirma').onchange = function () { CT.cui = this.value; CT.per = ''; des(); };
+      $('ctAn').onchange = function () { CT.an = this.value; CT.per = ''; des(); };
+      if ($('ctPer')) $('ctPer').onchange = function () { CT.per = this.value; des(); };
+      m.querySelectorAll('tr.rand-fisa[data-cui]').forEach(function (tr) { tr.onclick = function () { CT.cui = tr.dataset.cui; CT.per = ''; des(); window.scrollTo(0, 0); }; });
+      if (f) {
+        var p2 = f.perioade.filter(function (x) { return x.per === CT.per && x.per.slice(0, 4) === CT.an; })[0];
+        m.querySelectorAll('.ct-rand').forEach(function (b) { b.onclick = function () { contaFisaInd(d, f, p2, I.filter(function (x) { return x.k === b.dataset.k; })[0]); }; });
+        if (p2) contaDetaliu(f.cui, p2.per).then(function (det) {
+          if (!$('ctConturi')) return;
+          if (det.linkPdf && $('ctPdf')) $('ctPdf').innerHTML = lk(det.linkPdf, p2.fisier);
+          var lista = function () {
+            var q = CT.q.trim().toLowerCase(), l = det.conturi.filter(function (r) { return (CT.zero || Math.abs(r[2] - r[3]) > 0.004) && (!q || r[0].toLowerCase().indexOf(q) === 0 || r[1].toLowerCase().indexOf(q) >= 0); });
+            $('ctConturi').innerHTML = '<div class="tabwrap"><table><thead><tr><th>Cont</th><th>Denumire</th><th class="num">Sold debitor</th><th class="num">Sold creditor</th></tr></thead><tbody>' + l.slice(0, 400).map(function (r, i) { return '<tr class="rand-fisa" data-i="' + det.conturi.indexOf(r) + '"><td><b>' + esc(r[0]) + '</b></td><td>' + esc(r[1]) + '</td><td class="num">' + (r[2] ? lei(r[2]) : '') + '</td><td class="num">' + (r[3] ? lei(r[3]) : '') + '</td></tr>'; }).join('') + '</tbody></table></div>' + (l.length > 400 ? '<p class="mic-t">Arăt primele 400 din ' + l.length + '. Caută mai precis.</p>' : '') + (!l.length ? '<p class="mic-t">Niciun cont nu se potrivește.</p>' : '');
+            $('ctConturi').querySelectorAll('tr[data-i]').forEach(function (tr) { tr.onclick = function () { contaFisaCont(f, p2, det.conturi[Number(tr.dataset.i)], det.linkPdf); }; });
+          };
+          lista();
+          $('ctQ').oninput = function () { CT.q = this.value; lista(); };
+          $('ctZero').onchange = function () { CT.zero = this.checked; lista(); };
+        }).catch(function (e) { if ($('ctConturi')) $('ctConturi').innerHTML = '<p class="mic-t">' + esc(e.message) + '</p>'; });
+        contaAnaf(f.cui).then(function (a) { if ($('ctAnaf')) $('ctAnaf').innerHTML = '<p class="mic-t" style="margin-bottom:10px">Din serviciul public ANAF (aceleași cifre ca pe listafirme sau termene). Anul în curs apare după ce se depune bilanțul.</p>' + contaAnafHtml(a, ''); }).catch(function (e) { if ($('ctAnaf')) $('ctAnaf').innerHTML = '<p class="mic-t">ANAF: ' + esc(e.message) + '</p>'; });
+      } else if ($('ctAnafToate')) {
+        Promise.all(d.firme.map(function (x) { return contaAnaf(x.cui).then(function (a) { return { f: x, a: a }; }).catch(function () { return { f: x, a: { ani: [] } }; }); })).then(function (l) {
+          if (!$('ctAnafToate')) return;
+          $('ctAnafToate').innerHTML = l.map(function (o) { return '<h3 class="fr-h3">' + esc(o.f.nume) + '</h3>' + contaAnafHtml(o.a, CT.an); }).join('');
+        });
+      }
     };
     des();
   });
