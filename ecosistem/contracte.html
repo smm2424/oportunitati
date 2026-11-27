@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; worker-src blob: https://cdn.jsdelivr.net; frame-src 'none'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<title>Contracte - Ecosistem TEG</title>
+<!--
+  Contracte în Ecosistemul TEG (v0.8.0, 26.11.2026; Sebastian: „zona de contracte trebuie să fie completă. Ca pe contracte … TOT … să poată Tamara să lucreze pe ea direct”).
+  Pagina asta nu are date și nu dublează platforma: cere prin Ecosistem (cu sesiunea Ecosistemului) pagina reală a platformei TEG Contracte și o afișează aici,
+  iar fiecare apel al ei (google.script.run) merge prin Ecosistem la aceleași funcții api_ ale platformei, ca omul logat (Admin = sebastian@, Tamara = tamara@).
+-->
+<style>
+html,body{margin:0;background:transparent;font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.st{min-height:70vh;display:grid;place-items:center;text-align:center;padding:24px;color:#F1F7F2}
+.st p{margin:6px 0 0;color:#B3C4B8;max-width:46ch}
+.st a{color:#C7FF9E}
+.pct{display:inline-flex;gap:5px;margin-bottom:12px}.pct i{width:7px;height:7px;border-radius:50%;background:#9BFF4F;animation:p 1.2s infinite ease-in-out}.pct i:nth-child(2){animation-delay:.15s}.pct i:nth-child(3){animation-delay:.3s}
+@keyframes p{0%,80%,100%{opacity:.25}40%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.pct i{animation:none}}
+</style>
+</head>
+<body>
+<div class="st" id="st"><div><span class="pct" aria-hidden="true"><i></i><i></i><i></i></span><br><b id="stb">Se deschide platforma de contracte</b><p id="stp">Citesc pagina din TEG Contracte.</p></div></div>
+<script>
+(function () {
+  'use strict';
+  var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
+  var lum = false; try { lum = localStorage.getItem('eco_tema') === 'luminos'; } catch (e) { }
+  if (lum) document.getElementById('st').style.color = '#0F2418';
+  function stare(b, p) { document.getElementById('stb').textContent = b; document.getElementById('stp').textContent = p; var x = document.querySelector('.pct'); if (x) x.remove(); }
+  var S = null; try { S = JSON.parse(localStorage.getItem('eco_sesiune') || 'null'); } catch (e) { }
+  if (!S || !S.sesiune || !(S.exp > Date.now())) { stare('Intră mai întâi în Ecosistem', 'Contractele se deschid cu contul tău din ecosistem.teg.ro.'); return; }
+  var TEMA = lum ? 'ecosistem-luminos' : 'ecosistem';
+  function anuntaSesiune() { try { if (window.parent !== window) window.parent.postMessage({ ecoSesiune: 'expirata' }, location.origin); } catch (e) { } }
+  fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ act: 'ctr', op: 'pagina', sesiune: S.sesiune }), credentials: 'omit', redirect: 'follow' })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (!j.ok) { if (/^SESIUNE/.test(j.eroare || '')) anuntaSesiune(); throw new Error(j.eroare || 'Eroare'); }
+      var cfg = JSON.stringify({ api: API, ses: S.sesiune, tema: TEMA }).replace(/</g, '\\u003c');
+      // google.script.run al platformei → Ecosistem → aceleași funcții api_ (cu omul logat aici ca actor)
+      var shim = '<script>(function(){"use strict";var C=' + cfg + ';window.ECO={tema:C.tema};' +
+        'function cheama(fn,a){return fetch(C.api,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({act:"ctr",sesiune:C.ses,fn:fn,args:a}),credentials:"omit",redirect:"follow"})' +
+        '.then(function(r){return r.json();}).then(function(j){if(!j.ok){if(/^SESIUNE/.test(j.eroare||"")){try{parent.postMessage({ecoSesiune:"expirata"},location.origin);}catch(e){}}throw new Error(j.eroare||"Eroare");}return j.r;});}' +
+        'function run(ok,ko){return new Proxy({},{get:function(t,k){if(typeof k!=="string")return undefined;if(k==="withSuccessHandler")return function(f){return run(f,ko);};' +
+        'if(k==="withFailureHandler")return function(f){return run(ok,f);};if(k==="withUserObject")return function(){return run(ok,ko);};' +
+        'return function(){var a=Array.prototype.slice.call(arguments);cheama(k,a).then(function(r){if(ok)ok(r);},function(e){if(ko)ko(e);});};}});}' +
+        'window.google={script:{get run(){return run(null,null);},host:{close:function(){},setHeight:function(){}}}};})();<\/script>';
+      var h = String(j.html || '').replace('<base target="_top">', '<base target="_blank">');
+      if (h.indexOf('<head>') < 0) throw new Error('pagina platformei nu are forma așteptată');
+      h = h.replace('<head>', '<head>' + shim);
+      document.open(); document.write(h); document.close();
+    })
+    .catch(function (e) { stare('Contractele nu s-au deschis', String(e && e.message || e)); });
+})();
+</script>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-lYpIelyppLfT5K84RMkdVaP6nc0CcJPfj6QLCd6pI9w='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; frame-src 'self'; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-eoQHRBbqu7Cb1Ahg7vIYUpNsyr8TP1LdOop4QiTHtXo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; frame-src 'self'; base-uri 'none'; form-action 'none'; manifest-src 'none'">
 <meta name="theme-color" content="#06120B">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -911,7 +911,7 @@ html.vt .pagina{animation:none}
 
 <script>
 'use strict';
-var VER = '0.8.0';
+var VER = '0.9.0';
 if (window.top !== window.self) { document.documentElement.innerHTML = ''; throw new Error('încadrat'); }
 var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
 var S = { sesiune: null };
@@ -1143,7 +1143,7 @@ function deseneazaContur() { curentPorneste('fundalLogin', { mereuIntunecat: tru
 // ---------- cadrul ----------
 var LINK_CONTRACTE = 'https://smm2424.github.io/oportunitati/contracte/';
 // Pauză până vineri 27.11.2026 17:30 (Sebastian, 26.11 15:32: „pauză de la contracte, dovezi și de clarificat”): se pornesc din aceste două steaguri
-var CONTRACTE_IN_ECO = false, DOVEZI_IMPR = false;
+var CONTRACTE_IN_ECO = true, DOVEZI_IMPR = true;
 var NAV = [
   { gr: 'Lucru', s: 'lucru' }, { p: 'azi', t: 'Azi', i: 'azi' }, { p: 'taskuri', t: 'Taskuri', i: 'taskuri' }, { p: 'clarificat', t: 'De clarificat', i: 'clarificat' }, { p: 'asistent', t: 'Asistent Claudiu', i: 'asistent' },
   { gr: 'Firme și acte', s: 'acte' }, { p: 'termene', t: 'Termene și expirări', i: 'termene' }, { p: 'firme', t: 'Firme', i: 'firme' }, { p: 'auto', t: 'Auto', i: 'masina' }, (CONTRACTE_IN_ECO ? { p: 'contracte', t: 'Contracte', i: 'contracte' } : { ext: LINK_CONTRACTE, t: 'Contracte', i: 'contracte' }),
