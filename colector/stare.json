@@ -1,13 +1,13 @@
 {
- "colectat": "2026-11-27T13:56:18Z",
+ "colectat": "2026-11-27T19:39:19Z",
  "tinte": {
   "fs1": {
-   "http": 200,
-   "n": 484
+   "eroare": "HTTPError: HTTP Error 403: Forbidden",
+   "incercari": 2
   },
   "fs2": {
-   "http": 200,
-   "n": 50
+   "eroare": "HTTPError: HTTP Error 403: Forbidden",
+   "incercari": 2
   },
   "s20": {
    "http": 200,
@@ -21,7 +21,7 @@
   },
   "pmtm2": {
    "http": 200,
-   "caractere": 15746,
+   "caractere": 15747,
    "linkuri": 26
   },
   "mfas": {
