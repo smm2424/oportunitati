@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-eoQHRBbqu7Cb1Ahg7vIYUpNsyr8TP1LdOop4QiTHtXo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; frame-src 'self'; base-uri 'none'; form-action 'none'; manifest-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-LD7taCkit4BA0aMVxcfF8quRu0yO5/oyTISv5SAFVTo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; frame-src 'self'; base-uri 'none'; form-action 'none'; manifest-src 'none'">
 <meta name="theme-color" content="#06120B">
 <title>Ecosistem TEG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -856,6 +856,31 @@ html.vt .pagina{animation:none}
 
 /* telefon: fișa (panoul lateral) stă deasupra barei de meniu, ca butonul de închidere să se vadă (Sebastian 26.11: după asistent nu mă mai lăsa să deschid alt tab) */
 @media (max-width:860px){#drawerWrap{z-index:48}}
+
+/* v0.10.0: De clarificat ca întrebări */
+.dq-prog{height:3px;max-width:920px;border-radius:99px;background:var(--line2);margin:14px 0 14px;overflow:hidden}.dq-prog i{display:block;height:100%;background:var(--sc,var(--moss));border-radius:inherit;transition:width .35s var(--ease)}
+.dq{padding:clamp(18px,3vw,34px);max-width:920px}
+.dq-cap{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}.dq-nr{font-size:13px;font-weight:700;color:var(--sc,var(--moss));margin-right:4px}.dq-st{margin-left:auto}
+.dq-subiect{font-size:clamp(20px,2.2vw,26px);font-weight:750;letter-spacing:-.02em;line-height:1.2;margin:0 0 10px}
+.dq-ce{color:var(--ink2);font-size:15px;line-height:1.55;margin:0 0 14px;white-space:pre-line}
+.dq-q{font-size:clamp(17px,1.7vw,20px);font-weight:600;line-height:1.45;margin:0 0 14px;padding-left:14px;border-left:3px solid var(--sc,var(--moss));white-space:pre-line}
+.dq-refs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.dq-ref{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:99px;border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;background:var(--sunk);transition:border-color .16s var(--ease),transform .16s var(--ease)}
+.dq-ref:hover{border-color:var(--sc,var(--moss));color:var(--ink);transform:translateY(-1px)}.dq-ref .i{width:15px;height:15px}
+.dq-deja{display:grid;gap:8px;margin:0 0 18px;font-size:14px;color:var(--ink2)}.dq-deja div{padding:10px 12px;border-radius:12px;background:var(--sunk);white-space:pre-line}.dq-deja b{display:block;font-size:12px;color:var(--ink3);margin-bottom:4px}
+.dq-var{display:grid;gap:8px;margin:0 0 16px}.dq-var>.mic-t{margin:0 0 2px}
+.dq-opt{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:10px 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface2,var(--surface));color:var(--ink);font:inherit;font-size:15px;text-align:left;cursor:pointer;transition:border-color .16s var(--ease),background-color .16s var(--ease),transform .12s var(--ease)}
+.dq-opt:hover{border-color:var(--ink3)}.dq-opt:active{transform:scale(.995)}
+.dq-opt kbd{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:7px;border:1px solid var(--line);font:600 12px/1 Inter,system-ui,sans-serif;color:var(--ink3)}
+.dq-opt.on{border-color:var(--sc,var(--moss));background:color-mix(in srgb,var(--sc,var(--moss)) 14%,transparent)}.dq-opt.on kbd{background:var(--sc,var(--moss));border-color:transparent;color:var(--onmoss,#06120B)}
+.dq-incarc{display:grid;gap:8px}.dq-incarc .sk{display:block;border-radius:14px}
+.dq-std{color:var(--amber)}
+.dq-lib-l{display:block;font-size:13.5px;font-weight:600;margin:0 0 6px}
+.dq textarea{width:100%;min-height:84px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--inp,var(--sunk));color:var(--ink);font:inherit;font-size:15px;resize:vertical}
+.dq-jos{display:flex;gap:8px;align-items:center;margin-top:16px;flex-wrap:wrap}.dq-sp{flex:1}
+.dq-taste{margin:12px 0 0}
+@media (max-width:860px){.dq{border-radius:20px}.dq-jos{position:sticky;bottom:0;padding:12px 0 calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--surface) 30%)}.dq-jos .btn{flex:1;justify-content:center}.dq-sp{display:none}.dq-taste{display:none}.dq-st{margin-left:0;width:100%}}
+@media (prefers-reduced-motion:reduce){.dq-prog i,.dq-opt,.dq-ref{transition:none}}
 </style>
 </head>
 <body>
@@ -911,7 +936,7 @@ html.vt .pagina{animation:none}
 
 <script>
 'use strict';
-var VER = '0.9.0';
+var VER = '0.10.0';
 if (window.top !== window.self) { document.documentElement.innerHTML = ''; throw new Error('încadrat'); }
 var API = 'https://script.google.com/macros/s/AKfycbwbmB-2kFQXtYGAWs1skzBr2QVOBTBF8Tc4VcWWpbelzpO6Yssfx1UYxk1mOqLnkpEsAQ/exec';
 var S = { sesiune: null };
@@ -1265,7 +1290,7 @@ async function mergi(p, dinHash) {
 })();
 // paginile folosite des se încarcă în fundal după intrare, ca deschiderea lor să fie instantă (din ce ține browserul minte)
 async function preincarca() {
-  var l = [['taskuri_deschise', 'taskuri', { toate: false }], ['imprumuturi', 'imprumuturi', {}], ['drepturi', 'drepturi', {}], ['termene', 'termene', {}], ['clarificat', 'de_clarificat', {}],
+  var l = [['taskuri_deschise', 'taskuri', { toate: false }], ['imprumuturi', 'imprumuturi', {}], ['drepturi', 'drepturi', {}], ['termene', 'termene', {}], ['clarificat2', 'dc_intrebari', {}],
     ['auto', 'auto', {}], ['firme', 'firme', {}], ['linkuri', 'linkuri', {}], ['contabilitate', 'contabilitate', {}]];
   await asteapta(2500);
   for (var i = 0; i < l.length; i++) {
@@ -1674,20 +1699,132 @@ function md(t) {
 function curataMesaj(t) { t = String(t || ''); var i = t.indexOf('[Mesajul despre acest task:]\n'); if (i >= 0) return t.slice(i + 29); return t.replace(/^\[[^\]]*\]\n(\[Atașamente[^\]]*\]\n)?/, ''); }
 var ETICHETE = { cauta_drive: 'Caut în Drive', lista_folder: 'Citesc un folder', structura_sursa: 'Mă uit în foi', citeste_foaie: 'Citesc o foaie', citeste_fisier: 'Citesc un fișier', task_nou: 'Creez un task', bash: 'Calculez', write: 'Scriu un fișier', read: 'Citesc' };
 
-// ---------- De clarificat ----------
+// ---------- De clarificat (v0.10.0): întrebări una după alta, răspunsul trece prin bot ----------
+// Sebastian 26.11: „întrebarea, variante de răspuns simple sau multiple + o secțiune de text liber; la fiecare hiperlink la referințe, ca să meargă repede”.
+// 27.11 (buton „Comandă la bot”): răspunsul pleacă la bot (cutia de comenzi), botul îl scrie în foaie; aici nu se scrie nimic în cash flow.
+var DQ = { f: '', nr: null, d: null, sel: {}, lib: {}, var: {}, cer: {}, poll: 0 };
+var DQ_STD = { multiplu: false, variante: ['Achitat (scrie data)', 'Anulat, nu mai e de plată', 'Rămâne deschis, revin', 'Întreb contabilitatea'], std: true };
+var DQ_ST = { IN_COADA: ['info', 'trimis, în coadă la bot'], APLICAT: ['ok', 'scris în foaie'], DEJA_APLICAT: ['ok', 'era deja în foaie'], SIMULARE_OK: ['warn', 'simulare (cutia botului nu e armată)'], REFUZAT: ['hot', 'refuzat de bot'], EROARE: ['hot', 'eroare la bot'] };
+function dqLista() {
+  var d = DQ.d || { intrebari: [] }, f = DQ.f;
+  if (f === 'trimise') return d.intrebari.filter(function (q) { return q.trimis; });
+  return d.intrebari.filter(function (q) { return q.pentru === f; });
+}
+function dqLinkText(t) { return esc(t).replace(/https?:\/\/[^\s)„”"<>&]+/g, function (u) { return '<a target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(u)) + '">' + esc(u.replace(/^https?:\/\/(www\.)?/, '').slice(0, 38)) + '…</a>'; }); }
+function dqStare(t) { if (!t) return ''; var s = DQ_ST[t.stare] || ['info', t.stare]; return '<span class="pill ' + s[0] + '" title="' + esc(t.rezumat || '') + '">' + esc(s[1]) + ' · ' + esc(t.trimis) + '</span>'; }
 PAGINI.clarificat = function (m) {
-  return incarca(m, 'clarificat', 'de_clarificat', {}, function (d, m) {
-    var h = '<div class="cap"><div><h1>De clarificat</h1><p>Punctele deschise din TEG - Cash Flow, foaia DE CLARIFICAT. Răspunsul se scrie în foaie, în coloana de răspuns, iar botul îl aplică.</p></div>' + (d.link ? '<div class="act"><a class="btn sec" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(d.link)) + '">' + ic('foaie') + 'Deschide foaia</a></div>' : '') + '</div>';
+  return incarca(m, 'clarificat2', 'dc_intrebari', {}, function (d, m) {
+    if (!d || !d.intrebari) { m.innerHTML = scheletLista(); return; }
+    DQ.d = d;
+    var n = { tamara: 0, sebastian: 0, asteptare: 0, trimise: 0 };
+    d.intrebari.forEach(function (q) { n[q.pentru] = (n[q.pentru] || 0) + 1; if (q.trimis) n.trimise++; });
+    if (!DQ.f) DQ.f = d.eu === 'sebastian' && n.sebastian ? 'sebastian' : 'tamara';
+    var h = '<div class="cap"><div><h1>De clarificat</h1><p>O întrebare pe rând: alegi varianta (sau mai multe), scrii dacă e nevoie și trimiți. Botul scrie răspunsul în foaia DE CLARIFICAT în cam un minut; mentenanța îl aplică apoi în cash flow.</p></div>' +
+      (d.link ? '<div class="act"><a class="btn sec" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(d.link)) + '">' + ic('foaie') + 'Deschide foaia</a></div>' : '') + '</div>';
     if (d.eroare) h += '<div class="nota warn" style="margin-bottom:16px">' + esc(d.eroare) + '</div>';
-    if (d.randuri && d.randuri.length) {
-      var col = d.cap.map(function (c, i) { return i; }).filter(function (i) { return d.cap[i] && d.randuri.some(function (r) { return r[i]; }); });
-      h += '<div class="act" style="margin-bottom:12px;display:flex;gap:12px;align-items:center"><div class="camp-cautare">' + ic('cauta') + '<input id="cQ" placeholder="Caută" aria-label="Caută în punctele de clarificat"></div><span class="mic-t" id="cN">' + d.randuri.length + ' puncte</span></div>';
-      h += '<div class="tabwrap"><table><thead><tr>' + col.map(function (i) { return '<th>' + esc(d.cap[i]) + '</th>'; }).join('') + '</tr></thead><tbody id="cB">' + d.randuri.slice().reverse().map(function (r) { return '<tr>' + col.map(function (i) { return '<td>' + esc(r[i]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
-    } else h += '<div class="panou gol"><b>Nimic de clarificat</b>Foaia DE CLARIFICAT nu are puncte deschise.</div>';
+    h += '<div class="filtre" id="dqF">' + [['tamara', 'Pentru Tamara'], ['sebastian', 'Pentru Sebastian'], ['asteptare', 'Așteaptă documente'], ['trimise', 'Trimise din Ecosistem']].map(function (x) {
+      return '<button type="button" data-f="' + x[0] + '" class="' + (DQ.f === x[0] ? 'activ' : '') + '">' + x[1] + ' <span>' + (n[x[0]] || 0) + '</span></button>'; }).join('') + '</div>';
+    h += '<div id="dqZona"></div>';
     m.innerHTML = h;
-    if ($('cQ')) $('cQ').oninput = function () { var q = this.value, n = 0; $('cB').querySelectorAll('tr').forEach(function (tr) { var v = filtreazaText(q, tr.textContent); tr.hidden = !v; if (v) n++; }); $('cN').textContent = n + ' puncte'; };
+    $('dqF').querySelectorAll('button').forEach(function (b) { b.onclick = function () { DQ.f = b.dataset.f; DQ.nr = null; $('dqF').querySelectorAll('button').forEach(function (x) { x.classList.toggle('activ', x === b); }); dqArata(); }; });
+    dqArata();
   });
 };
+function dqArata() {
+  var z = $('dqZona'); if (!z) return;
+  var l = dqLista(), idx = l.findIndex(function (q) { return q.nr === DQ.nr; });
+  if (idx < 0) { idx = l.findIndex(function (q) { return !q.trimis; }); if (idx < 0) idx = 0; }
+  if (!l.length) { z.innerHTML = '<div class="panou gol"><b>' + (DQ.f === 'trimise' ? 'Nimic trimis din Ecosistem încă' : 'Nimic aici') + '</b>' + (DQ.f === 'trimise' ? 'Răspunsurile trimise de aici apar în lista asta, cu ce a făcut botul cu ele.' : 'Nu sunt puncte deschise în categoria asta.') + '</div>'; return; }
+  var q = l[idx]; DQ.nr = q.nr;
+  var sel = DQ.sel[q.nr] || (DQ.sel[q.nr] = []), v = DQ.var[q.nr] || q.variante;
+  var refs = q.randuri.map(function (x) { return '<a class="dq-ref" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(x.url)) + '">' + ic('foaie') + 'Cash flow r' + x.r + '</a>'; }).join('') +
+    q.linkuri.map(function (u, i) { return '<a class="dq-ref" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(u)) + '">' + ic('ext') + (/drive\.google|docs\.google/.test(u) ? 'Document ' : 'Link ') + (i + 1) + '</a>'; }).join('') +
+    '<a class="dq-ref" target="_blank" rel="noopener noreferrer" href="' + esc(urlSigur(q.link)) + '">' + ic('foaie') + 'Punctul ' + q.nr + ' în foaie</a>';
+  var h = '<div class="dq-prog" aria-hidden="true"><i style="width:' + Math.round((idx + 1) / l.length * 100) + '%"></i></div>' +
+    '<article class="dq panou" data-s="lucru" aria-labelledby="dqT">' +
+    '<div class="dq-cap"><span class="dq-nr">' + (idx + 1) + ' din ' + l.length + '</span><span class="pill">Nr. ' + q.nr + '</span>' + (q.firma ? '<span class="pill">' + esc(q.firma) + '</span>' : '') + (q.suma ? '<span class="pill">' + esc(q.suma) + ' lei</span>' : '') +
+    (q.adaugat ? '<span class="mic-t">din ' + esc(String(q.adaugat).slice(0, 10)) + '</span>' : '') + '<span class="dq-st">' + dqStare(q.trimis) + '</span></div>' +
+    '<h2 id="dqT" class="dq-subiect">' + esc(q.subiect) + '</h2>' +
+    (q.ce ? '<p class="dq-ce">' + dqLinkText(q.ce) + '</p>' : '') +
+    '<p class="dq-q">' + dqLinkText(q.intrebare || 'Ce facem cu punctul ăsta?') + '</p>' +
+    '<div class="dq-refs" aria-label="Referințe">' + refs + '</div>' +
+    (q.rT || q.rS ? '<div class="dq-deja">' + (q.rT ? '<div><b>Răspuns Tamara, în foaie</b>' + dqLinkText(q.rT) + '</div>' : '') + (q.rS ? '<div><b>Răspuns Sebastian, în foaie</b>' + dqLinkText(q.rS) + '</div>' : '') + '</div>' : '') +
+    '<div class="dq-var" id="dqVar" role="group" aria-label="Variante de răspuns"></div>' +
+    '<label class="dq-lib-l" for="dqLib">Altceva sau detalii <span class="mic-t">(opțional, se adaugă după variantă)</span></label>' +
+    '<textarea id="dqLib" rows="3" placeholder="Ex.: plătit pe 12.11 din BT, OP 245; factura e la contabilitate">' + esc(DQ.lib[q.nr] || '') + '</textarea>' +
+    '<div class="dq-jos"><button type="button" class="btn sec" id="dqInapoi"' + (idx ? '' : ' disabled') + '>Înapoi</button><button type="button" class="btn sec" id="dqSari"' + (idx < l.length - 1 ? '' : ' disabled') + '>Sari peste</button>' +
+    '<span class="dq-sp"></span><button type="button" class="btn" id="dqTrimite">' + ic('trimite') + 'Trimite răspunsul</button></div>' +
+    '<p class="mic-t dq-taste">Taste: 1-' + Math.max(2, (v ? v.variante.length : 4)) + ' aleg varianta, ← → mut întrebarea, Ctrl + Enter trimit.</p></article>';
+  z.innerHTML = h;
+  dqVariante(q);
+  $('dqLib').oninput = function () { DQ.lib[q.nr] = this.value; };
+  $('dqInapoi').onclick = function () { dqMuta(-1); };
+  $('dqSari').onclick = function () { dqMuta(1); };
+  $('dqTrimite').onclick = function () { dqTrimite(q); };
+  var urm = l[idx + 1]; if (urm && !urm.variante && !DQ.var[urm.nr]) dqCereVariante(urm, true);
+}
+function dqMuta(p) { var l = dqLista(), i = l.findIndex(function (q) { return q.nr === DQ.nr; }); var j = Math.max(0, Math.min(l.length - 1, i + p)); if (j !== i) { DQ.nr = l[j].nr; dqArata(); var a = document.querySelector('.dq'); if (a) a.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } }
+async function dqCereVariante(q, fundal) {
+  if (DQ.cer[q.nr]) return DQ.cer[q.nr];
+  DQ.cer[q.nr] = (async function () {
+    try { var r = await api('dc_variante', { nr: q.nr }); DQ.var[q.nr] = r.variante; }
+    catch (e) { DQ.var[q.nr] = Object.assign({ eroare: e.message }, DQ_STD); }
+    finally { delete DQ.cer[q.nr]; }
+    if (!fundal || DQ.nr === q.nr) { if (DQ.nr === q.nr) dqVariante(q); }
+  })();
+  return DQ.cer[q.nr];
+}
+function dqVariante(q) {
+  var el = $('dqVar'); if (!el || DQ.nr !== q.nr) return;
+  var v = DQ.var[q.nr] || q.variante;
+  if (!v) { el.innerHTML = '<div class="dq-incarc"><span class="sk" style="height:46px"></span><span class="sk" style="height:46px"></span><span class="sk" style="height:46px"></span><p class="mic-t">Claudiu pregătește variantele…</p></div>'; dqCereVariante(q); return; }
+  var sel = DQ.sel[q.nr] || (DQ.sel[q.nr] = []), multi = !!v.multiplu;
+  el.innerHTML = (v.eroare ? '<p class="mic-t dq-std">' + esc(v.eroare) + ' Ai mai jos variantele obișnuite.</p>' : '') +
+    '<p class="mic-t">' + (multi ? 'Poți alege mai multe.' : 'Alege una.') + (v.std ? '' : ' Variante propuse de Claudiu din datele punctului.') + '</p>' +
+    v.variante.map(function (t, i) { var on = sel.indexOf(t) >= 0; return '<button type="button" class="dq-opt' + (on ? ' on' : '') + '" role="' + (multi ? 'checkbox' : 'radio') + '" aria-checked="' + on + '" data-i="' + i + '"><kbd>' + (i + 1) + '</kbd><span>' + esc(t) + '</span></button>'; }).join('');
+  el.querySelectorAll('.dq-opt').forEach(function (b) { b.onclick = function () { dqAlege(q, v.variante[Number(b.dataset.i)]); }; });
+}
+function dqAlege(q, t) {
+  var v = DQ.var[q.nr] || q.variante, sel = DQ.sel[q.nr] || (DQ.sel[q.nr] = []), k = sel.indexOf(t);
+  if (v && v.multiplu) { if (k >= 0) sel.splice(k, 1); else sel.push(t); } else { DQ.sel[q.nr] = k >= 0 ? [] : [t]; }
+  dqVariante(q);
+}
+async function dqTrimite(q) {
+  var sel = DQ.sel[q.nr] || [], lib = String(DQ.lib[q.nr] || '').trim(), b = $('dqTrimite');
+  if (!sel.length && !lib) { toast('Alege o variantă sau scrie răspunsul.', { err: true }); return; }
+  if (/\((scrie|cu) (data|suma)\)/i.test(sel.join(' ')) && !/\d/.test(lib)) { toast('Varianta cere o dată sau o sumă: scrie-o în câmpul de detalii.', { err: true }); var t = $('dqLib'); if (t) t.focus(); return; }
+  b.disabled = true;
+  try {
+    var r = await api('dc_raspunde', { nr: q.nr, amp: q.amp, alese: sel, liber: lib });
+    q.trimis = r.trimis; delete DQ.sel[q.nr]; delete DQ.lib[q.nr];
+    toast('Trimis la bot. Îl scrie în foaie în cam un minut.');
+    dqUrmareste();
+    var l = dqLista(), i = l.findIndex(function (x) { return x.nr === q.nr; }), urm = l.slice(i + 1).concat(l.slice(0, i)).filter(function (x) { return !x.trimis; })[0];
+    if (urm && DQ.f !== 'trimise') DQ.nr = urm.nr;
+    dqArata();
+  } catch (e) { toast(e.message, { err: true }); b.disabled = false; }
+}
+function dqUrmareste() {
+  if (DQ.poll) return; var n = 0;
+  DQ.poll = setInterval(async function () {
+    n++; var deschis = $('dqZona');
+    if (!deschis || n > 12) { clearInterval(DQ.poll); DQ.poll = 0; return; }
+    try {
+      var r = await api('dc_stare', {}), gata = true;
+      (DQ.d && DQ.d.intrebari || []).forEach(function (q) { var t = r.trimise && r.trimise[q.nr]; if (t) q.trimis = t; if (q.trimis && q.trimis.stare === 'IN_COADA') gata = false; });
+      var st = document.querySelector('.dq-st'), q = (DQ.d.intrebari || []).filter(function (x) { return x.nr === DQ.nr; })[0]; if (st && q) st.innerHTML = dqStare(q.trimis);
+      if (gata) { clearInterval(DQ.poll); DQ.poll = 0; }
+    } catch (e) { }
+  }, 25000);
+}
+document.addEventListener('keydown', function (e) {
+  if (!$('dqZona') || !DQ.nr || ($('drawer') && $('drawer').classList.contains('deschis'))) return;
+  var inText = /^(TEXTAREA|INPUT|SELECT)$/.test((e.target || {}).tagName || '');
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { var q = (DQ.d.intrebari || []).filter(function (x) { return x.nr === DQ.nr; })[0]; if (q) { e.preventDefault(); dqTrimite(q); } return; }
+  if (inText || e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.key === 'ArrowRight') { e.preventDefault(); dqMuta(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); dqMuta(-1); }
+  else if (/^[1-6]$/.test(e.key)) { var q2 = (DQ.d.intrebari || []).filter(function (x) { return x.nr === DQ.nr; })[0], v = q2 && (DQ.var[q2.nr] || q2.variante); if (v && v.variante[Number(e.key) - 1]) { e.preventDefault(); dqAlege(q2, v.variante[Number(e.key) - 1]); } }
+});
 
 // ---------- Termene ----------
 var TT = { cat: 'toate', q: '', ist: false };
